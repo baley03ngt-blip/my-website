@@ -1,58 +1,2434 @@
-<body>
 
-<div id="login">
-    <h2>🔒 Nhập mật khẩu</h2>
-
-    <input type="password" id="password" placeholder="Nhập mật khẩu">
-
-    <button onclick="checkPassword()">Đăng nhập</button>
-</div>
-
-<div id="website">
-    <h1>Website của tôi</h1>
-    <p>Xin chào!</p>
-</div>
-
-</body>
+<!DOCTYPE html>
+<html lang="vi-VN">
 <head>
-    <style>
-    #website {
-        display: none;
-    }
-</style>    
-<body>
-    <script>
-function checkPassword() {
-    let password = document.getElementById("password").value;
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+	<meta name="google-site-verification" content="Q-Jq67P_WvTkDU4gvop0dSgjLNvsopMmg8uqZT8Qu-I" />
+    <meta charset="UTF-8" />
+	<meta name="revisit-after" content="1 days" />
+	
+    <link rel="profile" href="https://gmgp.org/xfn/11" />
+    <link rel="pingback" href="https://motchillvn.now/xmlrpc.php" />
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
 
-    if (password === "123") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("website").style.display = "block";
-    } else {
-        alert("Sai mật khẩu!");
-    }
-}
+	<!-- This site is optimized with the Yoast SEO Premium plugin v24.1 (Yoast SEO v25.6) - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Motchill | Phim Mới | Phim Hay | HD Vietsub | Xem Phim Online</title>
+	<meta name="description" content="Motchill - Trang xem phim online miễn phí full HD Vietsub, Lồng Tiếng + Thuyết Minh. Với kho phim hay +19.000. Cập nhật nhanh các phim mới hot Trung Quốc, Hàn Quốc, Thái Lan... mỗi ngày!" />
+	<link rel="canonical" href="https://motchillvn.now/" />
+	<meta property="og:locale" content="vi_VN" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Motchill" />
+	<meta property="og:description" content="Motchill - Trang xem phim online miễn phí full HD Vietsub, Lồng Tiếng + Thuyết Minh. Với kho phim hay +19.000. Cập nhật nhanh các phim mới hot Trung Quốc, Hàn Quốc, Thái Lan... mỗi ngày!" />
+	<meta property="og:url" content="https://motchillvn.now/" />
+	<meta property="og:site_name" content="Motchill" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://motchillvn.now/","url":"https://motchillvn.now/","name":"Motchill | Phim Mới | Phim Hay | HD Vietsub | Xem Phim Online","isPartOf":{"@id":"https://motchillvn.now/#website"},"about":{"@id":"https://motchillvn.now/#organization"},"description":"Motchill - Trang xem phim online miễn phí full HD Vietsub, Lồng Tiếng + Thuyết Minh. Với kho phim hay +19.000. Cập nhật nhanh các phim mới hot Trung Quốc, Hàn Quốc, Thái Lan... mỗi ngày!","breadcrumb":{"@id":"https://motchillvn.now/#breadcrumb"},"inLanguage":"vi"},{"@type":"BreadcrumbList","@id":"https://motchillvn.now/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Trang chủ"}]},{"@type":"WebSite","@id":"https://motchillvn.now/#website","url":"https://motchillvn.now/","name":"Motchill","description":"Motchill | Phim Mới | Phim Hay | HD Vietsub | Xem Phim Online","publisher":{"@id":"https://motchillvn.now/#organization"},"alternateName":"Motchill Xem Phim Online","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://motchillvn.now/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"vi"},{"@type":"Organization","@id":"https://motchillvn.now/#organization","name":"Motchill Phim Mới","alternateName":"Motchill","url":"https://motchillvn.now/","logo":{"@type":"ImageObject","inLanguage":"vi","@id":"https://motchillvn.now/#/schema/logo/image/","url":"https://motchillvn.now/wp-content/uploads/2025/10/logo-motchill.png","contentUrl":"https://motchillvn.now/wp-content/uploads/2025/10/logo-motchill.png","width":382,"height":100,"caption":"Motchill Phim Mới"},"image":{"@id":"https://motchillvn.now/#/schema/logo/image/"},"description":"Motchill - Trang xem phim online miễn phí full HD Vietsub, Lồng Tiếng + Thuyết Minh. Với kho phim hay +19.000. Cập nhật nhanh các phim mới hot Trung Quốc, Hàn Quốc, Thái Lan... mỗi ngày!","publishingPrinciples":"https://motchillvn.now/ban-quyen","actionableFeedbackPolicy":"https://motchillvn.now/dieu-khoan-su-dung","diversityPolicy":"https://motchillvn.now/chinh-sach-rieng-tu"}]}</script>
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+<link rel='dns-prefetch' href='//challenges.cloudflare.com' />
+<link rel="alternate" type="application/rss+xml" title="Dòng thông tin Motchill &raquo;" href="https://motchillvn.now/feed" />
+<link rel="alternate" type="application/rss+xml" title="Motchill &raquo; Dòng bình luận" href="https://motchillvn.now/comments/feed" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id="wp-block-library-inline-css">
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}:root .has-text-align-center{text-align:center}:root .has-text-align-left{text-align:left}:root .has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{word-wrap:normal!important;border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-break:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style^=border-color],[style*=";border-color"],[style*="; border-color"]){border-style:solid}html :where([style^=border-top-color],[style*=";border-top-color"],[style*="; border-top-color"]){border-top-style:solid}html :where([style^=border-right-color],[style*=";border-right-color"],[style*="; border-right-color"]){border-right-style:solid}html :where([style^=border-bottom-color],[style*=";border-bottom-color"],[style*="; border-bottom-color"]){border-bottom-style:solid}html :where([style^=border-left-color],[style*=";border-left-color"],[style*="; border-left-color"]){border-left-style:solid}html :where([style^=border-width],[style*=";border-width"],[style*="; border-width"]){border-style:solid}html :where([style^=border-top-width],[style*=";border-top-width"],[style*="; border-top-width"]){border-top-style:solid}html :where([style^=border-right-width],[style*=";border-right-width"],[style*="; border-right-width"]){border-right-style:solid}html :where([style^=border-bottom-width],[style*=";border-bottom-width"],[style*="; border-bottom-width"]){border-bottom-style:solid}html :where([style^=border-left-width],[style*=";border-left-width"],[style*="; border-left-width"]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=/wp-includes/css/dist/block-library/common.min.css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='msc-comments-css' href='https://motchillvn.now/wp-content/plugins/msc-simple-comments/public/css/msc-comments.css?ver=1769652850' media='all' />
+<script id="jquery-core-js" src="https://motchillvn.now/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://motchillvn.now/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<link rel="https://api.w.org/" href="https://motchillvn.now/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://motchillvn.now/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.1" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VSHV1MPL72"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VSHV1MPL72');
 </script>
-<head>
-    <style>
-        #login {
-    text-align: center;
-    margin-top: 150px;
+<style type='text/css'>
+#player-wrapper{
+            height: 27vh!important;
+        }li.item.no-margin-left1 {margin-left: 7px;}
+.cc-warning {margin: 10px 0px;font-size: 11px;background-color: #464a52;padding: 10px;border-radius: 5px;}
+.cc-warning a {color: #ff9601;} .cc-warning a:hover {color: red;}
+.film-note {border-radius: 5px;}
+.film-note1 {border: 1px solid #e8a568;background: #181818;border-radius: 5px;margin-bottom: 10px;padding: 5px;}
+h3.heading {border-bottom: 2px solid #c58560;color: #c58560!important;padding: 3px 0px;}
+.notification {margin: 10px 0px;font-size: 11px;background-color: #464a52;padding: 10px;border-radius: 5px;}
+.notification a {color: #ff9601;} .notification a:hover {color: red;}
+div#info-film p {color: #abaaaa;}
+@media (max-width: 767px){
+	.film-note.tip-change-server {
+    width: 100%!important;
 }
-#login input {
-    padding: 12px;
-    width: 80%;
-    max-width: 250px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+	.div-control {
+    margin-bottom: 65px;
 }
-#login button {
-    padding: 12px 20px;
-    margin-left: 5px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+}
+.buttons.two-button .custom-button-sc {width: 100%;padding: 10px;margin-top: 5px;}
+</style>
+<link rel="icon" href="https://motchillvn.now/wp-content/uploads/2025/01/cropped-favicon2-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://motchillvn.now/wp-content/uploads/2025/01/cropped-favicon2-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://motchillvn.now/wp-content/uploads/2025/01/cropped-favicon2-180x180.png" />
+<meta name="msapplication-TileImage" content="https://motchillvn.now/wp-content/uploads/2025/01/cropped-favicon2-270x270.png" />
+<style id="wp-custom-css">
+
+@media only screen and (max-width: 479px){
+	.deskContent {
+    display: none!important;
+	}}
+@media (max-width: 1024px) {
+    .phoneContent {
+        display: block!important;
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px){
+		.deskContent {
+			display: none!important;}
+	}
+@media (min-width: 479px) and (max-width: 767px){
+		.deskContent {
+			display: none!important;}
+	}
+@media (min-width: 979px) and (max-width: 1500px){
+		.main-menu {
+    height: 60px;
+}
+	}
+@media (min-width: 1024px) and (max-width: 1366px){
+		form#mform_search {
+    float: right;
+    margin-right: 60px;
+}
+.btn-humber {
+    display: none;
+}
+	}
+@media (min-width: 250px) and (max-width: 479px){
+.poster img {
+    width: 100%!important;
+	}}
+.poster img {
+    border-radius: 5px;
+}
+.poster .btn-danger {
+    border-radius: 0px 0px 5px 5px;
+}
+/*vccvs*/
+   .poster .play-button {
+     position: absolute;
+     top: 40%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     font-size: 36px;
+     color: white;
+     background: rgb(0 0 0 / 30%);
+     padding: 5px 20px;
+     border-radius: 10px;
+     text-decoration: none;
+   }
+#info-film h3 {
+    margin: 0px 0 8px 0;
+    font-size: 17px;
+	  color: #ff9658;
+}
+div#info-film p {
+    margin-bottom: 7px;
+}
+.tabs-content a {
+    text-decoration: none;
+    color: #FF9658!important ;
+}
+.film-note1 a {
+color: #FF9658!important ;
+}
+ #info-film h2 {
+    font-size: 16px !important;
+    margin: 0px 0 8px 0;
+	 color: #ff9658;
+}
+.blockbody .detail {
+    color: #abaaaa !important;
+}
+.short-description a{
+	color: #DCDCDC; !important
+}
+#player-video .details .name h1, #player-video .details .name h2.chapter-name, #player-video .details .name span {
+    color: #DA966E; !important
 }
 </style>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        var url ='https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main';
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/owl.carousel.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/font-face.css?v=1.3.1" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/default.css?v=0.3.9" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/styles.css?v=1.1.9" />
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/responsive.css?v=1.0.5" />
+        <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/movie3.css" />
+
+
+    <link rel="stylesheet" type="text/css" href="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/css/custom.css" />
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/bootstrap2.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery.lazyload.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery.core.min.js"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/functions.js?v=2.0.1"></script>
+    <script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/js.cookie.js?v=2.1"></script>
+	<script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/tracking-ubt-5682527.js"></script>
+    
+</head>
+<body >
+<div id="page">
+    <style>
+    #result{
+        margin-top: 20px;
+        background-color: #333333;
+        list-style-type: none;
+        width: 400px;
+        position: absolute;
+        top: 32px;
+        z-index: 100;
+        padding-left: 0;
+    }
+    .column {
+        float: left;
+        padding: 5px;
+    }
+
+    .lefts {
+        text-align: center;
+        width: 20%;
+    }
+
+    .rights {
+        width: 80%;
+    }
+    .rowsearch:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .rowsearch:hover {
+        background-color: #1f1e1e;
+    }
+    #result .rowsearch{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    @media all and (min-width: 480px) {
+        .deskContent {display:block;}
+        .phoneContent {display:none;}
+    }
+
+    @media all and (max-width: 479px) {
+        .deskContent {display:none;}
+        .phoneContent {display:block;}
+    }
+</style>
+<div id="header" class="deskContent">
+    <div class="container">
+
+        <div class="top">
+		<div class="btn-number">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+            <div class="left logo">
+                <a href="/" title="">
+                                    <img style="max-width:200px" src="https://motchillvn.now/wp-content/uploads/2024/12/cropped-logo-motchill.png"
+             alt="Motchill"/>
+                    </a>
+            </div>
+            <div class="right-header">
+                <div class="search-container relative">
+                    <form id="form-filter" method="GET" action="/">
+                        <input type="text" id="keyword" name="s" autocomplete="off" onkeyup="fetch()"
+                               placeholder="Nhập tên phim bạn muốn tìm kiếm..." value="" />
+                        <i class="fa fa-search" onclick="$('#form_search').submit();"></i>
+                    </form>
+                    <div class="" id="result"></div>
+                </div>
+                <div id="box-user-menu" class="actions-user right">
+                    <ul>
+                        <li>
+                            <i class="fa fa-sign-in"></i>
+                            <a onclick="alert('Chức năng này đang cập nhật');return false;">Đăng nhập</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-users"></i>
+                            <a onclick="alert('Chức năng này đang cập nhật');return false;">Đăng ký</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-bookmark-o"></i>
+                            <a onclick="alert('Chức năng này đang cập nhật');return false;">Bookmark</a>
+                        </li>
+                    </ul>
+                </div>
+<!--                 <div class="suggest-dns">
+                    <p>Công cụ tìm kiếm phim.</p>
+                </div> -->
+            </div>
+<!--             <div class="clear"></div> -->
+        </div>
+    </div>
+    <div class="main-menu">
+        <ul class="container">
+                                    <li class="menu-item "><a title="Phim Mới" href="https://motchillvn.now/phim">Phim Mới</a></li>
+                                        <li class="menu-item ">
+                <a title="Quốc Gia">
+                    Quốc Gia <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu span-4 absolute">
+                                        <li class="sub-menu-item">
+                        <a title="Trung Quốc" href="https://motchillvn.now/quoc-gia/trung-quoc">Trung Quốc</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Hàn Quốc" href="https://motchillvn.now/quoc-gia/han-quoc">Hàn Quốc</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Hồng Kông" href="https://motchillvn.now/quoc-gia/hong-kong">Hồng Kông</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Thái Lan" href="https://motchillvn.now/quoc-gia/phim-thai-lan">Thái Lan</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Canada" href="https://motchillvn.now/quoc-gia/canada">Canada</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Nhật Bản" href="https://motchillvn.now/quoc-gia/nhat-ban">Nhật Bản</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Đài Loan" href="https://motchillvn.now/quoc-gia/dai-loan">Đài Loan</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Anh" href="https://motchillvn.now/quoc-gia/au-my">Anh</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Nga" href="https://motchillvn.now/quoc-gia/nga">Nga</a>
+                    </li>
+                                    </ul>
+            </li>
+                                    <li class="menu-item ">
+                <a title="Thể Loại">
+                    Thể Loại <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </a>
+                <ul class="sub-menu span-4 absolute">
+                                        <li class="sub-menu-item">
+                        <a title="Cổ Trang" href="https://motchillvn.now/the-loai/co-trang">Cổ Trang</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Chính kịch" href="https://motchillvn.now/the-loai/chinh-kich">Chính kịch</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Bí ẩn" href="https://motchillvn.now/the-loai/phim-bi-an">Bí ẩn</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Gia Đình" href="https://motchillvn.now/the-loai/gia-dinh">Gia Đình</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Tâm Lý" href="https://motchillvn.now/the-loai/tam-ly">Tâm Lý</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Hài Hước" href="https://motchillvn.now/the-loai/hai-huoc">Hài Hước</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Hành Động" href="https://motchillvn.now/the-loai/phim-hanh-dong">Hành Động</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Hình Sự" href="https://motchillvn.now/the-loai/hinh-su">Hình Sự</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Khoa Học" href="https://motchillvn.now/the-loai/khoa-hoc">Khoa Học</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Kinh Dị" href="https://motchillvn.now/the-loai/kinh-di">Kinh Dị</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Phiêu Lưu" href="https://motchillvn.now/the-loai/phieu-luu">Phiêu Lưu</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Tình Cảm" href="https://motchillvn.now/the-loai/tinh-cam">Tình Cảm</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Viễn Tưởng" href="https://motchillvn.now/the-loai/vien-tuong">Viễn Tưởng</a>
+                    </li>
+                                        <li class="sub-menu-item">
+                        <a title="Võ Thuật" href="https://motchillvn.now/the-loai/vo-thuat">Võ Thuật</a>
+                    </li>
+                                    </ul>
+            </li>
+                                                <li class="menu-item "><a title="Phim Chiếu Rạp" href="https://motchillvn.now/danh-sach/phim-chieu-rap">Phim Chiếu Rạp</a></li>
+                                                    <li class="menu-item "><a title="Tv Shows" href="https://motchillvn.now/danh-sach/tv-shows">Tv Shows</a></li>
+                                                    <li class="menu-item "><a title="Phim Bộ" href="https://motchillvn.now/danh-sach/phim-bo">Phim Bộ</a></li>
+                                                    <li class="menu-item "><a title="Phim Lẻ" href="https://motchillvn.now/danh-sach/phim-le">Phim Lẻ</a></li>
+                                                    <li class="menu-item "><a title="Hoạt Hình" href="https://motchillvn.now/danh-sach/hoat-hinh">Hoạt Hình</a></li>
+                                    </ul>
+    </div>
+</div >
+<div id="header" class="phoneContent">
+    <div class="container">
+        <div class="btn-humber">
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+        <a href="/" title="" class="logo">
+                            <img style="max-width:200px" src="https://motchillvn.now/wp-content/uploads/2024/12/cropped-logo-motchill.png"
+             alt="Motchill"/>
+            </a>
+        <i class="fa fa-search mobile"></i>
+        <form id="mform_search" method="GET" action="/">
+            <input type="text" id="mkeyword" name="s" autocomplete="off"
+                   placeholder="Nhập tên phim bạn muốn tìm kiếm..." value="">
+            <i class="fa fa-arrow-circle-right" onclick="$('#mform_search').submit();"></i>
+            <div style="display: block;" id="msuggestions" class="top-search-box"></div>
+        </form>
+        <script>
+            $(document).ready(function() {
+                $(".btn-humber").click(function() {
+                    var $menu = $(".main-menu");
+                    var overlay = '<div id="overlay_menu" onclick="$(\'.btn-humber\').click()"></div>';
+                    $this = $(this);
+                    var hw = $(window).height();
+                    if ($menu.hasClass('expanded')) {
+                        $menu.removeClass('expanded');
+                        $this.removeClass('active');
+                        $('#overlay_menu').remove();
+                    } else {
+                        $('.main-menu').height(hw);
+                        $menu.addClass('expanded');
+                        $this.addClass('active');
+                        $('body').append(overlay);
+                        setTimeout(function() {
+                            $('#overlay_menu').addClass('slide');
+                        }, 300)
+
+                    }
+                });
+
+
+                $(".menu-item>a").click(function() {
+                    var $this = $(this);
+                    var $sub = $this.next();
+
+                    if (!$sub.hasClass('sub-menu')) {
+                        var link = $this.attr('href');
+                        window.location.href = link;
+                    } else {
+                        if ($sub.hasClass('expanded')) {
+                            $sub.removeClass('expanded');
+                            $this.removeClass('active');
+
+                        } else {
+                            $('.sub-menu').removeClass('expanded');
+                            $sub.addClass('expanded');
+                            $this.addClass('active');
+                        }
+                        return false;
+                    }
+                });
+
+//                 $(window).resize(function() {
+//                     hw = $(window).height();
+//                     $('.main-menu').height(auto);
+//                 });
+
+
+                $(".fa-search.mobile").click(function() {
+                    var $this = $(this);
+                    var $formsearch = $("#mform_search");
+                    var overlay = '<div id="overlay_search" onclick="$(\'.fa-search.mobile\').click()"></div>';
+                    if ($formsearch.hasClass('expanded')) {
+                        $formsearch.removeClass('expanded');
+                        $('#overlay_search').remove();
+                    } else {
+                        $formsearch.addClass('expanded');
+                        $('body').append(overlay);
+                        $("#mkeyword").focus();
+                    }
+                });
+            })
+        </script>
+    </div>
+    <div class="main-menu">
+        <ul class="container">
+                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Phim Mới" href="https://motchillvn.now/phim">Phim Mới</a></li>
+                                                                <li class="menu-item ">
+                        <a title=" Quốc Gia"><i class="fa fa-caret-down"></i>
+                            Quốc Gia                        </a>
+                        <ul class="sub-menu span absolute">
+                                                <li class="sub-menu-item">
+                                <a title="Trung Quốc" href="https://motchillvn.now/quoc-gia/trung-quoc">Trung Quốc</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Hàn Quốc" href="https://motchillvn.now/quoc-gia/han-quoc">Hàn Quốc</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Hồng Kông" href="https://motchillvn.now/quoc-gia/hong-kong">Hồng Kông</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Thái Lan" href="https://motchillvn.now/quoc-gia/phim-thai-lan">Thái Lan</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Canada" href="https://motchillvn.now/quoc-gia/canada">Canada</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Nhật Bản" href="https://motchillvn.now/quoc-gia/nhat-ban">Nhật Bản</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Đài Loan" href="https://motchillvn.now/quoc-gia/dai-loan">Đài Loan</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Anh" href="https://motchillvn.now/quoc-gia/au-my">Anh</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Nga" href="https://motchillvn.now/quoc-gia/nga">Nga</a>
+                            </li>
+                                            </ul>
+                    </li>
+                                                                <li class="menu-item ">
+                        <a title=" Thể Loại"><i class="fa fa-caret-down"></i>
+                            Thể Loại                        </a>
+                        <ul class="sub-menu span absolute">
+                                                <li class="sub-menu-item">
+                                <a title="Cổ Trang" href="https://motchillvn.now/the-loai/co-trang">Cổ Trang</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Chính kịch" href="https://motchillvn.now/the-loai/chinh-kich">Chính kịch</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Bí ẩn" href="https://motchillvn.now/the-loai/phim-bi-an">Bí ẩn</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Gia Đình" href="https://motchillvn.now/the-loai/gia-dinh">Gia Đình</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Tâm Lý" href="https://motchillvn.now/the-loai/tam-ly">Tâm Lý</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Hài Hước" href="https://motchillvn.now/the-loai/hai-huoc">Hài Hước</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Hành Động" href="https://motchillvn.now/the-loai/phim-hanh-dong">Hành Động</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Hình Sự" href="https://motchillvn.now/the-loai/hinh-su">Hình Sự</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Khoa Học" href="https://motchillvn.now/the-loai/khoa-hoc">Khoa Học</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Kinh Dị" href="https://motchillvn.now/the-loai/kinh-di">Kinh Dị</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Phiêu Lưu" href="https://motchillvn.now/the-loai/phieu-luu">Phiêu Lưu</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Tình Cảm" href="https://motchillvn.now/the-loai/tinh-cam">Tình Cảm</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Viễn Tưởng" href="https://motchillvn.now/the-loai/vien-tuong">Viễn Tưởng</a>
+                            </li>
+                                                <li class="sub-menu-item">
+                                <a title="Võ Thuật" href="https://motchillvn.now/the-loai/vo-thuat">Võ Thuật</a>
+                            </li>
+                                            </ul>
+                    </li>
+                                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Phim Chiếu Rạp" href="https://motchillvn.now/danh-sach/phim-chieu-rap">Phim Chiếu Rạp</a></li>
+                                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Tv Shows" href="https://motchillvn.now/danh-sach/tv-shows">Tv Shows</a></li>
+                                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Phim Bộ" href="https://motchillvn.now/danh-sach/phim-bo">Phim Bộ</a></li>
+                                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Phim Lẻ" href="https://motchillvn.now/danh-sach/phim-le">Phim Lẻ</a></li>
+                                                                <li class="menu-item {{$item['link'] === '/' ? 'active' : ''}}"><a title="Hoạt Hình" href="https://motchillvn.now/danh-sach/hoat-hinh">Hoạt Hình</a></li>
+                                    </ul>
+    </div>
+</div>
+
+
+
+    <div id="content">
+        <div class="main-content">
+			<div class ="container">
+				
+			</div>
+
+<div class="container">
+                                            <div class="list-films film-hot">
+    <h2 class="title-box">
+        <a class="tophot">Phim Đề Cử</a>
+    </h2>
+    <ul id="film_hot" class="relative">
+                <li class="item" title="Hoa Khai Cẩm Tú">
+            <span class="label">Tập 24 Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/hoa-khai-cam-tu" title="Hoa Khai Cẩm Tú">
+                <img class="img-film" title="Hoa Khai Cẩm Tú" alt="Hoa Khai Cẩm Tú" src="/wp-content/uploads/2026/08/hoa-khai-cam-tu-39791-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/hoa-khai-cam-tu" title="Hoa Khai Cẩm Tú 2026">
+                Hoa Khai Cẩm Tú            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Road to Splendor        </span>
+            </div>
+        </li>
+                <li class="item" title="Tài Phiệt x Cảnh Sát Phần 2">
+            <span class="label">Tập 5 Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/tai-phiet-x-canh-sat-phan-2" title="Tài Phiệt x Cảnh Sát Phần 2">
+                <img class="img-film" title="Tài Phiệt x Cảnh Sát Phần 2" alt="Tài Phiệt x Cảnh Sát Phần 2" src="/wp-content/uploads/2026/08/tai-phiet-va-canh-sat-phan-2-39716-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/tai-phiet-x-canh-sat-phan-2" title="Tài Phiệt x Cảnh Sát Phần 2 2026">
+                Tài Phiệt x Cảnh Sát Phần 2            </a>
+        </h3>
+		 <span class="original-title-home">
+            Flex X Cop 2        </span>
+            </div>
+        </li>
+                <li class="item" title="Trọng Khí">
+            <span class="label">Tập 25 Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/trong-khi" title="Trọng Khí">
+                <img class="img-film" title="Trọng Khí" alt="Trọng Khí" src="/wp-content/uploads/2026/08/trong-khi-39978-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/trong-khi" title="Trọng Khí 2026">
+                Trọng Khí            </a>
+        </h3>
+		 <span class="original-title-home">
+            Forging Justice/Zhong Qi        </span>
+            </div>
+        </li>
+                <li class="item" title="Ngoại Tình Chỉ Là Bắt Đầu">
+            <span class="label">Tập 7 Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/ngoai-tinh-chi-la-bat-dau" title="Ngoại Tình Chỉ Là Bắt Đầu">
+                <img class="img-film" title="Ngoại Tình Chỉ Là Bắt Đầu" alt="Ngoại Tình Chỉ Là Bắt Đầu" src="/wp-content/uploads/2026/08/ngoai-tinh-da-nham-nho-gi.jpg" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/ngoai-tinh-chi-la-bat-dau" title="Ngoại Tình Chỉ Là Bắt Đầu ">
+                Ngoại Tình Chỉ Là Bắt Đầu            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Affair Was Just The Beginning        </span>
+            </div>
+        </li>
+                <li class="item" title="Cửu Môn (2026)">
+            <span class="label">Hoàn tất (30/30) Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/cuu-mon" title="Cửu Môn (2026)">
+                <img class="img-film" title="Cửu Môn (2026)" alt="Cửu Môn (2026)" src="/wp-content/uploads/2026/08/cuu-mon-39334-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cuu-mon" title="Cửu Môn (2026) 2026">
+                Cửu Môn (2026)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Mystic Nine        </span>
+            </div>
+        </li>
+                <li class="item" title="Sư Huynh Quá Cẩn Trọng">
+            <span class="label">Tập 6 Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/su-huynh-qua-can-trong" title="Sư Huynh Quá Cẩn Trọng">
+                <img class="img-film" title="Sư Huynh Quá Cẩn Trọng" alt="Sư Huynh Quá Cẩn Trọng" src="/wp-content/uploads/2025/12/su-huynh-qua-can-trong-24554-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/su-huynh-qua-can-trong" title="Sư Huynh Quá Cẩn Trọng 2026">
+                Sư Huynh Quá Cẩn Trọng            </a>
+        </h3>
+		 <span class="original-title-home">
+            Pull Strings        </span>
+            </div>
+        </li>
+                <li class="item" title="Ừ Thì Ly Hôn!">
+            <span class="label">Tập 2 Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/u-thi-ly-hon" title="Ừ Thì Ly Hôn!">
+                <img class="img-film" title="Ừ Thì Ly Hôn!" alt="Ừ Thì Ly Hôn!" src="/wp-content/uploads/2026/08/u-thi-ly-hon-40479-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/u-thi-ly-hon" title="Ừ Thì Ly Hôn! 2026">
+                Ừ Thì Ly Hôn!            </a>
+        </h3>
+		 <span class="original-title-home">
+            OK! Let’s Get Divorced        </span>
+            </div>
+        </li>
+                <li class="item" title="Giấc Mơ Trao Em">
+            <span class="label">Hoàn Tất (12/12) Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/giac-mo-trao-em" title="Giấc Mơ Trao Em">
+                <img class="img-film" title="Giấc Mơ Trao Em" alt="Giấc Mơ Trao Em" src="/wp-content/uploads/2026/07/giac-mo-trao-em-38997-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/giac-mo-trao-em" title="Giấc Mơ Trao Em 2026">
+                Giấc Mơ Trao Em            </a>
+        </h3>
+		 <span class="original-title-home">
+            Dream to You        </span>
+            </div>
+        </li>
+                <li class="item" title="Xuân Hoa Yến">
+            <span class="label">Hoàn tất (27/27) Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/xuan-hoa-yen" title="Xuân Hoa Yến">
+                <img class="img-film" title="Xuân Hoa Yến" alt="Xuân Hoa Yến" src="/wp-content/uploads/2026/07/xuan-hoa-yen-38890-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/xuan-hoa-yen" title="Xuân Hoa Yến 2026">
+                Xuân Hoa Yến            </a>
+        </h3>
+		 <span class="original-title-home">
+            Blooms For Her        </span>
+            </div>
+        </li>
+                <li class="item" title="Thiên Hương">
+            <span class="label">Hoàn tất (33/33) Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/thien-huong" title="Thiên Hương">
+                <img class="img-film" title="Thiên Hương" alt="Thiên Hương" src="/wp-content/uploads/2025/12/thien-huong-24559-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/thien-huong" title="Thiên Hương 2026">
+                Thiên Hương            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Eternal Fragrance        </span>
+            </div>
+        </li>
+                <li class="item" title="Lời nguyền Đông Cung">
+            <span class="label">Hoàn tất (8/8) Vietsub + Lồng Tiếng</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/loi-nguyen-dong-cung" title="Lời nguyền Đông Cung">
+                <img class="img-film" title="Lời nguyền Đông Cung" alt="Lời nguyền Đông Cung" src="/wp-content/uploads/2026/07/loi-nguyen-dong-cung.jpg" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/loi-nguyen-dong-cung" title="Lời nguyền Đông Cung 2026">
+                Lời nguyền Đông Cung            </a>
+        </h3>
+		 <span class="original-title-home">
+            The East Palace        </span>
+            </div>
+        </li>
+                <li class="item" title="Tước Cốt">
+            <span class="label">Hoàn tất (28/28) Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/tuoc-cot" title="Tước Cốt">
+                <img class="img-film" title="Tước Cốt" alt="Tước Cốt" src="/wp-content/uploads/2025/12/tuoc-cot-24581-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/tuoc-cot" title="Tước Cốt 2026">
+                Tước Cốt            </a>
+        </h3>
+		 <span class="original-title-home">
+            Key To The Phoenix Heart        </span>
+            </div>
+        </li>
+                <li class="item" title="Cửa Hàng Sát Thủ (Phần 2)">
+            <span class="label">Hoàn tất (8/8) Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/cua-hang-sat-thu-phan-2" title="Cửa Hàng Sát Thủ (Phần 2)">
+                <img class="img-film" title="Cửa Hàng Sát Thủ (Phần 2)" alt="Cửa Hàng Sát Thủ (Phần 2)" src="/wp-content/uploads/2026/07/cua-hang-sat-thu-phan-2.jpg" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cua-hang-sat-thu-phan-2" title="Cửa Hàng Sát Thủ (Phần 2) 2026">
+                Cửa Hàng Sát Thủ (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            A Shop for Killers (Season 2)        </span>
+            </div>
+        </li>
+                <li class="item" title="Đặc Vụ Kim Tái Khởi Động">
+            <span class="label">Hoàn tất (10/10) Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/dac-vu-kim-tai-khoi-dong" title="Đặc Vụ Kim Tái Khởi Động">
+                <img class="img-film" title="Đặc Vụ Kim Tái Khởi Động" alt="Đặc Vụ Kim Tái Khởi Động" src="/wp-content/uploads/2026/06/dac-vu-kim-tai-khoi-dong-38687-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/dac-vu-kim-tai-khoi-dong" title="Đặc Vụ Kim Tái Khởi Động 2026">
+                Đặc Vụ Kim Tái Khởi Động            </a>
+        </h3>
+		 <span class="original-title-home">
+            Agent Kim Reactivated        </span>
+            </div>
+        </li>
+                <li class="item" title="Bias Tôi, Sếp Của Tôi">
+            <span class="label">Tập 7 Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/bias-toi-sep-cua-toi" title="Bias Tôi, Sếp Của Tôi">
+                <img class="img-film" title="Bias Tôi, Sếp Của Tôi" alt="Bias Tôi, Sếp Của Tôi" src="/wp-content/uploads/2026/08/sep-chinh-la-than-tuong-39559-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/bias-toi-sep-cua-toi" title="Bias Tôi, Sếp Của Tôi 2026">
+                Bias Tôi, Sếp Của Tôi            </a>
+        </h3>
+		 <span class="original-title-home">
+            My Bias, My Boss        </span>
+            </div>
+        </li>
+                <li class="item" title="Tình Yêu Nổi Loạn (Phần 2)">
+            <span class="label">Hoàn tất (10/10) Vietsub</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/tinh-yeu-noi-loan-phan-2" title="Tình Yêu Nổi Loạn (Phần 2)">
+                <img class="img-film" title="Tình Yêu Nổi Loạn (Phần 2)" alt="Tình Yêu Nổi Loạn (Phần 2)" src="/wp-content/uploads/2026/08/tinh-yeu-noi-loan-phan-2-39700-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/tinh-yeu-noi-loan-phan-2" title="Tình Yêu Nổi Loạn (Phần 2) 2026">
+                Tình Yêu Nổi Loạn (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Badly in Love (Season 2)        </span>
+            </div>
+        </li>
+                <li class="item" title="Ngự Đình Dao">
+            <span class="label">Hoàn Tất (32/32) Vietsub + Thuyết Minh + Lồng Tiếng</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/ngu-dinh-dao" title="Ngự Đình Dao">
+                <img class="img-film" title="Ngự Đình Dao" alt="Ngự Đình Dao" src="/wp-content/uploads/2026/08/ngu-dinh-dao-39301-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/ngu-dinh-dao" title="Ngự Đình Dao 2026">
+                Ngự Đình Dao            </a>
+        </h3>
+		 <span class="original-title-home">
+            Royal Betrothal        </span>
+            </div>
+        </li>
+                <li class="item" title="Chuyện Tình Ma Quái">
+            <span class="label">Tập 10 Vietsub + Thuyết Minh</span>
+			 <span class="label1">Trending</span>
+            <a href="https://motchillvn.now/phim/chuyen-tinh-ma-quai" title="Chuyện Tình Ma Quái">
+                <img class="img-film" title="Chuyện Tình Ma Quái" alt="Chuyện Tình Ma Quái" src="/wp-content/uploads/2026/07/chuyen-tinh-ma-quai-39070-thumb.webp" />
+                <i class="icon-play"></i>
+            </a>
+            <div class="text absolute">
+         <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/chuyen-tinh-ma-quai" title="Chuyện Tình Ma Quái 2026">
+                Chuyện Tình Ma Quái            </a>
+        </h3>
+		 <span class="original-title-home">
+            Spooky in Love        </span>
+            </div>
+        </li>
+            </ul>
+</div>
+<script type="text/javascript" src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/owl.carousel.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $("#film_hot").owlCarousel({
+            items: 5,
+            itemsTablet: [700, 3],
+            itemsMobile: [479, 2],
+            scrollPerPage: true,
+            lazyLoad: true,
+            navigation: true, // Show next and prev buttons
+            slideSpeed: 800,
+            paginationSpeed: 400,
+            stopOnHover: true,
+            pagination: false,
+            autoPlay: 8000,
+            navigationText: ['<i class="fa fa-angle-left"></i>', ' <i class="fa fa-angle-right"></i>'],
+        });
+
+        var first_img_w = $("#film_hot .img-film").eq(0).width();
+        var first_img_h = first_img_w * (1.42);
+        $("#film_hot .img-film").height(first_img_h);
+
+        // first_img_w = $(".film-moi .img-film").eq(0).width();
+        // first_img_h = first_img_w * (1.42);
+        // $(".film-moi .img-film").height(first_img_h);
+        $(".film-moi .img-film").height(252);
+    });
+</script>                        
+                <div class="clear"></div>
+    <div class="left-content">
+                        <div class="list-films film-new">
+    <h2 class="title-box">
+        <a title="Phim Trung Quốc Mới" rel="nofollow" href="https://motchillvn.now/quoc-gia/phim-trung-quoc" class="tab active">Phim Trung Quốc Mới</a>
+    </h2>
+    <ul class="film-moi tab-content">
+        <li class="item no-margin-left">
+    <span class="label">Tập 24 Vietsub</span>
+    <a href="https://motchillvn.now/phim/hoa-khai-cam-tu" title="Hoa Khai Cẩm Tú">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/hoa-khai-cam-tu-39791-thumb.webp"
+             title="Hoa Khai Cẩm Tú"
+             alt="Hoa Khai Cẩm Tú" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/hoa-khai-cam-tu" title="Hoa Khai Cẩm Tú 2026">
+                Hoa Khai Cẩm Tú            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Road to Splendor        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 25 Vietsub</span>
+    <a href="https://motchillvn.now/phim/trong-khi" title="Trọng Khí">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/trong-khi-39978-thumb.webp"
+             title="Trọng Khí"
+             alt="Trọng Khí" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/trong-khi" title="Trọng Khí 2026">
+                Trọng Khí            </a>
+        </h3>
+		 <span class="original-title-home">
+            Forging Justice/Zhong Qi        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn tất (30/30) Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/cuu-mon" title="Cửu Môn (2026)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/cuu-mon-39334-thumb.webp"
+             title="Cửu Môn (2026)"
+             alt="Cửu Môn (2026)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cuu-mon" title="Cửu Môn (2026) 2026">
+                Cửu Môn (2026)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Mystic Nine        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 6 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/su-huynh-qua-can-trong" title="Sư Huynh Quá Cẩn Trọng">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/12/su-huynh-qua-can-trong-24554-thumb.webp"
+             title="Sư Huynh Quá Cẩn Trọng"
+             alt="Sư Huynh Quá Cẩn Trọng" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/su-huynh-qua-can-trong" title="Sư Huynh Quá Cẩn Trọng 2026">
+                Sư Huynh Quá Cẩn Trọng            </a>
+        </h3>
+		 <span class="original-title-home">
+            Pull Strings        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Tập 22 Vietsub</span>
+    <a href="https://motchillvn.now/phim/bat-dau-voi-chi-ton-dan-dien" title="Bắt Đầu Với Chí Tôn Đan Điền">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/bat-dau-voi-chi-ton-dan-dien-39472-thumb.webp"
+             title="Bắt Đầu Với Chí Tôn Đan Điền"
+             alt="Bắt Đầu Với Chí Tôn Đan Điền" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/bat-dau-voi-chi-ton-dan-dien" title="Bắt Đầu Với Chí Tôn Đan Điền 2025">
+                Bắt Đầu Với Chí Tôn Đan Điền            </a>
+        </h3>
+		 <span class="original-title-home">
+            Star Sign In To Supreme Dantian        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn Tất (24/24) Vietsub</span>
+    <a href="https://motchillvn.now/phim/hop-bat-ngo" title="Hộp Bất Ngờ">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/hop-bat-ngo-39801-thumb.webp"
+             title="Hộp Bất Ngờ"
+             alt="Hộp Bất Ngờ" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/hop-bat-ngo" title="Hộp Bất Ngờ 2026">
+                Hộp Bất Ngờ            </a>
+        </h3>
+		 <span class="original-title-home">
+            Serendipity        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 20 Vietsub</span>
+    <a href="https://motchillvn.now/phim/nhan-ngu" title="Nhân Ngư">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/nhan-ngu-39752-thumb.webp"
+             title="Nhân Ngư"
+             alt="Nhân Ngư" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/nhan-ngu" title="Nhân Ngư 2026">
+                Nhân Ngư            </a>
+        </h3>
+		 <span class="original-title-home">
+            Ren Yu        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 51 Vietsub</span>
+    <a href="https://motchillvn.now/phim/nghich-thien-ta-than-3d" title="Nghịch Thiên Tà Thần 3D">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/nghich-thien-ta-than-3d-39670-thumb.webp"
+             title="Nghịch Thiên Tà Thần 3D"
+             alt="Nghịch Thiên Tà Thần 3D" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/nghich-thien-ta-than-3d" title="Nghịch Thiên Tà Thần 3D 2023">
+                Nghịch Thiên Tà Thần 3D            </a>
+        </h3>
+		 <span class="original-title-home">
+            Against the Gods        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Tập 6 Vietsub</span>
+    <a href="https://motchillvn.now/phim/su-tai-sinh-cua-nang" title="Sự Tái Sinh Của Nàng">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/su-tai-sinh-cua-nang-40492-thumb.webp"
+             title="Sự Tái Sinh Của Nàng"
+             alt="Sự Tái Sinh Của Nàng" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/su-tai-sinh-cua-nang" title="Sự Tái Sinh Của Nàng 2026">
+                Sự Tái Sinh Của Nàng            </a>
+        </h3>
+		 <span class="original-title-home">
+            Born Again        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 19 Vietsub</span>
+    <a href="https://motchillvn.now/phim/cuong-do" title="Cuồng Đồ">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/cuong-do-40144-thumb.webp"
+             title="Cuồng Đồ"
+             alt="Cuồng Đồ" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cuong-do" title="Cuồng Đồ 2026">
+                Cuồng Đồ            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Outlaw        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 15 Vietsub</span>
+    <a href="https://motchillvn.now/phim/han-y-nhap-tam" title="Hàn Y Nhập Tâm">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/han-y-nhap-tam-40252-thumb.webp"
+             title="Hàn Y Nhập Tâm"
+             alt="Hàn Y Nhập Tâm" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/han-y-nhap-tam" title="Hàn Y Nhập Tâm 2026">
+                Hàn Y Nhập Tâm            </a>
+        </h3>
+		 <span class="original-title-home">
+            寒衣入心        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 6 Vietsub</span>
+    <a href="https://motchillvn.now/phim/phuong-trinh-tinh-yeu" title="Phương Trình Tình Yêu">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/07/phuong-trinh-tinh-yeu-19554-thumb.webp"
+             title="Phương Trình Tình Yêu"
+             alt="Phương Trình Tình Yêu" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/phuong-trinh-tinh-yeu" title="Phương Trình Tình Yêu 2025">
+                Phương Trình Tình Yêu            </a>
+        </h3>
+		 <span class="original-title-home">
+            Love Formula        </span>
+    </div>
+</li>
+    </ul>
+</div>
+        
+                        <div class="list-films film-new">
+    <h2 class="title-box">
+        <a title="Phim Hàn Quốc Mới" rel="nofollow" href="https://motchillvn.now/quoc-gia/han-quoc" class="tab active">Phim Hàn Quốc Mới</a>
+    </h2>
+    <ul class="film-moi tab-content">
+        <li class="item no-margin-left">
+    <span class="label">Tập 5 Vietsub</span>
+    <a href="https://motchillvn.now/phim/tai-phiet-x-canh-sat-phan-2" title="Tài Phiệt x Cảnh Sát Phần 2">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/tai-phiet-va-canh-sat-phan-2-39716-thumb.webp"
+             title="Tài Phiệt x Cảnh Sát Phần 2"
+             alt="Tài Phiệt x Cảnh Sát Phần 2" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/tai-phiet-x-canh-sat-phan-2" title="Tài Phiệt x Cảnh Sát Phần 2 2026">
+                Tài Phiệt x Cảnh Sát Phần 2            </a>
+        </h3>
+		 <span class="original-title-home">
+            Flex X Cop 2        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/ngoai-tinh-chi-la-bat-dau" title="Ngoại Tình Chỉ Là Bắt Đầu">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/ngoai-tinh-da-nham-nho-gi.jpg"
+             title="Ngoại Tình Chỉ Là Bắt Đầu"
+             alt="Ngoại Tình Chỉ Là Bắt Đầu" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/ngoai-tinh-chi-la-bat-dau" title="Ngoại Tình Chỉ Là Bắt Đầu ">
+                Ngoại Tình Chỉ Là Bắt Đầu            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Affair Was Just The Beginning        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/vo-boc-ngoai-tinh" title="Vỏ Bọc Ngoại Tình (Ngoại Tình Đã Nhằm Nhò Gì)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/vo-boc-ngoai-tinh-39527-thumb.webp"
+             title="Vỏ Bọc Ngoại Tình (Ngoại Tình Đã Nhằm Nhò Gì)"
+             alt="Vỏ Bọc Ngoại Tình (Ngoại Tình Đã Nhằm Nhò Gì)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/vo-boc-ngoai-tinh" title="Vỏ Bọc Ngoại Tình (Ngoại Tình Đã Nhằm Nhò Gì) 2026">
+                Vỏ Bọc Ngoại Tình (Ngoại Tình Đã Nhằm Nhò Gì)            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Affair Was Just The Beginning        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn tất (12/12) Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/tro-choi-thao-tung" title="Trò Chơi Thao Túng">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/11/tro-choi-thao-tung-23249-thumb.webp"
+             title="Trò Chơi Thao Túng"
+             alt="Trò Chơi Thao Túng" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/tro-choi-thao-tung" title="Trò Chơi Thao Túng 2025">
+                Trò Chơi Thao Túng            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Manipulated        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Tập 2 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/u-thi-ly-hon" title="Ừ Thì Ly Hôn!">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/u-thi-ly-hon-40479-thumb.webp"
+             title="Ừ Thì Ly Hôn!"
+             alt="Ừ Thì Ly Hôn!" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/u-thi-ly-hon" title="Ừ Thì Ly Hôn! 2026">
+                Ừ Thì Ly Hôn!            </a>
+        </h3>
+		 <span class="original-title-home">
+            OK! Let’s Get Divorced        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn tất (6/6) Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/ca-map-2-con-bao-phan-2" title="Cá Mập 2: Cơn Bão (Phần 2)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/05/ca-map-con-bao-17551-thumb.webp"
+             title="Cá Mập 2: Cơn Bão (Phần 2)"
+             alt="Cá Mập 2: Cơn Bão (Phần 2)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/ca-map-2-con-bao-phan-2" title="Cá Mập 2: Cơn Bão (Phần 2) 2025">
+                Cá Mập 2: Cơn Bão (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Shark: The Storm        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn Tất (12/12) Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/giac-mo-trao-em" title="Giấc Mơ Trao Em">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/giac-mo-trao-em-38997-thumb.webp"
+             title="Giấc Mơ Trao Em"
+             alt="Giấc Mơ Trao Em" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/giac-mo-trao-em" title="Giấc Mơ Trao Em 2026">
+                Giấc Mơ Trao Em            </a>
+        </h3>
+		 <span class="original-title-home">
+            Dream to You        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn Tất (12/12) Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/nguu-lang-chuc-nu" title="Ngưu Lang Chức Nữ">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/06/nguu-lang-chuc-nu-19027-thumb.webp"
+             title="Ngưu Lang Chức Nữ"
+             alt="Ngưu Lang Chức Nữ" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/nguu-lang-chuc-nu" title="Ngưu Lang Chức Nữ 2025">
+                Ngưu Lang Chức Nữ            </a>
+        </h3>
+		 <span class="original-title-home">
+            Head Over Heels        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Hoàn tất (12/12) Vietsub</span>
+    <a href="https://motchillvn.now/phim/nguoi-thua-ke-bat-kha-thi" title="Người Thừa Kế Bất Khả Thi">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2024/12/nguoi-thua-ke-bat-kha-thi-10710-thumb.webp"
+             title="Người Thừa Kế Bất Khả Thi"
+             alt="Người Thừa Kế Bất Khả Thi" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/nguoi-thua-ke-bat-kha-thi" title="Người Thừa Kế Bất Khả Thi 2024">
+                Người Thừa Kế Bất Khả Thi            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Impossible Heir        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn tất (8/8) Vietsub + Lồng Tiếng</span>
+    <a href="https://motchillvn.now/phim/loi-nguyen-dong-cung" title="Lời nguyền Đông Cung">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/loi-nguyen-dong-cung.jpg"
+             title="Lời nguyền Đông Cung"
+             alt="Lời nguyền Đông Cung" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/loi-nguyen-dong-cung" title="Lời nguyền Đông Cung 2026">
+                Lời nguyền Đông Cung            </a>
+        </h3>
+		 <span class="original-title-home">
+            The East Palace        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn Tất (8/8) Vietsub</span>
+    <a href="https://motchillvn.now/phim/dong-dieu-yeu-thuong" title="Đồng Điệu Yêu Thương">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/dong-dieu-yeu-thuong-38884-thumb.webp"
+             title="Đồng Điệu Yêu Thương"
+             alt="Đồng Điệu Yêu Thương" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/dong-dieu-yeu-thuong" title="Đồng Điệu Yêu Thương 2026">
+                Đồng Điệu Yêu Thương            </a>
+        </h3>
+		 <span class="original-title-home">
+            Love In Sync        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn Tất (8/8) Vietsub</span>
+    <a href="https://motchillvn.now/phim/canh-giac" title="Cảnh Giác">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2024/12/canh-giac-9851-thumb.webp"
+             title="Cảnh Giác"
+             alt="Cảnh Giác" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/canh-giac" title="Cảnh Giác 2023">
+                Cảnh Giác            </a>
+        </h3>
+		 <span class="original-title-home">
+            Vigilante        </span>
+    </div>
+</li>
+    </ul>
+</div>
+        
+                        <div class="list-films film-new">
+    <h2 class="title-box">
+        <a title="Phim Chiếu Rạp Mới" rel="nofollow" href="https://motchillvn.now/danh-sach/phim-chieu-rap" class="tab active">Phim Chiếu Rạp Mới</a>
+    </h2>
+    <ul class="film-moi tab-content">
+        <li class="item no-margin-left">
+    <span class="label">Full Vietsub</span>
+    <a href="https://motchillvn.now/phim/a-x-l-chu-cho-robot" title="A-X-L: Chú Chó Robot">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/a-x-l-chu-cho-robot-40475-thumb.webp"
+             title="A-X-L: Chú Chó Robot"
+             alt="A-X-L: Chú Chó Robot" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/a-x-l-chu-cho-robot" title="A-X-L: Chú Chó Robot 2018">
+                A-X-L: Chú Chó Robot            </a>
+        </h3>
+		 <span class="original-title-home">
+            A-X-L        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Full Vietsub</span>
+    <a href="https://motchillvn.now/phim/28-nam-sau-hau-tan-the" title="28 Năm Sau: Hậu Tận Thế">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/06/28-nam-sau-hau-tan-the.jpg"
+             title="28 Năm Sau: Hậu Tận Thế"
+             alt="28 Năm Sau: Hậu Tận Thế" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/28-nam-sau-hau-tan-the" title="28 Năm Sau: Hậu Tận Thế 2025">
+                28 Năm Sau: Hậu Tận Thế            </a>
+        </h3>
+		 <span class="original-title-home">
+            28 Years Later        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Full Vietsub</span>
+    <a href="https://motchillvn.now/phim/cau-chuyen-do-choi-5" title="Câu Chuyện Đồ Chơi 5">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/06/cau-chuyen-do-choi-5-38390-thumb.webp"
+             title="Câu Chuyện Đồ Chơi 5"
+             alt="Câu Chuyện Đồ Chơi 5" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cau-chuyen-do-choi-5" title="Câu Chuyện Đồ Chơi 5 2026">
+                Câu Chuyện Đồ Chơi 5            </a>
+        </h3>
+		 <span class="original-title-home">
+            Toy Story 5        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">FULL Vietsub</span>
+    <a href="https://motchillvn.now/phim/am-duong-lo" title="Âm Dương Lộ">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/06/am-duong-lo-19096-thumb.webp"
+             title="Âm Dương Lộ"
+             alt="Âm Dương Lộ" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/am-duong-lo" title="Âm Dương Lộ 2025">
+                Âm Dương Lộ            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Hitchhiker        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">FULL Vietsub</span>
+    <a href="https://motchillvn.now/phim/con-thinh-no" title="Cơn Thịnh Nộ">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/con-thinh-no-38900-thumb.webp"
+             title="Cơn Thịnh Nộ"
+             alt="Cơn Thịnh Nộ" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/con-thinh-no" title="Cơn Thịnh Nộ 2026">
+                Cơn Thịnh Nộ            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Furious        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Full Vietsub</span>
+    <a href="https://motchillvn.now/phim/chi-dau" title="Chị Dâu">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/02/phim-Chi-Dau.jpg"
+             title="Chị Dâu"
+             alt="Chị Dâu" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/chi-dau" title="Chị Dâu 2025">
+                Chị Dâu            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Real Sister        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Full Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/hong-sung-vo-hinh" title="Họng Súng Vô Hình">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2025/09/hong-sung-vo-hinh-20976-thumb.webp"
+             title="Họng Súng Vô Hình"
+             alt="Họng Súng Vô Hình" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/hong-sung-vo-hinh" title="Họng Súng Vô Hình 2025">
+                Họng Súng Vô Hình            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Naked Gun        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Full Vietsub</span>
+    <a href="https://motchillvn.now/phim/diep-van-4-hoi-cuoi" title="Diệp Vấn 4: Hồi Cuối">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2024/12/diep-van-4-hoi-cuoi-10535-thumb.webp"
+             title="Diệp Vấn 4: Hồi Cuối"
+             alt="Diệp Vấn 4: Hồi Cuối" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/diep-van-4-hoi-cuoi" title="Diệp Vấn 4: Hồi Cuối 2019">
+                Diệp Vấn 4: Hồi Cuối            </a>
+        </h3>
+		 <span class="original-title-home">
+            Ip Man 4: The Finale        </span>
+    </div>
+</li>
+    </ul>
+</div>
+        
+                                
+                        <div class="list-films film-new">
+    <h2 class="title-box">
+        <a title="Phim Nhật Bản Mới" rel="nofollow" href="https://motchillvn.now/quoc-gia/nhat-ban" class="tab active">Phim Nhật Bản Mới</a>
+    </h2>
+    <ul class="film-moi tab-content">
+        <li class="item no-margin-left">
+    <span class="label">Tập 3 Vietsub</span>
+    <a href="https://motchillvn.now/phim/thu-doan-hac-am-luat-su-thao-tung-cong-ly" title="Thủ đoạn hắc ám: Luật sư thao túng công lý">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/thu-doan-hac-am-luat-su-thao-tung-cong-ly-39703-thumb.webp"
+             title="Thủ đoạn hắc ám: Luật sư thao túng công lý"
+             alt="Thủ đoạn hắc ám: Luật sư thao túng công lý" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/thu-doan-hac-am-luat-su-thao-tung-cong-ly" title="Thủ đoạn hắc ám: Luật sư thao túng công lý 2026">
+                Thủ đoạn hắc ám: Luật sư thao túng công lý            </a>
+        </h3>
+		 <span class="original-title-home">
+            Black Trick: The Lawyer Who Controls Justice        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 6 Vietsub</span>
+    <a href="https://motchillvn.now/phim/den-khi-ao-phong-kho" title="Đến Khi Áo Phông Khô">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/den-khi-ao-phong-kho-39044-thumb.webp"
+             title="Đến Khi Áo Phông Khô"
+             alt="Đến Khi Áo Phông Khô" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/den-khi-ao-phong-kho" title="Đến Khi Áo Phông Khô 2026">
+                Đến Khi Áo Phông Khô            </a>
+        </h3>
+		 <span class="original-title-home">
+            Until The T-Shirt Dries        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Hoàn tất (7/7) Vietsub</span>
+    <a href="https://motchillvn.now/phim/sx" title="S&#038;X">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/sx-40498-thumb.webp"
+             title="S&#038;X"
+             alt="S&#038;X" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/sx" title="S&#038;X 2026">
+                S&#038;X            </a>
+        </h3>
+		 <span class="original-title-home">
+            S&X        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/dao-quat-vuong-vua-trom-mo" title="Đạo Quật Vương (Vua Trộm Mộ)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/dao-quat-vuong-vua-trom-mo-39328-thumb.webp"
+             title="Đạo Quật Vương (Vua Trộm Mộ)"
+             alt="Đạo Quật Vương (Vua Trộm Mộ)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/dao-quat-vuong-vua-trom-mo" title="Đạo Quật Vương (Vua Trộm Mộ) 2026">
+                Đạo Quật Vương (Vua Trộm Mộ)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Tomb Raider King        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Tập 9 Vietsub</span>
+    <a href="https://motchillvn.now/phim/ke-mang-cap-999-tu-lang-que" title="Kẻ Mang Cấp 999 Từ Làng Quê">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/ke-mang-cap-999-tu-lang-que-38779-thumb.webp"
+             title="Kẻ Mang Cấp 999 Từ Làng Quê"
+             alt="Kẻ Mang Cấp 999 Từ Làng Quê" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/ke-mang-cap-999-tu-lang-que" title="Kẻ Mang Cấp 999 Từ Làng Quê 2026">
+                Kẻ Mang Cấp 999 Từ Làng Quê            </a>
+        </h3>
+		 <span class="original-title-home">
+            The Villager Of Level 999        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/thunder-3" title="Thunder 3">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/07/thunder-3-39049-thumb.webp"
+             title="Thunder 3"
+             alt="Thunder 3" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/thunder-3" title="Thunder 3 2026">
+                Thunder 3            </a>
+        </h3>
+		 <span class="original-title-home">
+            Thunder 3        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 8 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/giang-duong-thep" title="Giảng Đường Thép">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/giang-duong-thep-39673-thumb.webp"
+             title="Giảng Đường Thép"
+             alt="Giảng Đường Thép" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/giang-duong-thep" title="Giảng Đường Thép 2023">
+                Giảng Đường Thép            </a>
+        </h3>
+		 <span class="original-title-home">
+            Kazama Kimichika: Kyojo Zero        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub + Thuyết Minh</span>
+    <a href="https://motchillvn.now/phim/biet-doi-cong-ly-avalanche" title="Biệt Đội Công Lý Avalanche">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/biet-doi-cong-ly-avalanche-39721-thumb.webp"
+             title="Biệt Đội Công Lý Avalanche"
+             alt="Biệt Đội Công Lý Avalanche" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/biet-doi-cong-ly-avalanche" title="Biệt Đội Công Lý Avalanche 2021">
+                Biệt Đội Công Lý Avalanche            </a>
+        </h3>
+		 <span class="original-title-home">
+            Avalanche        </span>
+    </div>
+</li>
+    </ul>
+</div>
+        
+                        <div class="list-films film-new">
+    <h2 class="title-box">
+        <a title="Phim Hoạt Hình" rel="nofollow" href="#" class="tab active">Phim Hoạt Hình</a>
+    </h2>
+    <ul class="film-moi tab-content">
+        <li class="item no-margin-left">
+    <span class="label">Tập 18 Vietsub</span>
+    <a href="https://motchillvn.now/phim/khai-giap-chan-truyen" title="Khải Giáp Chân Truyền">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/khai-giap-chan-truyen-40403-thumb.webp"
+             title="Khải Giáp Chân Truyền"
+             alt="Khải Giáp Chân Truyền" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/khai-giap-chan-truyen" title="Khải Giáp Chân Truyền 2026">
+                Khải Giáp Chân Truyền            </a>
+        </h3>
+		 <span class="original-title-home">
+            Yoroi-Shinden Samurai Troopers / Yoroi Shin Den Samurai Troopers        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 8 Vietsub</span>
+    <a href="https://motchillvn.now/phim/hana-kimi-phan-2" title="Hana-Kimi (Phần 2)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/hana-kimi-phan-2-40212-thumb.webp"
+             title="Hana-Kimi (Phần 2)"
+             alt="Hana-Kimi (Phần 2)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/hana-kimi-phan-2" title="Hana-Kimi (Phần 2) 2026">
+                Hana-Kimi (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Hana-Kimi (Season 2)        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/cuoc-song-o-thoi-lenh-hoa-cua-ngai-dara" title="Cuộc Sống Ở Thời Lệnh Hòa Của Ngài Dara">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/cuoc-song-o-thoi-lenh-hoa-cua-ngai-dara-40209-thumb.webp"
+             title="Cuộc Sống Ở Thời Lệnh Hòa Của Ngài Dara"
+             alt="Cuộc Sống Ở Thời Lệnh Hòa Của Ngài Dara" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/cuoc-song-o-thoi-lenh-hoa-cua-ngai-dara" title="Cuộc Sống Ở Thời Lệnh Hòa Của Ngài Dara 2026">
+                Cuộc Sống Ở Thời Lệnh Hòa Của Ngài Dara            </a>
+        </h3>
+		 <span class="original-title-home">
+            Dara-san Of Reiwa        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 6 Vietsub</span>
+    <a href="https://motchillvn.now/phim/flaming-dodgeball-girl-danko" title="Flaming Dodgeball Girl Danko">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/flaming-dodgeball-girl-danko-40206-thumb.webp"
+             title="Flaming Dodgeball Girl Danko"
+             alt="Flaming Dodgeball Girl Danko" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/flaming-dodgeball-girl-danko" title="Flaming Dodgeball Girl Danko 2026">
+                Flaming Dodgeball Girl Danko            </a>
+        </h3>
+		 <span class="original-title-home">
+            Flaming Dodgeball Girl Danko        </span>
+    </div>
+</li>
+<li class="item no-margin-left">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/dac-nhiem-tham-tu-wan-phan-2" title="Đặc Nhiệm Thám Tử Wan! (Phần 2)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/dac-nhiem-tham-tu-wan-phan-2-40203-thumb.webp"
+             title="Đặc Nhiệm Thám Tử Wan! (Phần 2)"
+             alt="Đặc Nhiệm Thám Tử Wan! (Phần 2)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/dac-nhiem-tham-tu-wan-phan-2" title="Đặc Nhiệm Thám Tử Wan! (Phần 2) 2026">
+                Đặc Nhiệm Thám Tử Wan! (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Bungo Stray Dogs WAN! (Season 2)        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/vua-ma-thu-dua-tre-dinh-menh-va-anh-hung-bat-tu-phan-2" title="Vua Ma Thú, Đứa Trẻ Định Mệnh Và Anh Hùng Bất Tử (Phần 2)">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/vua-ma-thu-dua-tre-dinh-menh-va-anh-hung-bat-tu-phan-2-40120-thumb.webp"
+             title="Vua Ma Thú, Đứa Trẻ Định Mệnh Và Anh Hùng Bất Tử (Phần 2)"
+             alt="Vua Ma Thú, Đứa Trẻ Định Mệnh Và Anh Hùng Bất Tử (Phần 2)" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/vua-ma-thu-dua-tre-dinh-menh-va-anh-hung-bat-tu-phan-2" title="Vua Ma Thú, Đứa Trẻ Định Mệnh Và Anh Hùng Bất Tử (Phần 2) 2026">
+                Vua Ma Thú, Đứa Trẻ Định Mệnh Và Anh Hùng Bất Tử (Phần 2)            </a>
+        </h3>
+		 <span class="original-title-home">
+            Clevatess (Season 2)        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 7 Vietsub</span>
+    <a href="https://motchillvn.now/phim/victoria-da-dien" title="Victoria Đa Diện">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/victoria-da-dien-40083-thumb.webp"
+             title="Victoria Đa Diện"
+             alt="Victoria Đa Diện" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/victoria-da-dien" title="Victoria Đa Diện 2026">
+                Victoria Đa Diện            </a>
+        </h3>
+		 <span class="original-title-home">
+            Victoria Of Many Faces        </span>
+    </div>
+</li>
+<li class="item">
+    <span class="label">Tập 6 Vietsub</span>
+    <a href="https://motchillvn.now/phim/bac-dau-than-quyen-khuc-bi-trang-cua-nhung-ten-tay-sai" title="Bắc Đẩu Thần Quyền: Khúc Bi Tráng Của Những Tên Tay Sai">
+        <img class="img-film lazy"
+             data-original="/wp-content/uploads/2026/08/bac-dau-than-quyen-khuc-bi-trang-cua-nhung-ten-tay-sai-40021-thumb.webp"
+             title="Bắc Đẩu Thần Quyền: Khúc Bi Tráng Của Những Tên Tay Sai"
+             alt="Bắc Đẩu Thần Quyền: Khúc Bi Tráng Của Những Tên Tay Sai" />
+        <i class="icon-play"></i>
+    </a>
+    <div class="name">
+        <h3 class="name-title">
+            <a href="https://motchillvn.now/phim/bac-dau-than-quyen-khuc-bi-trang-cua-nhung-ten-tay-sai" title="Bắc Đẩu Thần Quyền: Khúc Bi Tráng Của Những Tên Tay Sai 2026">
+                Bắc Đẩu Thần Quyền: Khúc Bi Tráng Của Những Tên Tay Sai            </a>
+        </h3>
+		 <span class="original-title-home">
+            Elegy For The Henchmen: Fist Of The North Star        </span>
+    </div>
+</li>
+    </ul>
+</div>
+        
+            </div>
+    <div class="right-content">
+        
+<aside class="widget-area" role="complementary">
+
+                    <div class="most-view block">
+    <div class="caption">
+        <span class="uppercase">Top Phim Tuần</span>
+    </div>
+    <div class="clear"></div>
+    <ul class="list-film">
+                <li class="item">
+            <span class="number-rank absolute">1</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tham-tu-lung-danh-conan" title="Thám Tử Lừng Danh Conan">Thám Tử Lừng Danh Conan</a>
+                </span>
+            <div class="count_view">1769606 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">2</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/kho-do-danh-2025" title="Khó Dỗ Dành">Khó Dỗ Dành</a>
+                </span>
+            <div class="count_view">916741 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">3</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/nhat-tieu-tuy-ca" title="Nhất Tiếu Tùy Ca">Nhất Tiếu Tùy Ca</a>
+                </span>
+            <div class="count_view">775053 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">4</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/khoi-lua-nhan-gian-cua-toi" title="Khói Lửa Nhân Gian Của Tôi">Khói Lửa Nhân Gian Của Tôi</a>
+                </span>
+            <div class="count_view">695559 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">5</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mac-ly" title="Mạc Ly">Mạc Ly</a>
+                </span>
+            <div class="count_view">681476 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">6</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/ho-so-nam-bo" title="Hồ Sơ Nam Bộ">Hồ Sơ Nam Bộ</a>
+                </span>
+            <div class="count_view">463238 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">7</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/thien-huong" title="Thiên Hương">Thiên Hương</a>
+                </span>
+            <div class="count_view">208956 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">8</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/truc-ngoc" title="Trục Ngọc">Trục Ngọc</a>
+                </span>
+            <div class="count_view">203394 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">9</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tieng-yeu-nay-anh-dich-duoc-khong" title="Tiếng Yêu Này, Anh Dịch Được Không?">Tiếng Yêu Này, Anh Dịch Được Không?</a>
+                </span>
+            <div class="count_view">128418 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">10</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/kieu-so" title="Kiều Sở">Kiều Sở</a>
+                </span>
+            <div class="count_view">121901 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">11</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/bach-hoa-sat" title="Bách Hoa Sát">Bách Hoa Sát</a>
+                </span>
+            <div class="count_view">97001 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">12</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tinh-yeu-co-phao-hoa" title="Tình Yêu Có Pháo Hoa">Tình Yêu Có Pháo Hoa</a>
+                </span>
+            <div class="count_view">89626 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">13</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/dac-vu-kim-tai-khoi-dong" title="Đặc Vụ Kim Tái Khởi Động">Đặc Vụ Kim Tái Khởi Động</a>
+                </span>
+            <div class="count_view">78288 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">14</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/dua-hau-lap-lanh" title="Dưa Hấu Lấp Lánh">Dưa Hấu Lấp Lánh</a>
+                </span>
+            <div class="count_view">75563 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">15</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/yeu-tinh-goblin" title="Yêu Tinh (Goblin)">Yêu Tinh (Goblin)</a>
+                </span>
+            <div class="count_view">75088 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">16</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mua-he-nong-nhiet" title="Mùa Hè Nồng Nhiệt">Mùa Hè Nồng Nhiệt</a>
+                </span>
+            <div class="count_view">72228 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">17</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/cho-hoang-va-xuong-vietsub" title="Chó Hoang Và Xương">Chó Hoang Và Xương</a>
+                </span>
+            <div class="count_view">65433 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">18</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/giay-phut-ay-vuot-gioi-han" title="Giây Phút Ấy Vượt Giới Hạn">Giây Phút Ấy Vượt Giới Hạn</a>
+                </span>
+            <div class="count_view">58737 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">19</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/van-tu-hanh" title="Vân Tú Hành">Vân Tú Hành</a>
+                </span>
+            <div class="count_view">56071 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">20</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/thien-duong-mau" title="Thiên Đường Máu">Thiên Đường Máu</a>
+                </span>
+            <div class="count_view">51271 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">21</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tuoc-cot" title="Tước Cốt">Tước Cốt</a>
+                </span>
+            <div class="count_view">47314 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">22</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mat-ngu-ky" title="Mật Ngữ Kỷ">Mật Ngữ Kỷ</a>
+                </span>
+            <div class="count_view">41678 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">23</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/toa-sang-nhu-nhung-vi-sao" title="Tỏa Sáng Như Những Vì Sao">Tỏa Sáng Như Những Vì Sao</a>
+                </span>
+            <div class="count_view">41608 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">24</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/ngu-dinh-dao" title="Ngự Đình Dao">Ngự Đình Dao</a>
+                </span>
+            <div class="count_view">29881 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">25</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/cuu-mon" title="Cửu Môn (2026)">Cửu Môn (2026)</a>
+                </span>
+            <div class="count_view">24303 lượt xem</div>
+        </li>
+            </ul>
+</div>
+        
+                        <div class="most-view block">
+    <div class="caption">
+        <span class="uppercase">Top Phim</span>
+    </div>
+    <div class="clear"></div>
+    <ul class="list-film">
+                <li class="item">
+            <span class="number-rank absolute">1</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/chi-dau" title="Chị Dâu">Chị Dâu</a>
+                </span>
+            <div class="count_view">649488 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">2</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tham-tu-kien-ky-an-khong-dau" title="Thám Tử Kiên: Kỳ Án Không Đầu">Thám Tử Kiên: Kỳ Án Không Đầu</a>
+                </span>
+            <div class="count_view">548852 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">3</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/lat-mat-8-vong-tay-nang" title="Lật Mặt 8: Vòng Tay Nắng">Lật Mặt 8: Vòng Tay Nắng</a>
+                </span>
+            <div class="count_view">334651 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">4</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/ut-lan-oan-linh-giu-cua" title="Út Lan: Oán Linh Giữ Của">Út Lan: Oán Linh Giữ Của</a>
+                </span>
+            <div class="count_view">167438 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">5</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/nha-gia-tien-full" title="Nhà Gia Tiên">Nhà Gia Tiên</a>
+                </span>
+            <div class="count_view">164715 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">6</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mua-do" title="Mưa Đỏ">Mưa Đỏ</a>
+                </span>
+            <div class="count_view">146582 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">7</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tu-chien-tren-khong" title="Tử Chiến Trên Không">Tử Chiến Trên Không</a>
+                </span>
+            <div class="count_view">115783 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">8</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/quy-nhap-trang" title="Quỷ Nhập Tràng">Quỷ Nhập Tràng</a>
+                </span>
+            <div class="count_view">109017 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">9</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/bo-tu-bao-thu-2025" title="Bộ Tứ Báo Thủ">Bộ Tứ Báo Thủ</a>
+                </span>
+            <div class="count_view">104294 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">10</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/cong-tu-bac-lieu" title="Công Tử Bạc Liêu">Công Tử Bạc Liêu</a>
+                </span>
+            <div class="count_view">92830 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">11</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/lam-giau-voi-ma" title="Làm Giàu Với Ma">Làm Giàu Với Ma</a>
+                </span>
+            <div class="count_view">86912 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">12</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/dia-dao-mat-troi-trong-bong-toi" title="Địa Đạo: Mặt Trời Trong Bóng Tối">Địa Đạo: Mặt Trời Trong Bóng Tối</a>
+                </span>
+            <div class="count_view">79110 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">13</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/cam" title="Cám">Cám</a>
+                </span>
+            <div class="count_view">73299 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">14</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/truy-tim-long-dien-huong" title="Truy Tìm Long Diên Hương">Truy Tìm Long Diên Hương</a>
+                </span>
+            <div class="count_view">69058 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">15</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/anh-trai-say-hi-ke-phan-dien-tao-nen-nguoi-hung" title="Anh Trai Say Hi: Kẻ Phản Diện Tạo Nên Người Hùng">Anh Trai Say Hi: Kẻ Phản Diện Tạo Nên Người Hùng</a>
+                </span>
+            <div class="count_view">66910 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">16</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mang-me-di-bo" title="Mang Mẹ Đi Bỏ">Mang Mẹ Đi Bỏ</a>
+                </span>
+            <div class="count_view">66431 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">17</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/linh-mieu-quy-nhap-trang" title="Linh Miêu: Quỷ Nhập Tràng">Linh Miêu: Quỷ Nhập Tràng</a>
+                </span>
+            <div class="count_view">56424 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">18</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/nu-hon-bac-ty" title="Nụ Hôn Bạc Tỷ">Nụ Hôn Bạc Tỷ</a>
+                </span>
+            <div class="count_view">52404 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">19</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/thien-duong-mau" title="Thiên Đường Máu">Thiên Đường Máu</a>
+                </span>
+            <div class="count_view">51271 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">20</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/den-am-hon-motchill" title="Đèn Âm Hồn">Đèn Âm Hồn</a>
+                </span>
+            <div class="count_view">48429 lượt xem</div>
+        </li>
+            </ul>
+</div>
+        
+                        <div class="most-view block">
+    <div class="caption">
+        <span class="uppercase">Phim Sắp Chiếu</span>
+    </div>
+    <div class="clear"></div>
+    <ul class="list-film">
+                <li class="item">
+            <span class="number-rank absolute">1</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/bay-vao-trai-tim-anh" title="Bay Vào Trái Tim Anh">Bay Vào Trái Tim Anh</a>
+                </span>
+            <div class="count_view">171 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">2</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/mong-hoa-dinh" title="Mộng Hoa Đình">Mộng Hoa Đình</a>
+                </span>
+            <div class="count_view">7186 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">3</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/thuong-cong-chua" title="Thượng Công Chúa">Thượng Công Chúa</a>
+                </span>
+            <div class="count_view">2758 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">4</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/dau-xuan-tuoi-sang" title="Đầu Xuân Tươi Sáng">Đầu Xuân Tươi Sáng</a>
+                </span>
+            <div class="count_view">247 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">5</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/chang-re-hao-mon" title="Chàng Rể Hào Môn">Chàng Rể Hào Môn</a>
+                </span>
+            <div class="count_view">995 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">6</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/tinh-nguyet-chinh-do" title="Tinh Nguyệt Chinh Đồ">Tinh Nguyệt Chinh Đồ</a>
+                </span>
+            <div class="count_view">756 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">7</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/a-thien" title="A Thiền">A Thiền</a>
+                </span>
+            <div class="count_view">3565 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">8</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/ban-tinh-ca-diu-dang" title="Bản Tình Ca Dịu Dàng">Bản Tình Ca Dịu Dàng</a>
+                </span>
+            <div class="count_view">4654 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">9</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/lam-luu-quang-tam-thien" title="Lãm Lưu Quang Tam Thiên">Lãm Lưu Quang Tam Thiên</a>
+                </span>
+            <div class="count_view">1967 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">10</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/nhat-cham-xuan-hoa" title="Nhất Chẩm Xuân Hoa">Nhất Chẩm Xuân Hoa</a>
+                </span>
+            <div class="count_view">3347 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">11</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/dan-dang-quyet" title="Dẫn Đăng Quyết">Dẫn Đăng Quyết</a>
+                </span>
+            <div class="count_view">3036 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">12</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/gap-anh-trang" title="Gấp Ánh Trăng">Gấp Ánh Trăng</a>
+                </span>
+            <div class="count_view">2755 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">13</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/phi-ho-phan-2" title="Phi Hổ (Phần 2)">Phi Hổ (Phần 2)</a>
+                </span>
+            <div class="count_view">1087 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">14</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/van-tuong-truyen-phan-2" title="Vân Tương Truyện (Phần 2)">Vân Tương Truyện (Phần 2)</a>
+                </span>
+            <div class="count_view">1711 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">15</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/giai-cuu-xuyen-khong" title="Giải Cứu Xuyên Không">Giải Cứu Xuyên Không</a>
+                </span>
+            <div class="count_view">1496 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">16</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/phu-nu-doc-than" title="Phụ Nữ Độc Thân">Phụ Nữ Độc Thân</a>
+                </span>
+            <div class="count_view">2533 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">17</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/lan-huong-nhu-co" title="Lan Hương Như Cố">Lan Hương Như Cố</a>
+                </span>
+            <div class="count_view">10270 lượt xem</div>
+        </li>
+                <li class="item">
+            <span class="number-rank absolute">18</span>
+            <span>
+                    <a href="https://motchillvn.now/phim/doi-khi-toi-tinh-lai" title="Đợi Khi Tôi Tỉnh Lại">Đợi Khi Tôi Tỉnh Lại</a>
+                </span>
+            <div class="count_view">2326 lượt xem</div>
+        </li>
+            </ul>
+</div>
+        
+        
+    <div class="tag-list-main">
+    </div>
+</aside>
+
+    </div>
+    <div class="clear"></div>
+</div>
+
+</div>
+</div>
+<a href="#" class="btn-contact" title="inbox">
+                    <i class="fa fa-envelope-o"></i>
+                    </a>
+                    <div id="footer">
+                    <div class="container">
+                    <div class="desc">
+                    <p> <b><a href="/"> Motchill</a>
+                    </b> - Trang xem phim online miễn phí với chất lượng cao, hỗ trợ Vietsub, thuyết minh và lồng tiếng Full HD - 4K. Motchill sở hữu kho phim HOT, phim chiếu rạp mới, phim bộ và phim lẻ đến từ Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản và Âu Mỹ, đa dạng thể loại hấp dẫn. Trải nghiệm xem phim trực tuyến mượt mà, hình ảnh sắc nét trên nền tảng giải trí được yêu thích hàng đầu hiện nay.</p>
+                    </div>
+<div class="info">
+                    <!--contact-->
+                    <div class="column">
+                    <div class="heading"></div>
+                    <ul>
+<li>
+                    <a href="https://motchillvn.now/gioi-thieu">Giới Thiệu</a>
+                    </li>
+                    <li>
+                    <a href="https://motchillvn.now/lien-he">Liên Hệ</a>
+                    </li>
+                    <li>
+                    <a href="https://motchillvn.now/ban-quyen">Bản Quyền</a>
+                    </li>
+                    </ul>
+                    </div>
+                    <div class="column">
+                    <div class="heading"></div>
+                    <ul>
+                    <li>
+                    <a href="https://motchillvn.now/chinh-sach-rieng-tu">Chính Sách</a>
+                    </li>
+                    <li>
+                    <a href="https://motchillvn.now/dieu-khoan-su-dung">Điều Khoản</a>
+                    </li>
+<li>
+                    <a href="https://motchillvn.now/sitemap.xml">Motchill Sitemap</a>
+                    </li>
+                    </ul>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+<script>
+    $(document).ready(function() {
+        $("img.lazy").lazyload({
+            effect: "fadeIn"
+        });
+    });
+</script>
+<script src="https://motchillvn.now/wp-content/themes/ophim-theme-motchill-wp-main/assets/js/jquery.raty.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.top-star').raty({
+            readOnly: true,
+            numberMax: 5,
+            half: true,
+            score: function() {
+                return $(this).attr('data-rating');
+            },
+            hints: ["bad", "poor", "regular", "good", "gorgeous"],
+            space: false
+        });
+    })
+</script>
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/ophim-theme-motchill-wp-main/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+
+<script>
+/* 	# -> void */
+	 document.querySelectorAll('.main-menu a[href="#"]').forEach(function(el) {
+        el.setAttribute('href', 'javascript:void(0)');
+    });
+});</script>
+    <script type="text/javascript">
+        function fetch(){
+
+            $("#result").html('');
+            key = jQuery('#keyword').val();
+            if(!key){
+                $("#result").html('');
+                return;
+            }
+            jQuery.ajax({
+                url: 'https://motchillvn.now/wp-admin/admin-ajax.php',
+                type: 'post',
+                data: { action: 'search_film', keyword:key ,limit : 5 },
+                success: function(res) {
+                    $("#result").html('');
+                    let data = JSON.parse(res);
+                    $.each(data, function(key, value){
+                        $('#result').append('<a href="'+value.slug+'"><div class="rowsearch"> <div class="column lefts"> <img src="'+value.image+'" width="40" /> </div> <div class="column rights"><p> '+value.title+' ' + '</p> '+value.original_title+'| '+value.year+' </div> </div></a>' )
+                    });
+                }
+            });
+            document.body.addEventListener("click", function (event) {
+                $("#result").html('');
+            });
+
+        }
+    </script>
+
+    <script id="msc-comments-js-extra">
+var MSC_AJAX = {"ajax_url":"https://motchillvn.now/wp-admin/admin-ajax.php","rest_base":"https://motchillvn.now/wp-json/msc/v1/","rest_nonce":"","nonce":"643c115d90","per_page":"5","replies_per_page":"5","turnstile_enabled":"1","turnstile_sitekey":"0x4AAAAAAEWtD1khMZW1dPWV"};
+//# sourceURL=msc-comments-js-extra
+</script>
+<script id="msc-comments-js" src="https://motchillvn.now/wp-content/plugins/msc-simple-comments/public/js/msc-comments.js?ver=1769652850"></script>
+<script id="cf-turnstile-js" src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://motchillvn.now/wp-includes/js/wp-emoji-release.min.js?ver=7.1"}}
+</script>
+<script type="module">
+/*! This file is auto-generated */
+var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof HTMLScriptElement))throw new Error("Element missing: "+e);const r=JSON.parse(t.text),s=(window._wpemojiSettings=r,"wpEmojiSettingsSupports"),o=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(s,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const r=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===r[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,r){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!r(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,r){let a;const s=(a="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),o=(s.textBaseline="top",s.font="600 32px Arial",{});return e.forEach(e=>{o[e]=t(s,e,n,r)}),o}function a(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}r.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(s));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(o),u.toString(),c.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"});const a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=e=>{i(n=e.data),a.terminate(),t(n)})}catch(e){}i(n=f(o,u,c,p))}t(n)}).then(e=>{for(const n in e)r.supports[n]=e[n],r.supports.everything=r.supports.everything&&r.supports[n],"flag"!==n&&(r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&r.supports[n]);var t;r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&!r.supports.flag,r.supports.everything||((t=r.source||{}).concatemoji?a(t.concatemoji):t.wpemoji&&t.twemoji&&(a(t.twemoji),a(t.wpemoji)))});
+//# sourceURL=https://motchillvn.now/wp-includes/js/wp-emoji-loader.min.js
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"5e1b6b992c70477bb7d7e01672f15494","r":1}' crossorigin="anonymous"></script>
+</html><!--
+Performance optimized by Redis Object Cache. Learn more: https://wprediscache.com
+
+Retrieved 5999 objects (2 MB) from Redis using Predis (v2.4.0).
+-->
