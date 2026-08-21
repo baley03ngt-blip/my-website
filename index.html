@@ -1,152 +1,1690 @@
 <!doctype html>
 <html lang="vi">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-	<meta name="theme-color" content="#07151b">
-	<title>Handlight</title>
-	<style>
-		:root { --paper:#f3f5e9; --lime:#d7f866; --mint:#72ebe0; --night:#07151b; }
-		* { box-sizing:border-box; }
-		html,body { width:100%; height:100%; margin:0; overflow:hidden; background:var(--night); }
-		body { color:var(--paper); font-family:Arial,sans-serif; }
-		.stage { position:relative; width:100vw; height:100svh; overflow:hidden; isolation:isolate; background:var(--night); }
-		.video-layer,.fx-layer { position:absolute; inset:0; width:100%; height:100%; }
-		.video-layer { z-index:-3; object-fit:cover; transform:scaleX(-1); filter:brightness(.78) contrast(1.06) saturate(.88); }
-		.fx-layer { z-index:-1; pointer-events:none; }
-		.shade { position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(ellipse at center,transparent 25%,rgba(0,7,12,.2) 66%,rgba(0,7,12,.72) 100%),linear-gradient(180deg,rgba(0,8,13,.55),transparent 30%,transparent 68%,rgba(0,8,13,.62)); }
-		.bar { position:absolute; z-index:2; inset:0 0 auto; display:flex; justify-content:space-between; align-items:center; padding:max(22px,env(safe-area-inset-top)) 20px 18px; font:500 10px/1 monospace; letter-spacing:.16em; }
-		.logo { display:flex; align-items:center; gap:9px; }
-		.logo i { display:block; width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 15px var(--lime); }
-		.state { display:flex; align-items:center; gap:8px; color:rgba(243,245,233,.65); }
-		.state i { display:block; width:6px; height:6px; border-radius:50%; background:#e0a951; box-shadow:0 0 10px #e0a951; }
-		.state i.live { background:var(--lime); box-shadow:0 0 10px var(--lime); }
-		.gate { position:absolute; z-index:3; top:50%; left:50%; width:min(86vw,390px); text-align:center; transform:translate(-50%,-44%); transition:opacity .35s,transform .35s; }
-		.gate.off { opacity:0; pointer-events:none; transform:translate(-50%,-49%); }
-		.mark { width:54px; height:54px; margin:0 auto 28px; display:grid; place-items:center; border:1px solid rgba(215,248,102,.65); border-radius:50%; box-shadow:0 0 30px rgba(215,248,102,.15); }
-		.mark span { position:relative; width:16px; height:22px; border:2px solid var(--lime); border-radius:10px 10px 7px 7px; }
-		.mark span:after { content:""; position:absolute; bottom:-8px; left:50%; width:25px; height:2px; background:var(--lime); transform:translateX(-50%); }
-		.kicker { margin:0 0 13px; color:var(--lime); font:500 10px/1 monospace; letter-spacing:.18em; }
-		h1 { margin:0; font-size:clamp(28px,8vw,42px); line-height:1.04; letter-spacing:-.035em; }
-		.copy { max-width:310px; margin:17px auto 28px; color:rgba(243,245,233,.68); font-size:14px; line-height:1.65; }
-		button { border:0; border-radius:0; padding:15px 20px; color:#172016; background:var(--lime); cursor:pointer; font:800 11px/1 Arial,sans-serif; letter-spacing:.12em; box-shadow:0 0 28px rgba(215,248,102,.2); }
-		button:active { transform:scale(.97); }
-		button:disabled { opacity:.55; }
-		button b { padding-left:20px; font-size:17px; font-weight:400; }
-		.tip { position:absolute; z-index:2; bottom:max(29px,env(safe-area-inset-bottom)); left:20px; display:flex; align-items:center; gap:10px; color:rgba(243,245,233,.64); font:10px monospace; letter-spacing:.07em; text-transform:uppercase; transition:opacity .3s; }
-		.tip i { display:block; width:25px; height:1px; background:var(--lime); box-shadow:0 0 8px var(--lime); }
-		.readout { position:absolute; z-index:2; right:20px; bottom:max(29px,env(safe-area-inset-bottom)); color:rgba(243,245,233,.43); font:10px monospace; letter-spacing:.12em; }
-		@media (min-width:700px) { .stage { max-width:430px; margin:auto; box-shadow:0 0 0 1px rgba(255,255,255,.08),0 25px 80px rgba(0,0,0,.4); } }
-	</style>
+<meta charset="utf-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1,
+viewport-fit=cover,
+user-scalable=no">
+
+<meta name="theme-color" content="#07151b">
+
+<title>Handlight Camera</title>
+
+<style>
+:root{
+    --ink:#f4f6ed;
+    --muted:rgba(244,246,237,.7);
+    --lime:#d9fa68;
+    --cyan:#69e8dd;
+    --bg:#07151b;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    margin:0;
+    overflow:hidden;
+    background:var(--bg);
+}
+
+body{
+    color:var(--ink);
+    font-family:Arial,sans-serif;
+}
+
+.stage{
+    position:relative;
+    width:100vw;
+    height:100svh;
+    overflow:hidden;
+    isolation:isolate;
+    background:var(--bg);
+}
+
+/* CAMERA */
+
+#camera{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-3;
+
+    object-fit:cover;
+
+    transform:scaleX(-1);
+
+    filter:
+        brightness(.8)
+        contrast(1.05)
+        saturate(.9);
+
+    background:#07151b;
+}
+
+/* EFFECT CANVAS */
+
+.effects{
+    position:absolute;
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    z-index:-1;
+
+    pointer-events:none;
+}
+
+/* DARK OVERLAY */
+
+.shade{
+    position:absolute;
+    inset:0;
+
+    z-index:0;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 27%,
+            rgba(0,7,12,.2) 67%,
+            rgba(0,7,12,.7) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(0,8,13,.58),
+            transparent 30%,
+            transparent 68%,
+            rgba(0,8,13,.64)
+        );
+}
+
+/* TOP */
+
+.top{
+    position:absolute;
+
+    z-index:2;
+
+    inset:0 0 auto;
+
+    display:flex;
+    justify-content:space-between;
+
+    padding:
+        max(22px,env(safe-area-inset-top))
+        20px
+        18px;
+
+    font:10px monospace;
+
+    letter-spacing:.15em;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.brand-dot,
+.live-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--lime);
+
+    box-shadow:0 0 13px var(--lime);
+}
+
+.connection{
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    color:var(--muted);
+}
+
+.connection .live-dot{
+    background:#e0aa52;
+
+    box-shadow:
+        0 0 10px #e0aa52;
+}
+
+.connection .live-dot.live{
+    background:var(--lime);
+
+    box-shadow:
+        0 0 10px var(--lime);
+}
+
+/* PANEL */
+
+.panel{
+    position:absolute;
+
+    z-index:3;
+
+    top:50%;
+    left:50%;
+
+    width:min(88vw,390px);
+
+    text-align:center;
+
+    transform:
+        translate(-50%,-44%);
+
+    transition:
+        opacity .35s,
+        transform .35s;
+}
+
+.panel.hidden{
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:
+        translate(-50%,-49%);
+}
+
+/* CAMERA ICON */
+
+.panel-icon{
+    width:54px;
+    height:54px;
+
+    margin:
+        0 auto 27px;
+
+    display:grid;
+    place-items:center;
+
+    border:
+        1px solid
+        rgba(217,250,104,.65);
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 30px
+        rgba(217,250,104,.16);
+}
+
+.panel-icon span{
+    width:16px;
+    height:22px;
+
+    border:
+        2px solid
+        var(--lime);
+
+    border-radius:
+        11px
+        11px
+        7px
+        7px;
+}
+
+/* TEXT */
+
+.eyebrow{
+    margin:0 0 14px;
+
+    color:var(--lime);
+
+    font:
+        10px monospace;
+
+    letter-spacing:.18em;
+}
+
+h1{
+    margin:0;
+
+    font-size:
+        clamp(28px,8vw,42px);
+
+    line-height:1.05;
+
+    letter-spacing:-.03em;
+}
+
+.message{
+    max-width:330px;
+
+    margin:
+        17px auto 28px;
+
+    color:var(--muted);
+
+    font-size:14px;
+
+    line-height:1.6;
+}
+
+/* BUTTON */
+
+button{
+    border:0;
+
+    padding:
+        16px 21px;
+
+    color:#152015;
+
+    background:var(--lime);
+
+    cursor:pointer;
+
+    font:
+        800 11px Arial,sans-serif;
+
+    letter-spacing:.12em;
+
+    box-shadow:
+        0 0 26px
+        rgba(217,250,104,.22);
+
+    -webkit-tap-highlight-color:transparent;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+button:disabled{
+    opacity:.55;
+}
+
+/* BOTTOM */
+
+.bottom-hint,
+.gesture{
+    position:absolute;
+
+    z-index:2;
+
+    bottom:
+        max(28px,env(safe-area-inset-bottom));
+
+    color:
+        rgba(244,246,237,.58);
+
+    font:
+        10px monospace;
+
+    letter-spacing:.07em;
+
+    text-transform:uppercase;
+}
+
+.bottom-hint{
+    left:20px;
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    transition:opacity .3s;
+}
+
+.bottom-hint i{
+    width:25px;
+    height:1px;
+
+    background:var(--lime);
+
+    box-shadow:
+        0 0 8px
+        var(--lime);
+}
+
+.gesture{
+    right:20px;
+
+    color:
+        rgba(244,246,237,.42);
+}
+
+/* ERROR NOTE */
+
+.error-note{
+    display:none;
+
+    margin-top:15px;
+
+    color:
+        rgba(244,246,237,.5);
+
+    font-size:11px;
+}
+
+/* DESKTOP */
+
+@media (min-width:700px){
+
+    .stage{
+        max-width:430px;
+
+        margin:auto;
+
+        box-shadow:
+            0 0 0 1px
+            rgba(255,255,255,.08),
+
+            0 25px 80px
+            rgba(0,0,0,.4);
+    }
+
+}
+</style>
 </head>
+
 <body>
-	<main class="stage" aria-label="Trải nghiệm tương tác bằng bàn tay">
-		<video id="video" class="video-layer" autoplay muted playsinline></video>
-		<canvas id="fx" class="fx-layer"></canvas>
-		<div class="shade"></div>
-		<header class="bar"><div class="logo"><i></i>HANDLIGHT</div><div class="state"><i id="state-dot"></i><span id="state-label">ĐANG KHỞI ĐỘNG</span></div></header>
-		<section id="gate" class="gate" aria-live="polite">
-			<div class="mark" aria-hidden="true"><span></span></div>
-			<p class="kicker">TRẢI NGHIỆM CAMERA</p>
-			<h1 id="title">Hãy cho phép Camera để bắt đầu</h1>
-			<p id="copy" class="copy">Đưa tay vào khung hình. Ánh sáng sẽ chuyển động theo từng ngón tay của bạn.</p>
-			<button id="start" type="button">BẬT CAMERA <b aria-hidden="true">&#8594;</b></button>
-		</section>
-		<div id="tip" class="tip"><i></i><span>Đưa một ngón tay vào khung hình</span></div>
-		<div id="readout" class="readout">CHỜ BÀN TAY</div>
-	</main>
 
-	<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
-	<script>
-		(() => {
-			'use strict';
-			const video = document.getElementById('video');
-			const canvas = document.getElementById('fx');
-			const ctx = canvas.getContext('2d');
-			const gate = document.getElementById('gate');
-			const start = document.getElementById('start');
-			const title = document.getElementById('title');
-			const copy = document.getElementById('copy');
-			const label = document.getElementById('state-label');
-			const dot = document.getElementById('state-dot');
-			const tip = document.getElementById('tip');
-			const tipText = tip.querySelector('span');
-			const readout = document.getElementById('readout');
-			let hands, stream, running = false, lastSent = 0, flash = 0, lastFrameGesture = 0;
-			const particles = [];
+<main class="stage">
 
-			function resize() {
-				const scale = Math.min(window.devicePixelRatio || 1, 2);
-				canvas.width = Math.floor(canvas.clientWidth * scale);
-				canvas.height = Math.floor(canvas.clientHeight * scale);
-				ctx.setTransform(scale, 0, 0, scale, 0, 0);
-			}
-			function point(landmark) { return { x:(1 - landmark.x) * canvas.clientWidth, y:landmark.y * canvas.clientHeight }; }
-			function gap(a,b) { return Math.hypot(a.x-b.x,a.y-b.y); }
-			function up(points, tipIndex, jointIndex) { return points[tipIndex].y < points[jointIndex].y - .025; }
-			function addParticles(p, amount, color) {
-				for (let n=0; n<amount; n++) particles.push({x:p.x,y:p.y,vx:(Math.random()-.5)*1.2,vy:-Math.random()*1.5-.2,life:1,size:Math.random()*2.2+1,color});
-				if (particles.length > 160) particles.splice(0,particles.length-160);
-			}
-			function orb(p,color,size) {
-				const radius=15*size, glow=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,radius*3);
-				glow.addColorStop(0,color); glow.addColorStop(.16,color+'bb'); glow.addColorStop(1,color+'00');
-				ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(p.x,p.y,radius*3,0,Math.PI*2); ctx.fill();
-				ctx.fillStyle=color; ctx.shadowColor=color; ctx.shadowBlur=17; ctx.beginPath(); ctx.arc(p.x,p.y,3.5*size,0,Math.PI*2); ctx.fill(); ctx.shadowBlur=0;
-			}
-			function frame(a,b) {
-				const left=Math.min(a.x,b.x), right=Math.max(a.x,b.x), top=Math.min(a.y,b.y), bottom=Math.max(a.y,b.y), width=right-left, height=bottom-top;
-				if (width<72 || height<72) return false;
-				ctx.save(); ctx.strokeStyle='rgba(215,248,102,.82)'; ctx.shadowColor='#d7f866'; ctx.shadowBlur=17; ctx.lineWidth=1.5; ctx.setLineDash([5,9]); ctx.strokeRect(left+15,top+15,width-30,height-30); ctx.restore();
-				orb({x:(left+right)/2,y:(top+bottom)/2},'#72ebe0',Math.min(1.35,width/190));
-				addParticles({x:(left+right)/2,y:(top+bottom)/2},2,'#72ebe0'); return true;
-			}
-			function paintParticles() {
-				ctx.save(); ctx.globalCompositeOperation='lighter';
-				for (let n=particles.length-1; n>=0; n--) {
-					const p=particles[n]; p.x+=p.vx; p.y+=p.vy; p.vy+=.018; p.life-=.018;
-					if (p.life<=0) { particles.splice(n,1); continue; }
-					ctx.globalAlpha=p.life; ctx.fillStyle=p.color; ctx.shadowColor=p.color; ctx.shadowBlur=11; ctx.beginPath(); ctx.arc(p.x,p.y,p.size*p.life,0,Math.PI*2); ctx.fill();
-				}
-				ctx.restore();
-			}
-			function paintFlash() {
-				if (flash<=.01) return; ctx.save(); ctx.globalAlpha=flash*.2; ctx.fillStyle='#f3f5e9'; ctx.fillRect(0,0,canvas.clientWidth,canvas.clientHeight); ctx.restore(); flash*=.84;
-			}
-			function results(data) {
-				ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
-				const detected=data.multiHandLandmarks || [];
-				if (!detected.length) { readout.textContent='CHỜ BÀN TAY'; tip.style.opacity='1'; paintParticles(); paintFlash(); return; }
-				tip.style.opacity='0'; readout.textContent=detected.length+' BÀN TAY';
-				const all=detected.map(hand=>hand.map(point)), tips=all.map(hand=>hand[8]);
-				tips.forEach((p,index) => { const hand=all[index], indexUp=up(hand,8,6); if (indexUp) { orb(p,index?'#72ebe0':'#d7f866',1); addParticles({x:p.x,y:p.y+4},up(hand,12,10)?3:2,index?'#72ebe0':'#d7f866'); } });
-				if (detected.length===2 && gap(tips[0],tips[1]) < Math.min(canvas.clientWidth,canvas.clientHeight)*.2) {
-					if (frame(tips[0],tips[1]) && performance.now()-lastFrameGesture>800) { flash=1; lastFrameGesture=performance.now(); }
-					tipText.textContent='Giữ hai ngón trỏ để tạo khung';
-				}
-				paintParticles(); paintFlash();
-			}
-			async function track() {
-				if (!running) return;
-				const now=performance.now();
-				if (video.readyState>=2 && now-lastSent>=34) { lastSent=now; await hands.send({image:video}); }
-				requestAnimationFrame(track);
-			}
-			async function startCamera() {
-				start.disabled=true; label.textContent='ĐANG KẾT NỐI';
-				try {
-					if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('secure');
-					stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'user',width:{ideal:720},height:{ideal:1280}}});
-					video.srcObject=stream; await video.play(); resize();
-					hands=new Hands({locateFile:file=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'+file});
-					hands.setOptions({maxNumHands:2,modelComplexity:0,minDetectionConfidence:.62,minTrackingConfidence:.58}); hands.onResults(results);
-					running=true; gate.classList.add('off'); label.textContent='ĐANG THEO DÕI'; dot.classList.add('live'); requestAnimationFrame(track);
-				} catch (error) {
-					start.disabled=false; label.textContent='CHƯA CÓ CAMERA'; title.textContent=error.message==='secure'?'Cần HTTPS để dùng Camera':'Không thể bật Camera'; copy.textContent=error.message==='secure'?'Hãy mở website qua HTTPS hoặc localhost, sau đó tải lại trang.':'Hãy bật quyền Camera trong cài đặt trình duyệt rồi thử lại.';
-				}
-			}
-			window.addEventListener('resize',resize); start.addEventListener('click',startCamera); resize(); startCamera();
-		})();
-	</script>
+    <!-- CAMERA -->
+    <video
+        id="camera"
+        autoplay
+        muted
+        playsinline>
+    </video>
+
+    <!-- EFFECTS -->
+    <canvas
+        class="effects"
+        id="effects">
+    </canvas>
+
+    <div class="shade"></div>
+
+    <!-- TOP -->
+    <header class="top">
+
+        <div class="brand">
+            <i class="brand-dot"></i>
+            HANDLIGHT
+        </div>
+
+        <div class="connection">
+
+            <i
+                id="live-dot"
+                class="live-dot">
+            </i>
+
+            <span id="status">
+                SẴN SÀNG
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- START PANEL -->
+
+    <section
+        id="panel"
+        class="panel"
+        aria-live="polite">
+
+        <div class="panel-icon">
+            <span></span>
+        </div>
+
+        <p class="eyebrow">
+            TRẢI NGHIỆM CAMERA
+        </p>
+
+        <h1 id="title">
+            Hãy cho phép Camera để bắt đầu
+        </h1>
+
+        <p
+            id="message"
+            class="message">
+
+            Nhấn BẬT CAMERA rồi cho phép
+            trình duyệt sử dụng camera.
+
+        </p>
+
+        <button
+            id="start"
+            type="button">
+
+            BẬT CAMERA
+
+        </button>
+
+        <p
+            id="error-note"
+            class="error-note">
+        </p>
+
+    </section>
+
+
+    <!-- HINT -->
+
+    <div
+        id="hint"
+        class="bottom-hint">
+
+        <i></i>
+
+        <span>
+            Đưa một ngón tay vào khung hình
+        </span>
+
+    </div>
+
+
+    <!-- GESTURE -->
+
+    <div
+        id="gesture"
+        class="gesture">
+
+        CHỜ BÀN TAY
+
+    </div>
+
+</main>
+
+
+<!-- MEDIAPIPE -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
+crossorigin="anonymous">
+</script>
+
+
+<script>
+
+(() => {
+
+"use strict";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const video =
+    document.getElementById("camera");
+
+const canvas =
+    document.getElementById("effects");
+
+const ctx =
+    canvas.getContext("2d");
+
+const panel =
+    document.getElementById("panel");
+
+const button =
+    document.getElementById("start");
+
+const title =
+    document.getElementById("title");
+
+const message =
+    document.getElementById("message");
+
+const status =
+    document.getElementById("status");
+
+const liveDot =
+    document.getElementById("live-dot");
+
+const hint =
+    document.getElementById("hint");
+
+const hintText =
+    hint.querySelector("span");
+
+const gesture =
+    document.getElementById("gesture");
+
+const errorNote =
+    document.getElementById("error-note");
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let cameraStream = null;
+
+let hands = null;
+
+let tracking = false;
+
+let previousSend = 0;
+
+let flash = 0;
+
+let lastFrameTime = 0;
+
+const particles = [];
+
+
+/* =========================
+   RESIZE
+========================= */
+
+function resize(){
+
+    const scale =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
+    canvas.width =
+        Math.floor(
+            canvas.clientWidth * scale
+        );
+
+    canvas.height =
+        Math.floor(
+            canvas.clientHeight * scale
+        );
+
+    ctx.setTransform(
+        scale,
+        0,
+        0,
+        scale,
+        0,
+        0
+    );
+
+}
+
+
+/* =========================
+   POINT
+========================= */
+
+function screenPoint(point){
+
+    return {
+
+        x:
+            (1 - point.x)
+            * canvas.clientWidth,
+
+        y:
+            point.y
+            * canvas.clientHeight
+
+    };
+
+}
+
+
+/* =========================
+   DISTANCE
+========================= */
+
+function distance(a,b){
+
+    return Math.hypot(
+        a.x-b.x,
+        a.y-b.y
+    );
+
+}
+
+
+/* =========================
+   FINGER UP
+========================= */
+
+function isUp(
+    points,
+    tipIndex,
+    jointIndex
+){
+
+    return (
+        points[tipIndex].y <
+        points[jointIndex].y - .025
+    );
+
+}
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+function addParticles(
+    point,
+    amount,
+    color
+){
+
+    for(
+        let i=0;
+        i<amount;
+        i++
+    ){
+
+        particles.push({
+
+            x:point.x,
+
+            y:point.y,
+
+            vx:
+                (Math.random()-.5)
+                *1.3,
+
+            vy:
+                -Math.random()*1.6-.2,
+
+            life:1,
+
+            size:
+                Math.random()*2.2+1,
+
+            color:color
+
+        });
+
+    }
+
+
+    if(
+        particles.length > 160
+    ){
+
+        particles.splice(
+            0,
+            particles.length-160
+        );
+
+    }
+
+}
+
+
+/* =========================
+   GLOW
+========================= */
+
+function drawGlow(
+    point,
+    color,
+    scale
+){
+
+    const radius =
+        15 * scale;
+
+
+    const glow =
+        ctx.createRadialGradient(
+            point.x,
+            point.y,
+            0,
+            point.x,
+            point.y,
+            radius*3
+        );
+
+
+    glow.addColorStop(
+        0,
+        color
+    );
+
+    glow.addColorStop(
+        .18,
+        color + "bb"
+    );
+
+    glow.addColorStop(
+        1,
+        color + "00"
+    );
+
+
+    ctx.fillStyle =
+        glow;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        point.x,
+        point.y,
+        radius*3,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        color;
+
+    ctx.shadowColor =
+        color;
+
+    ctx.shadowBlur =
+        17;
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        point.x,
+        point.y,
+        3.5*scale,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+
+}
+
+
+/* =========================
+   FRAME
+========================= */
+
+function drawFrame(a,b){
+
+    const left =
+        Math.min(a.x,b.x);
+
+    const right =
+        Math.max(a.x,b.x);
+
+    const top =
+        Math.min(a.y,b.y);
+
+    const bottom =
+        Math.max(a.y,b.y);
+
+
+    const width =
+        right-left;
+
+    const height =
+        bottom-top;
+
+
+    if(
+        width < 72 ||
+        height < 72
+    ){
+
+        return false;
+
+    }
+
+
+    ctx.save();
+
+
+    ctx.strokeStyle =
+        "rgba(217,250,104,.82)";
+
+    ctx.shadowColor =
+        "#d9fa68";
+
+    ctx.shadowBlur = 17;
+
+    ctx.lineWidth = 1.5;
+
+    ctx.setLineDash([5,9]);
+
+
+    ctx.strokeRect(
+        left+15,
+        top+15,
+        width-30,
+        height-30
+    );
+
+
+    ctx.restore();
+
+
+    const center = {
+
+        x:(left+right)/2,
+
+        y:(top+bottom)/2
+
+    };
+
+
+    drawGlow(
+        center,
+        "#69e8dd",
+        Math.min(
+            1.35,
+            width/190
+        )
+    );
+
+
+    addParticles(
+        center,
+        2,
+        "#69e8dd"
+    );
+
+
+    return true;
+
+}
+
+
+/* =========================
+   PARTICLE DRAW
+========================= */
+
+function drawParticles(){
+
+    ctx.save();
+
+    ctx.globalCompositeOperation =
+        "lighter";
+
+
+    for(
+        let i=particles.length-1;
+        i>=0;
+        i--
+    ){
+
+        const particle =
+            particles[i];
+
+
+        particle.x +=
+            particle.vx;
+
+        particle.y +=
+            particle.vy;
+
+        particle.vy +=
+            .018;
+
+        particle.life -=
+            .018;
+
+
+        if(
+            particle.life <= 0
+        ){
+
+            particles.splice(i,1);
+
+            continue;
+
+        }
+
+
+        ctx.globalAlpha =
+            particle.life;
+
+        ctx.fillStyle =
+            particle.color;
+
+        ctx.shadowColor =
+            particle.color;
+
+        ctx.shadowBlur =
+            11;
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            particle.x,
+            particle.y,
+            particle.size *
+            particle.life,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.restore();
+
+}
+
+
+/* =========================
+   FLASH
+========================= */
+
+function drawFlash(){
+
+    if(
+        flash <= .01
+    ){
+
+        return;
+
+    }
+
+
+    ctx.save();
+
+    ctx.globalAlpha =
+        flash*.2;
+
+    ctx.fillStyle =
+        "#f4f6ed";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.clientWidth,
+        canvas.clientHeight
+    );
+
+    ctx.restore();
+
+
+    flash *= .84;
+
+}
+
+
+/* =========================
+   MEDIAPIPE RESULTS
+========================= */
+
+function onResults(result){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.clientWidth,
+        canvas.clientHeight
+    );
+
+
+    const detected =
+        result.multiHandLandmarks || [];
+
+
+    if(
+        !detected.length
+    ){
+
+        gesture.textContent =
+            "CHỜ BÀN TAY";
+
+        hint.style.opacity =
+            "1";
+
+        drawParticles();
+
+        drawFlash();
+
+        return;
+
+    }
+
+
+    hint.style.opacity =
+        "0";
+
+
+    gesture.textContent =
+        detected.length +
+        " BÀN TAY";
+
+
+    const handsOnScreen =
+        detected.map(
+            hand =>
+                hand.map(screenPoint)
+        );
+
+
+    const indexTips =
+        handsOnScreen.map(
+            hand => hand[8]
+        );
+
+
+    indexTips.forEach(
+        (point,index) => {
+
+            const hand =
+                handsOnScreen[index];
+
+
+            if(
+                isUp(hand,8,6)
+            ){
+
+                drawGlow(
+                    point,
+                    index
+                    ? "#69e8dd"
+                    : "#d9fa68",
+                    1
+                );
+
+
+                addParticles(
+                    {
+                        x:point.x,
+                        y:point.y+4
+                    },
+
+                    isUp(
+                        hand,
+                        12,
+                        10
+                    )
+                    ? 3
+                    : 2,
+
+                    index
+                    ? "#69e8dd"
+                    : "#d9fa68"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* HAI NGÓN TRỎ */
+
+    if(
+        detected.length === 2 &&
+        distance(
+            indexTips[0],
+            indexTips[1]
+        )
+        <
+        Math.min(
+            canvas.clientWidth,
+            canvas.clientHeight
+        ) * .2
+    ){
+
+        if(
+            drawFrame(
+                indexTips[0],
+                indexTips[1]
+            )
+            &&
+            performance.now()
+            - lastFrameTime
+            > 800
+        ){
+
+            flash = 1;
+
+            lastFrameTime =
+                performance.now();
+
+        }
+
+
+        hintText.textContent =
+            "Giữ hai ngón trỏ để tạo khung";
+
+    }
+
+
+    drawParticles();
+
+    drawFlash();
+
+}
+
+
+/* =========================
+   TRACKING LOOP
+========================= */
+
+async function trackingLoop(){
+
+    if(!tracking){
+
+        return;
+
+    }
+
+
+    const now =
+        performance.now();
+
+
+    if(
+        hands &&
+        video.readyState >= 2 &&
+        now-previousSend >= 34
+    ){
+
+        previousSend = now;
+
+
+        try{
+
+            await hands.send({
+                image:video
+            });
+
+        }catch(error){
+
+            console.warn(
+                "MediaPipe error:",
+                error
+            );
+
+
+            tracking = false;
+
+            gesture.textContent =
+                "NHẬN DIỆN TẠM DỪNG";
+
+            status.textContent =
+                "CAMERA ĐANG CHẠY";
+
+        }
+
+    }
+
+
+    if(tracking){
+
+        requestAnimationFrame(
+            trackingLoop
+        );
+
+    }
+
+}
+
+
+/* =========================
+   MEDIAPIPE
+========================= */
+
+async function initializeTracking(){
+
+    if(
+        !window.Hands
+    ){
+
+        status.textContent =
+            "CAMERA ĐANG CHẠY";
+
+        gesture.textContent =
+            "CAMERA OK";
+
+        return;
+
+    }
+
+
+    try{
+
+        hands =
+            new Hands({
+
+                locateFile:
+                    file =>
+                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
+                    + file
+
+            });
+
+
+        hands.setOptions({
+
+            maxNumHands:2,
+
+            modelComplexity:0,
+
+            minDetectionConfidence:.62,
+
+            minTrackingConfidence:.58
+
+        });
+
+
+        hands.onResults(
+            onResults
+        );
+
+
+        tracking = true;
+
+        requestAnimationFrame(
+            trackingLoop
+        );
+
+
+    }catch(error){
+
+        console.warn(
+            "Không thể khởi tạo MediaPipe:",
+            error
+        );
+
+
+        status.textContent =
+            "CAMERA ĐANG CHẠY";
+
+        gesture.textContent =
+            "CAMERA OK";
+
+    }
+
+}
+
+
+/* =========================
+   STOP CAMERA
+========================= */
+
+function stopCamera(){
+
+    tracking = false;
+
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        cameraStream = null;
+
+    }
+
+
+    video.srcObject = null;
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(
+    titleText,
+    messageText
+){
+
+    title.textContent =
+        titleText;
+
+    message.textContent =
+        messageText;
+
+
+    panel.classList.remove(
+        "hidden"
+    );
+
+
+    errorNote.style.display =
+        "block";
+
+
+    errorNote.textContent =
+        "Mẹo: dùng Chrome/Safari mới và mở website bằng HTTPS.";
+
+
+    button.disabled = false;
+
+}
+
+
+/* =========================
+   OPEN CAMERA
+========================= */
+
+async function openCamera(){
+
+    button.disabled = true;
+
+    status.textContent =
+        "ĐANG XIN QUYỀN";
+
+
+    errorNote.style.display =
+        "none";
+
+
+    /* KIỂM TRA HTTPS */
+
+    if(
+        !window.isSecureContext
+    ){
+
+        showError(
+
+            "Trang chưa an toàn",
+
+            "Hãy mở website bằng HTTPS hoặc localhost."
+
+        );
+
+        return;
+
+    }
+
+
+    /* KIỂM TRA CAMERA API */
+
+    if(
+        !navigator.mediaDevices ||
+        typeof navigator.mediaDevices.getUserMedia
+        !== "function"
+    ){
+
+        showError(
+
+            "Trình duyệt không hỗ trợ Camera",
+
+            "Hãy thử Chrome hoặc Safari phiên bản mới."
+
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /* Nếu camera cũ còn tồn tại */
+
+        if(cameraStream){
+
+            stopCamera();
+
+        }
+
+
+        /* XIN QUYỀN CAMERA */
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                audio:false,
+
+                video:{
+
+                    facingMode:{
+                        ideal:"user"
+                    },
+
+                    width:{
+                        ideal:720
+                    },
+
+                    height:{
+                        ideal:1280
+                    }
+
+                }
+
+            });
+
+
+        /* ĐƯA CAMERA VÀO VIDEO */
+
+        video.srcObject =
+            cameraStream;
+
+
+        /* ĐỢI VIDEO SẴN SÀNG */
+
+        await new Promise(
+            (resolve,reject) => {
+
+                if(
+                    video.readyState >= 2
+                ){
+
+                    resolve();
+
+                    return;
+
+                }
+
+
+                video.onloadedmetadata =
+                    () => resolve();
+
+
+                video.onerror =
+                    () =>
+                    reject(
+                        new Error(
+                            "VIDEO_ERROR"
+                        )
+                    );
+
+            }
+        );
+
+
+        /* PLAY CAMERA */
+
+        await video.play();
+
+
+        resize();
+
+
+        /* ẨN MÀN HÌNH BẮT ĐẦU */
+
+        panel.classList.add(
+            "hidden"
+        );
+
+
+        status.textContent =
+            "ĐANG THEO DÕI";
+
+
+        liveDot.classList.add(
+            "live"
+        );
+
+
+        /* BẬT NHẬN DIỆN TAY */
+
+        await initializeTracking();
+
+
+    }catch(error){
+
+        console.error(
+            "Camera error:",
+            error
+        );
+
+
+        button.disabled = false;
+
+        liveDot.classList.remove(
+            "live"
+        );
+
+
+        status.textContent =
+            "CHƯA CÓ CAMERA";
+
+
+        const name =
+            error &&
+            error.name
+            ? error.name
+            : "";
+
+
+        if(
+            name ===
+            "NotAllowedError" ||
+            name ===
+            "PermissionDeniedError"
+        ){
+
+            showError(
+
+                "Camera đang bị chặn",
+
+                "Hãy cho phép Camera trong cài đặt trình duyệt rồi thử lại."
+
+            );
+
+
+        }else if(
+
+            name ===
+            "NotFoundError" ||
+            name ===
+            "DevicesNotFoundError"
+
+        ){
+
+            showError(
+
+                "Không tìm thấy Camera",
+
+                "Kiểm tra camera điện thoại rồi thử lại."
+
+            );
+
+
+        }else if(
+
+            name ===
+            "NotReadableError" ||
+            name ===
+            "TrackStartError"
+
+        ){
+
+            showError(
+
+                "Camera đang được sử dụng",
+
+                "Đóng ứng dụng khác đang dùng camera rồi thử lại."
+
+            );
+
+
+        }else if(
+
+            name ===
+            "SecurityError"
+
+        ){
+
+            showError(
+
+                "Trình duyệt chặn Camera",
+
+                "Hãy mở website bằng HTTPS rồi thử lại."
+
+            );
+
+
+        }else{
+
+            showError(
+
+                "Không thể mở Camera",
+
+                "Kiểm tra quyền Camera của trình duyệt rồi bấm lại."
+
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   EVENTS
+========================= */
+
+button.addEventListener(
+    "click",
+    openCamera
+);
+
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+
+window.addEventListener(
+    "beforeunload",
+    stopCamera
+);
+
+
+/* KHÔNG TỰ ĐỘNG MỞ CAMERA */
+
+resize();
+
+})();
+
+</script>
+
 </body>
 </html>
