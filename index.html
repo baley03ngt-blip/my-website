@@ -1,29 +1,31 @@
+```html
 <!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1,
-viewport-fit=cover,
-user-scalable=no">
+      content="width=device-width,
+      initial-scale=1,
+      viewport-fit=cover,
+      user-scalable=no">
 
-<meta name="theme-color" content="#07151b">
+<meta name="theme-color" content="#050b10">
 
-<title>Handlight Camera</title>
+<title>Handlight v2</title>
 
 <style>
 :root{
-    --ink:#f4f6ed;
-    --muted:rgba(244,246,237,.7);
+    --bg:#050b10;
+    --white:#f5f8ef;
+    --muted:rgba(245,248,239,.65);
     --lime:#d9fa68;
     --cyan:#69e8dd;
-    --bg:#07151b;
 }
 
 *{
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,
@@ -36,7 +38,7 @@ body{
 }
 
 body{
-    color:var(--ink);
+    color:var(--white);
     font-family:Arial,sans-serif;
 }
 
@@ -45,8 +47,7 @@ body{
     width:100vw;
     height:100svh;
     overflow:hidden;
-    isolation:isolate;
-    background:var(--bg);
+    background:#050b10;
 }
 
 /* CAMERA */
@@ -54,92 +55,93 @@ body{
 #camera{
     position:absolute;
     inset:0;
+
     width:100%;
     height:100%;
-    z-index:-3;
 
     object-fit:cover;
 
     transform:scaleX(-1);
 
-    filter:
-        brightness(.8)
-        contrast(1.05)
-        saturate(.9);
+    background:#050b10;
 
-    background:#07151b;
+    filter:
+        brightness(.82)
+        contrast(1.04)
+        saturate(.92);
+
+    z-index:0;
 }
 
 /* EFFECT CANVAS */
 
-.effects{
+#effects{
     position:absolute;
     inset:0;
 
     width:100%;
     height:100%;
 
-    z-index:-1;
+    z-index:2;
 
     pointer-events:none;
 }
 
-/* DARK OVERLAY */
+/* CAMERA OVERLAY */
 
-.shade{
+.overlay{
     position:absolute;
     inset:0;
 
-    z-index:0;
+    z-index:3;
 
     pointer-events:none;
 
     background:
         radial-gradient(
-            ellipse at center,
-            transparent 27%,
-            rgba(0,7,12,.2) 67%,
-            rgba(0,7,12,.7) 100%
-        ),
-        linear-gradient(
-            180deg,
-            rgba(0,8,13,.58),
-            transparent 30%,
-            transparent 68%,
-            rgba(0,8,13,.64)
+            circle at center,
+            transparent 35%,
+            rgba(0,0,0,.12) 65%,
+            rgba(0,0,0,.58) 100%
         );
+
 }
 
-/* TOP */
+/* TOP BAR */
 
 .top{
     position:absolute;
 
-    z-index:2;
+    top:0;
+    left:0;
+    right:0;
 
-    inset:0 0 auto;
+    z-index:5;
 
     display:flex;
     justify-content:space-between;
+    align-items:center;
 
     padding:
         max(22px,env(safe-area-inset-top))
         20px
-        18px;
+        15px;
 
-    font:10px monospace;
+    font-family:monospace;
+    font-size:10px;
 
-    letter-spacing:.15em;
+    letter-spacing:.14em;
 }
 
-.brand{
+.logo{
     display:flex;
     align-items:center;
     gap:9px;
+
+    font-weight:bold;
 }
 
-.brand-dot,
-.live-dot{
+.logo-dot{
     width:7px;
     height:7px;
 
@@ -147,130 +149,173 @@ body{
 
     background:var(--lime);
 
-    box-shadow:0 0 13px var(--lime);
+    box-shadow:
+        0 0 12px var(--lime),
+        0 0 25px rgba(217,250,104,.45);
 }
 
-.connection{
+.status{
     display:flex;
     align-items:center;
-
     gap:8px;
 
     color:var(--muted);
 }
 
-.connection .live-dot{
-    background:#e0aa52;
+.status-dot{
+    width:7px;
+    height:7px;
 
-    box-shadow:
-        0 0 10px #e0aa52;
+    border-radius:50%;
+
+    background:#e1a44e;
 }
 
-.connection .live-dot.live{
+.status-dot.live{
     background:var(--lime);
 
     box-shadow:
         0 0 10px var(--lime);
 }
 
-/* PANEL */
+/* START SCREEN */
 
-.panel{
+.start-screen{
     position:absolute;
 
-    z-index:3;
+    inset:0;
 
-    top:50%;
-    left:50%;
+    z-index:10;
 
-    width:min(88vw,390px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    text-align:center;
+    padding:25px;
 
-    transform:
-        translate(-50%,-44%);
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(105,232,221,.06),
+            transparent 45%
+        ),
+        #050b10;
 
     transition:
-        opacity .35s,
-        transform .35s;
+        opacity .5s ease,
+        visibility .5s ease;
 }
 
-.panel.hidden{
+.start-screen.hide{
     opacity:0;
-
+    visibility:hidden;
     pointer-events:none;
-
-    transform:
-        translate(-50%,-49%);
 }
 
-/* CAMERA ICON */
+.card{
+    width:min(90vw,390px);
 
-.panel-icon{
-    width:54px;
-    height:54px;
+    text-align:center;
+}
 
-    margin:
-        0 auto 27px;
+.camera-icon{
+    width:68px;
+    height:68px;
+
+    margin:0 auto 28px;
+
+    border:
+        1px solid
+        rgba(217,250,104,.5);
+
+    border-radius:50%;
 
     display:grid;
     place-items:center;
 
-    border:
-        1px solid
-        rgba(217,250,104,.65);
-
-    border-radius:50%;
-
     box-shadow:
-        0 0 30px
-        rgba(217,250,104,.16);
+        0 0 35px
+        rgba(217,250,104,.12);
+
+    animation:
+        iconPulse 2.5s ease-in-out infinite;
 }
 
-.panel-icon span{
-    width:16px;
-    height:22px;
+.camera-icon span{
+    width:22px;
+    height:29px;
 
     border:
         2px solid
         var(--lime);
 
     border-radius:
-        11px
-        11px
-        7px
-        7px;
+        13px 13px 9px 9px;
+
+    position:relative;
 }
 
-/* TEXT */
+.camera-icon span:after{
+    content:"";
+
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:var(--lime);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    box-shadow:
+        0 0 12px var(--lime);
+}
+
+@keyframes iconPulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+}
 
 .eyebrow{
-    margin:0 0 14px;
+    margin:0 0 13px;
 
     color:var(--lime);
 
-    font:
-        10px monospace;
+    font-family:monospace;
 
-    letter-spacing:.18em;
+    font-size:10px;
+
+    letter-spacing:.2em;
 }
 
 h1{
     margin:0;
 
     font-size:
-        clamp(28px,8vw,42px);
+        clamp(29px,8vw,42px);
 
     line-height:1.05;
 
-    letter-spacing:-.03em;
+    letter-spacing:-.04em;
 }
 
-.message{
-    max-width:330px;
+.description{
+    max-width:320px;
 
-    margin:
-        17px auto 28px;
+    margin:17px auto 27px;
 
     color:var(--muted);
 
@@ -279,119 +324,204 @@ h1{
     line-height:1.6;
 }
 
-/* BUTTON */
+.start-button{
+    position:relative;
 
-button{
     border:0;
 
     padding:
-        16px 21px;
+        17px 25px;
 
-    color:#152015;
+    min-width:170px;
+
+    color:#111b12;
 
     background:var(--lime);
-
-    cursor:pointer;
 
     font:
         800 11px Arial,sans-serif;
 
-    letter-spacing:.12em;
+    letter-spacing:.14em;
+
+    cursor:pointer;
 
     box-shadow:
-        0 0 26px
-        rgba(217,250,104,.22);
+        0 0 30px
+        rgba(217,250,104,.2);
 
-    -webkit-tap-highlight-color:transparent;
+    transition:
+        transform .2s,
+        box-shadow .2s;
 }
 
-button:active{
-    transform:scale(.97);
+.start-button:active{
+    transform:scale(.96);
 }
 
-button:disabled{
+.start-button:disabled{
     opacity:.55;
+}
+
+.error{
+    margin-top:16px;
+
+    color:rgba(245,248,239,.48);
+
+    font-size:11px;
+
+    line-height:1.5;
+
+    display:none;
+}
+
+/* CENTER STATUS */
+
+.center-status{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    z-index:4;
+
+    transform:
+        translate(-50%,-50%);
+
+    text-align:center;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    transition:opacity .4s;
+}
+
+.center-status.show{
+    opacity:1;
+}
+
+.center-ring{
+    width:90px;
+    height:90px;
+
+    border:
+        1px solid
+        rgba(217,250,104,.35);
+
+    border-radius:50%;
+
+    animation:
+        scanRing 2s linear infinite;
+}
+
+@keyframes scanRing{
+
+    0%{
+        transform:scale(.8);
+        opacity:.2;
+    }
+
+    50%{
+        transform:scale(1);
+        opacity:.8;
+    }
+
+    100%{
+        transform:scale(1.2);
+        opacity:0;
+    }
+
 }
 
 /* BOTTOM */
 
-.bottom-hint,
-.gesture{
+.bottom{
     position:absolute;
 
-    z-index:2;
+    left:0;
+    right:0;
+    bottom:0;
 
-    bottom:
-        max(28px,env(safe-area-inset-bottom));
-
-    color:
-        rgba(244,246,237,.58);
-
-    font:
-        10px monospace;
-
-    letter-spacing:.07em;
-
-    text-transform:uppercase;
-}
-
-.bottom-hint{
-    left:20px;
+    z-index:5;
 
     display:flex;
+    justify-content:space-between;
     align-items:center;
 
-    gap:10px;
+    padding:
+        15px 20px
+        max(25px,env(safe-area-inset-bottom));
 
-    transition:opacity .3s;
+    font-family:monospace;
+
+    font-size:9px;
+
+    letter-spacing:.08em;
+
+    color:rgba(245,248,239,.48);
 }
 
-.bottom-hint i{
-    width:25px;
+.hint{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.hint-line{
+    width:24px;
     height:1px;
 
     background:var(--lime);
 
     box-shadow:
-        0 0 8px
-        var(--lime);
+        0 0 8px var(--lime);
 }
 
 .gesture{
-    right:20px;
-
-    color:
-        rgba(244,246,237,.42);
+    text-align:right;
 }
 
-/* ERROR NOTE */
+/* FLASH */
 
-.error-note{
-    display:none;
+.flash{
+    position:absolute;
 
-    margin-top:15px;
+    inset:0;
 
-    color:
-        rgba(244,246,237,.5);
+    z-index:8;
 
-    font-size:11px;
+    background:white;
+
+    opacity:0;
+
+    pointer-events:none;
 }
 
-/* DESKTOP */
+/* PERFORMANCE */
 
-@media (min-width:700px){
+@media(max-width:500px){
+
+    #camera{
+        filter:
+            brightness(.84)
+            contrast(1.02)
+            saturate(.9);
+    }
+
+}
+
+@media(min-width:700px){
 
     .stage{
         max-width:430px;
-
         margin:auto;
 
         box-shadow:
             0 0 0 1px
             rgba(255,255,255,.08),
 
-            0 25px 80px
-            rgba(0,0,0,.4);
+            0 30px 90px
+            rgba(0,0,0,.5);
     }
 
 }
@@ -411,27 +541,34 @@ button:disabled{
     </video>
 
     <!-- EFFECTS -->
-    <canvas
-        class="effects"
-        id="effects">
-    </canvas>
+    <canvas id="effects"></canvas>
 
-    <div class="shade"></div>
+    <!-- CAMERA OVERLAY -->
+    <div class="overlay"></div>
+
+    <!-- FLASH -->
+    <div
+        id="flash"
+        class="flash">
+    </div>
 
     <!-- TOP -->
     <header class="top">
 
-        <div class="brand">
-            <i class="brand-dot"></i>
+        <div class="logo">
+
+            <span class="logo-dot"></span>
+
             HANDLIGHT
+
         </div>
 
-        <div class="connection">
+        <div class="status">
 
-            <i
-                id="live-dot"
-                class="live-dot">
-            </i>
+            <span
+                id="statusDot"
+                class="status-dot">
+            </span>
 
             <span id="status">
                 SẴN SÀNG
@@ -442,72 +579,88 @@ button:disabled{
     </header>
 
 
-    <!-- START PANEL -->
+    <!-- START -->
 
     <section
-        id="panel"
-        class="panel"
-        aria-live="polite">
+        id="startScreen"
+        class="start-screen">
 
-        <div class="panel-icon">
-            <span></span>
+        <div class="card">
+
+            <div class="camera-icon">
+                <span></span>
+            </div>
+
+            <p class="eyebrow">
+                HANDLIGHT EXPERIENCE
+            </p>
+
+            <h1>
+                Sẵn sàng<br>
+                chưa?
+            </h1>
+
+            <p
+                id="description"
+                class="description">
+
+                Bật camera và đưa tay vào
+                khung hình để bắt đầu trải nghiệm.
+
+            </p>
+
+            <button
+                id="startButton"
+                class="start-button">
+
+                BẬT CAMERA
+
+            </button>
+
+            <div
+                id="error"
+                class="error">
+            </div>
+
         </div>
-
-        <p class="eyebrow">
-            TRẢI NGHIỆM CAMERA
-        </p>
-
-        <h1 id="title">
-            Hãy cho phép Camera để bắt đầu
-        </h1>
-
-        <p
-            id="message"
-            class="message">
-
-            Nhấn BẬT CAMERA rồi cho phép
-            trình duyệt sử dụng camera.
-
-        </p>
-
-        <button
-            id="start"
-            type="button">
-
-            BẬT CAMERA
-
-        </button>
-
-        <p
-            id="error-note"
-            class="error-note">
-        </p>
 
     </section>
 
 
-    <!-- HINT -->
+    <!-- LOADING -->
 
     <div
-        id="hint"
-        class="bottom-hint">
+        id="centerStatus"
+        class="center-status">
 
-        <i></i>
-
-        <span>
-            Đưa một ngón tay vào khung hình
-        </span>
+        <div class="center-ring"></div>
 
     </div>
 
 
-    <!-- GESTURE -->
+    <!-- BOTTOM -->
 
-    <div
-        id="gesture"
-        class="gesture">
+    <div class="bottom">
 
-        CHỜ BÀN TAY
+        <div
+            id="hint"
+            class="hint">
+
+            <span class="hint-line"></span>
+
+            <span id="hintText">
+                ĐƯA NGÓN TAY VÀO KHUNG HÌNH
+            </span>
+
+        </div>
+
+        <div
+            id="gesture"
+            class="gesture">
+
+            CHỜ BÀN TAY
+
+        </div>
 
     </div>
 
@@ -529,9 +682,9 @@ crossorigin="anonymous">
 "use strict";
 
 
-/* =========================
+/* ==========================
    ELEMENTS
-========================= */
+========================== */
 
 const video =
     document.getElementById("camera");
@@ -542,83 +695,114 @@ const canvas =
 const ctx =
     canvas.getContext("2d");
 
-const panel =
-    document.getElementById("panel");
+const startScreen =
+    document.getElementById("startScreen");
 
-const button =
-    document.getElementById("start");
-
-const title =
-    document.getElementById("title");
-
-const message =
-    document.getElementById("message");
+const startButton =
+    document.getElementById("startButton");
 
 const status =
     document.getElementById("status");
 
-const liveDot =
-    document.getElementById("live-dot");
+const statusDot =
+    document.getElementById("statusDot");
 
-const hint =
-    document.getElementById("hint");
+const errorBox =
+    document.getElementById("error");
 
-const hintText =
-    hint.querySelector("span");
+const description =
+    document.getElementById("description");
 
 const gesture =
     document.getElementById("gesture");
 
-const errorNote =
-    document.getElementById("error-note");
+const hintText =
+    document.getElementById("hintText");
+
+const centerStatus =
+    document.getElementById("centerStatus");
+
+const flash =
+    document.getElementById("flash");
 
 
-/* =========================
+/* ==========================
    VARIABLES
-========================= */
+========================== */
 
-let cameraStream = null;
+let stream = null;
 
 let hands = null;
 
 let tracking = false;
 
-let previousSend = 0;
+let lastSend = 0;
 
-let flash = 0;
+let lastFlash = 0;
 
-let lastFrameTime = 0;
+let particles = [];
 
-const particles = [];
+let width = 0;
+
+let height = 0;
 
 
-/* =========================
+/* ==========================
+   PERFORMANCE SETTINGS
+========================== */
+
+/*
+    45ms ≈ 22 FPS nhận diện.
+    Nhẹ hơn rất nhiều so với việc
+    gửi hình ảnh liên tục.
+*/
+
+const SEND_INTERVAL = 45;
+
+
+/*
+    Giới hạn particle.
+*/
+
+const MAX_PARTICLES = 90;
+
+
+/* ==========================
    RESIZE
-========================= */
+========================== */
 
 function resize(){
 
-    const scale =
+    width =
+        canvas.clientWidth;
+
+    height =
+        canvas.clientHeight;
+
+
+    const dpr =
         Math.min(
             window.devicePixelRatio || 1,
-            2
+            1.5
         );
+
 
     canvas.width =
         Math.floor(
-            canvas.clientWidth * scale
+            width*dpr
         );
 
     canvas.height =
         Math.floor(
-            canvas.clientHeight * scale
+            height*dpr
         );
 
+
     ctx.setTransform(
-        scale,
+        dpr,
         0,
         0,
-        scale,
+        dpr,
         0,
         0
     );
@@ -626,30 +810,28 @@ function resize(){
 }
 
 
-/* =========================
-   POINT
-========================= */
+/* ==========================
+   SCREEN POINT
+========================== */
 
-function screenPoint(point){
+function point(p){
 
     return {
 
         x:
-            (1 - point.x)
-            * canvas.clientWidth,
+            (1-p.x)*width,
 
         y:
-            point.y
-            * canvas.clientHeight
+            p.y*height
 
     };
 
 }
 
 
-/* =========================
+/* ==========================
    DISTANCE
-========================= */
+========================== */
 
 function distance(a,b){
 
@@ -661,33 +843,43 @@ function distance(a,b){
 }
 
 
-/* =========================
+/* ==========================
    FINGER UP
-========================= */
+========================== */
 
-function isUp(
-    points,
-    tipIndex,
-    jointIndex
+function fingerUp(
+    hand,
+    tip,
+    joint
 ){
 
     return (
-        points[tipIndex].y <
-        points[jointIndex].y - .025
+        hand[tip].y <
+        hand[joint].y-.025
     );
 
 }
 
 
-/* =========================
+/* ==========================
    PARTICLES
-========================= */
+========================== */
 
-function addParticles(
-    point,
+function spawnParticles(
+    p,
     amount,
     color
 ){
+
+    if(
+        particles.length >
+        MAX_PARTICLES
+    ){
+
+        return;
+
+    }
+
 
     for(
         let i=0;
@@ -697,92 +889,159 @@ function addParticles(
 
         particles.push({
 
-            x:point.x,
+            x:p.x,
 
-            y:point.y,
+            y:p.y,
 
             vx:
                 (Math.random()-.5)
-                *1.3,
+                *1.2,
 
             vy:
-                -Math.random()*1.6-.2,
+                -Math.random()*1.3,
 
             life:1,
 
             size:
-                Math.random()*2.2+1,
+                1+
+                Math.random()*2,
 
-            color:color
+            color
 
         });
-
-    }
-
-
-    if(
-        particles.length > 160
-    ){
-
-        particles.splice(
-            0,
-            particles.length-160
-        );
 
     }
 
 }
 
 
-/* =========================
-   GLOW
-========================= */
+/* ==========================
+   DRAW PARTICLES
+========================== */
 
-function drawGlow(
-    point,
+function drawParticles(){
+
+    ctx.save();
+
+    ctx.globalCompositeOperation =
+        "lighter";
+
+
+    for(
+        let i=particles.length-1;
+        i>=0;
+        i--
+    ){
+
+        const p =
+            particles[i];
+
+
+        p.x += p.vx;
+
+        p.y += p.vy;
+
+        p.vy += .012;
+
+        p.life -= .025;
+
+
+        if(
+            p.life <= 0
+        ){
+
+            particles.splice(i,1);
+
+            continue;
+
+        }
+
+
+        ctx.globalAlpha =
+            p.life;
+
+
+        ctx.fillStyle =
+            p.color;
+
+
+        ctx.shadowColor =
+            p.color;
+
+        ctx.shadowBlur =
+            8;
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size*p.life,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================
+   GLOW
+========================== */
+
+function glow(
+    p,
     color,
-    scale
+    size=1
 ){
 
     const radius =
-        15 * scale;
+        14*size;
 
 
-    const glow =
+    const gradient =
         ctx.createRadialGradient(
-            point.x,
-            point.y,
+            p.x,
+            p.y,
             0,
-            point.x,
-            point.y,
+            p.x,
+            p.y,
             radius*3
         );
 
 
-    glow.addColorStop(
+    gradient.addColorStop(
         0,
         color
     );
 
-    glow.addColorStop(
-        .18,
-        color + "bb"
+    gradient.addColorStop(
+        .2,
+        color+"bb"
     );
 
-    glow.addColorStop(
+    gradient.addColorStop(
         1,
-        color + "00"
+        color+"00"
     );
 
 
     ctx.fillStyle =
-        glow;
+        gradient;
+
 
     ctx.beginPath();
 
     ctx.arc(
-        point.x,
-        point.y,
+        p.x,
+        p.y,
         radius*3,
         0,
         Math.PI*2
@@ -798,29 +1057,30 @@ function drawGlow(
         color;
 
     ctx.shadowBlur =
-        17;
+        16;
 
 
     ctx.beginPath();
 
     ctx.arc(
-        point.x,
-        point.y,
-        3.5*scale,
+        p.x,
+        p.y,
+        3*size,
         0,
         Math.PI*2
     );
 
     ctx.fill();
 
+
     ctx.shadowBlur = 0;
 
 }
 
 
-/* =========================
+/* ==========================
    FRAME
-========================= */
+========================== */
 
 function drawFrame(a,b){
 
@@ -837,19 +1097,19 @@ function drawFrame(a,b){
         Math.max(a.y,b.y);
 
 
-    const width =
+    const w =
         right-left;
 
-    const height =
+    const h =
         bottom-top;
 
 
     if(
-        width < 72 ||
-        height < 72
+        w<80 ||
+        h<80
     ){
 
-        return false;
+        return;
 
     }
 
@@ -858,23 +1118,26 @@ function drawFrame(a,b){
 
 
     ctx.strokeStyle =
-        "rgba(217,250,104,.82)";
+        "rgba(217,250,104,.9)";
+
+    ctx.lineWidth = 1.5;
 
     ctx.shadowColor =
         "#d9fa68";
 
-    ctx.shadowBlur = 17;
+    ctx.shadowBlur = 14;
 
-    ctx.lineWidth = 1.5;
-
-    ctx.setLineDash([5,9]);
+    ctx.setLineDash([
+        4,
+        8
+    ]);
 
 
     ctx.strokeRect(
-        left+15,
-        top+15,
-        width-30,
-        height-30
+        left+18,
+        top+18,
+        w-36,
+        h-36
     );
 
 
@@ -890,157 +1153,76 @@ function drawFrame(a,b){
     };
 
 
-    drawGlow(
+    glow(
         center,
         "#69e8dd",
         Math.min(
-            1.35,
-            width/190
+            1.3,
+            w/200
         )
     );
 
 
-    addParticles(
+    spawnParticles(
         center,
-        2,
+        1,
         "#69e8dd"
     );
 
 
-    return true;
-
-}
-
-
-/* =========================
-   PARTICLE DRAW
-========================= */
-
-function drawParticles(){
-
-    ctx.save();
-
-    ctx.globalCompositeOperation =
-        "lighter";
-
-
-    for(
-        let i=particles.length-1;
-        i>=0;
-        i--
-    ){
-
-        const particle =
-            particles[i];
-
-
-        particle.x +=
-            particle.vx;
-
-        particle.y +=
-            particle.vy;
-
-        particle.vy +=
-            .018;
-
-        particle.life -=
-            .018;
-
-
-        if(
-            particle.life <= 0
-        ){
-
-            particles.splice(i,1);
-
-            continue;
-
-        }
-
-
-        ctx.globalAlpha =
-            particle.life;
-
-        ctx.fillStyle =
-            particle.color;
-
-        ctx.shadowColor =
-            particle.color;
-
-        ctx.shadowBlur =
-            11;
-
-
-        ctx.beginPath();
-
-        ctx.arc(
-            particle.x,
-            particle.y,
-            particle.size *
-            particle.life,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-    }
-
-
-    ctx.restore();
-
-}
-
-
-/* =========================
-   FLASH
-========================= */
-
-function drawFlash(){
-
     if(
-        flash <= .01
+        performance.now()-lastFlash >
+        900
     ){
 
-        return;
+        lastFlash =
+            performance.now();
+
+        triggerFlash();
 
     }
 
+}
 
-    ctx.save();
 
-    ctx.globalAlpha =
-        flash*.2;
+/* ==========================
+   FLASH
+========================== */
 
-    ctx.fillStyle =
-        "#f4f6ed";
+function triggerFlash(){
 
-    ctx.fillRect(
-        0,
-        0,
-        canvas.clientWidth,
-        canvas.clientHeight
+    flash.animate(
+        [
+            {
+                opacity:0
+            },
+            {
+                opacity:.18
+            },
+            {
+                opacity:0
+            }
+        ],
+        {
+            duration:260,
+            easing:"ease-out"
+        }
     );
 
-    ctx.restore();
-
-
-    flash *= .84;
-
 }
 
 
-/* =========================
+/* ==========================
    MEDIAPIPE RESULTS
-========================= */
+========================== */
 
-function onResults(result){
+function results(result){
 
     ctx.clearRect(
         0,
         0,
-        canvas.clientWidth,
-        canvas.clientHeight
+        width,
+        height
     );
 
 
@@ -1049,26 +1231,20 @@ function onResults(result){
 
 
     if(
-        !detected.length
+        detected.length === 0
     ){
 
         gesture.textContent =
             "CHỜ BÀN TAY";
 
-        hint.style.opacity =
-            "1";
+        hintText.textContent =
+            "ĐƯA NGÓN TAY VÀO KHUNG HÌNH";
 
         drawParticles();
-
-        drawFlash();
 
         return;
 
     }
-
-
-    hint.style.opacity =
-        "0";
 
 
     gesture.textContent =
@@ -1076,56 +1252,55 @@ function onResults(result){
         " BÀN TAY";
 
 
-    const handsOnScreen =
+    const handsScreen =
         detected.map(
             hand =>
-                hand.map(screenPoint)
+                hand.map(point)
         );
 
 
-    const indexTips =
-        handsOnScreen.map(
-            hand => hand[8]
+    const tips =
+        handsScreen.map(
+            hand =>
+                hand[8]
         );
 
 
-    indexTips.forEach(
-        (point,index) => {
+    tips.forEach(
+        (p,index) => {
 
             const hand =
-                handsOnScreen[index];
+                handsScreen[index];
 
 
             if(
-                isUp(hand,8,6)
+                fingerUp(
+                    hand,
+                    8,
+                    6
+                )
             ){
 
-                drawGlow(
-                    point,
-                    index
-                    ? "#69e8dd"
-                    : "#d9fa68",
+                const color =
+                    index===0
+                    ? "#d9fa68"
+                    : "#69e8dd";
+
+
+                glow(
+                    p,
+                    color,
                     1
                 );
 
 
-                addParticles(
+                spawnParticles(
                     {
-                        x:point.x,
-                        y:point.y+4
+                        x:p.x,
+                        y:p.y+4
                     },
-
-                    isUp(
-                        hand,
-                        12,
-                        10
-                    )
-                    ? 3
-                    : 2,
-
-                    index
-                    ? "#69e8dd"
-                    : "#d9fa68"
+                    1,
+                    color
                 );
 
             }
@@ -1134,56 +1309,49 @@ function onResults(result){
     );
 
 
-    /* HAI NGÓN TRỎ */
+    /* TWO INDEX FINGERS */
 
     if(
-        detected.length === 2 &&
-        distance(
-            indexTips[0],
-            indexTips[1]
-        )
-        <
-        Math.min(
-            canvas.clientWidth,
-            canvas.clientHeight
-        ) * .2
+        detected.length === 2
     ){
 
+        const d =
+            distance(
+                tips[0],
+                tips[1]
+            );
+
+
         if(
-            drawFrame(
-                indexTips[0],
-                indexTips[1]
-            )
-            &&
-            performance.now()
-            - lastFrameTime
-            > 800
+            d <
+            Math.min(
+                width,
+                height
+            )*.22
         ){
 
-            flash = 1;
+            drawFrame(
+                tips[0],
+                tips[1]
+            );
 
-            lastFrameTime =
-                performance.now();
+
+            hintText.textContent =
+                "GIỮ HAI NGÓN TRỎ";
 
         }
-
-
-        hintText.textContent =
-            "Giữ hai ngón trỏ để tạo khung";
 
     }
 
 
     drawParticles();
 
-    drawFlash();
-
 }
 
 
-/* =========================
-   TRACKING LOOP
-========================= */
+/* ==========================
+   TRACKING
+========================== */
 
 async function trackingLoop(){
 
@@ -1201,10 +1369,10 @@ async function trackingLoop(){
     if(
         hands &&
         video.readyState >= 2 &&
-        now-previousSend >= 34
+        now-lastSend >= SEND_INTERVAL
     ){
 
-        previousSend = now;
+        lastSend = now;
 
 
         try{
@@ -1213,43 +1381,31 @@ async function trackingLoop(){
                 image:video
             });
 
-        }catch(error){
+        }
+        catch(error){
 
             console.warn(
-                "MediaPipe error:",
+                "Hand tracking:",
                 error
             );
-
-
-            tracking = false;
-
-            gesture.textContent =
-                "NHẬN DIỆN TẠM DỪNG";
-
-            status.textContent =
-                "CAMERA ĐANG CHẠY";
 
         }
 
     }
 
 
-    if(tracking){
-
-        requestAnimationFrame(
-            trackingLoop
-        );
-
-    }
+    requestAnimationFrame(
+        trackingLoop
+    );
 
 }
 
 
-/* =========================
-   MEDIAPIPE
-========================= */
+/* ==========================
+   START MEDIAPIPE
+========================== */
 
-async function initializeTracking(){
+async function startTracking(){
 
     if(
         !window.Hands
@@ -1274,26 +1430,40 @@ async function initializeTracking(){
                 locateFile:
                     file =>
                     "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
-                    + file
+                    +file
 
             });
 
 
         hands.setOptions({
 
-            maxNumHands:2,
+            /*
+                1 hand mặc định
+                giúp điện thoại nhẹ hơn.
+            */
+
+            maxNumHands:1,
+
+            /*
+                Model 0 nhẹ nhất.
+            */
 
             modelComplexity:0,
 
-            minDetectionConfidence:.62,
+            /*
+                Confidence vừa phải
+                để tăng tốc.
+            */
 
-            minTrackingConfidence:.58
+            minDetectionConfidence:.55,
+
+            minTrackingConfidence:.55
 
         });
 
 
         hands.onResults(
-            onResults
+            results
         );
 
 
@@ -1304,13 +1474,13 @@ async function initializeTracking(){
         );
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.warn(
-            "Không thể khởi tạo MediaPipe:",
+            "MediaPipe failed:",
             error
         );
-
 
         status.textContent =
             "CAMERA ĐANG CHẠY";
@@ -1323,96 +1493,60 @@ async function initializeTracking(){
 }
 
 
-/* =========================
-   STOP CAMERA
-========================= */
-
-function stopCamera(){
-
-    tracking = false;
-
-
-    if(cameraStream){
-
-        cameraStream
-            .getTracks()
-            .forEach(
-                track =>
-                    track.stop()
-            );
-
-        cameraStream = null;
-
-    }
-
-
-    video.srcObject = null;
-
-}
-
-
-/* =========================
+/* ==========================
    ERROR
-========================= */
+========================== */
 
 function showError(
-    titleText,
-    messageText
+    title,
+    text
 ){
 
-    title.textContent =
-        titleText;
-
-    message.textContent =
-        messageText;
+    description.innerHTML =
+        "<b>"+title+"</b><br><br>"+text;
 
 
-    panel.classList.remove(
-        "hidden"
-    );
-
-
-    errorNote.style.display =
+    errorBox.style.display =
         "block";
 
 
-    errorNote.textContent =
-        "Mẹo: dùng Chrome/Safari mới và mở website bằng HTTPS.";
+    errorBox.textContent =
+        "Hãy kiểm tra quyền Camera của trình duyệt.";
 
 
-    button.disabled = false;
+    startButton.disabled =
+        false;
 
 }
 
 
-/* =========================
-   OPEN CAMERA
-========================= */
+/* ==========================
+   CAMERA
+========================== */
 
 async function openCamera(){
 
-    button.disabled = true;
+    startButton.disabled =
+        true;
+
 
     status.textContent =
         "ĐANG XIN QUYỀN";
 
 
-    errorNote.style.display =
+    errorBox.style.display =
         "none";
 
 
-    /* KIỂM TRA HTTPS */
+    /* HTTPS */
 
     if(
         !window.isSecureContext
     ){
 
         showError(
-
-            "Trang chưa an toàn",
-
-            "Hãy mở website bằng HTTPS hoặc localhost."
-
+            "Trang chưa chạy bằng HTTPS.",
+            "Hãy mở website bằng link GitHub Pages hoặc HTTPS."
         );
 
         return;
@@ -1420,20 +1554,16 @@ async function openCamera(){
     }
 
 
-    /* KIỂM TRA CAMERA API */
+    /* API */
 
     if(
         !navigator.mediaDevices ||
-        typeof navigator.mediaDevices.getUserMedia
-        !== "function"
+        !navigator.mediaDevices.getUserMedia
     ){
 
         showError(
-
-            "Trình duyệt không hỗ trợ Camera",
-
-            "Hãy thử Chrome hoặc Safari phiên bản mới."
-
+            "Thiết bị không hỗ trợ Camera.",
+            "Hãy thử Chrome hoặc Safari mới nhất."
         );
 
         return;
@@ -1443,18 +1573,11 @@ async function openCamera(){
 
     try{
 
-        /* Nếu camera cũ còn tồn tại */
+        /*
+            CAMERA TRƯỚC
+        */
 
-        if(cameraStream){
-
-            stopCamera();
-
-        }
-
-
-        /* XIN QUYỀN CAMERA */
-
-        cameraStream =
+        stream =
             await navigator.mediaDevices.getUserMedia({
 
                 audio:false,
@@ -1466,11 +1589,16 @@ async function openCamera(){
                     },
 
                     width:{
-                        ideal:720
+                        ideal:640
                     },
 
                     height:{
-                        ideal:1280
+                        ideal:480
+                    },
+
+                    frameRate:{
+                        ideal:24,
+                        max:30
                     }
 
                 }
@@ -1478,45 +1606,9 @@ async function openCamera(){
             });
 
 
-        /* ĐƯA CAMERA VÀO VIDEO */
-
         video.srcObject =
-            cameraStream;
+            stream;
 
-
-        /* ĐỢI VIDEO SẴN SÀNG */
-
-        await new Promise(
-            (resolve,reject) => {
-
-                if(
-                    video.readyState >= 2
-                ){
-
-                    resolve();
-
-                    return;
-
-                }
-
-
-                video.onloadedmetadata =
-                    () => resolve();
-
-
-                video.onerror =
-                    () =>
-                    reject(
-                        new Error(
-                            "VIDEO_ERROR"
-                        )
-                    );
-
-            }
-        );
-
-
-        /* PLAY CAMERA */
 
         await video.play();
 
@@ -1524,10 +1616,26 @@ async function openCamera(){
         resize();
 
 
-        /* ẨN MÀN HÌNH BẮT ĐẦU */
+        /*
+            CAMERA ĐÃ CHẠY
+        */
 
-        panel.classList.add(
-            "hidden"
+        startScreen.classList.add(
+            "hide"
+        );
+
+
+        centerStatus.classList.add(
+            "show"
+        );
+
+
+        setTimeout(
+            () =>
+                centerStatus.classList.remove(
+                    "show"
+                ),
+            900
         );
 
 
@@ -1535,118 +1643,78 @@ async function openCamera(){
             "ĐANG THEO DÕI";
 
 
-        liveDot.classList.add(
+        statusDot.classList.add(
             "live"
         );
 
 
-        /* BẬT NHẬN DIỆN TAY */
-
-        await initializeTracking();
+        await startTracking();
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(
-            "Camera error:",
             error
         );
 
 
-        button.disabled = false;
+        status.textContent =
+            "CAMERA LỖI";
 
-        liveDot.classList.remove(
+
+        statusDot.classList.remove(
             "live"
         );
 
 
-        status.textContent =
-            "CHƯA CÓ CAMERA";
-
-
-        const name =
-            error &&
-            error.name
-            ? error.name
-            : "";
+        const type =
+            error.name;
 
 
         if(
-            name ===
+            type ===
             "NotAllowedError" ||
-            name ===
+            type ===
             "PermissionDeniedError"
         ){
 
             showError(
-
-                "Camera đang bị chặn",
-
-                "Hãy cho phép Camera trong cài đặt trình duyệt rồi thử lại."
-
+                "Camera đang bị chặn.",
+                "Hãy vào quyền của trình duyệt và chọn Cho phép Camera."
             );
 
+        }
 
-        }else if(
-
-            name ===
-            "NotFoundError" ||
-            name ===
-            "DevicesNotFoundError"
-
+        else if(
+            type ===
+            "NotFoundError"
         ){
 
             showError(
-
-                "Không tìm thấy Camera",
-
-                "Kiểm tra camera điện thoại rồi thử lại."
-
+                "Không tìm thấy Camera.",
+                "Thiết bị không có camera hoặc camera đang gặp vấn đề."
             );
 
+        }
 
-        }else if(
-
-            name ===
-            "NotReadableError" ||
-            name ===
-            "TrackStartError"
-
+        else if(
+            type ===
+            "NotReadableError"
         ){
 
             showError(
-
-                "Camera đang được sử dụng",
-
-                "Đóng ứng dụng khác đang dùng camera rồi thử lại."
-
+                "Camera đang được sử dụng.",
+                "Hãy đóng ứng dụng khác đang sử dụng camera."
             );
 
+        }
 
-        }else if(
-
-            name ===
-            "SecurityError"
-
-        ){
+        else{
 
             showError(
-
-                "Trình duyệt chặn Camera",
-
-                "Hãy mở website bằng HTTPS rồi thử lại."
-
-            );
-
-
-        }else{
-
-            showError(
-
-                "Không thể mở Camera",
-
-                "Kiểm tra quyền Camera của trình duyệt rồi bấm lại."
-
+                "Không thể mở Camera.",
+                "Hãy kiểm tra HTTPS và quyền Camera."
             );
 
         }
@@ -1656,15 +1724,19 @@ async function openCamera(){
 }
 
 
-/* =========================
-   EVENTS
-========================= */
+/* ==========================
+   BUTTON
+========================== */
 
-button.addEventListener(
+startButton.addEventListener(
     "click",
     openCamera
 );
 
+
+/* ==========================
+   RESIZE
+========================== */
 
 window.addEventListener(
     "resize",
@@ -1672,19 +1744,40 @@ window.addEventListener(
 );
 
 
+/* ==========================
+   CLEANUP
+========================== */
+
 window.addEventListener(
     "beforeunload",
-    stopCamera
+    () => {
+
+        tracking = false;
+
+
+        if(stream){
+
+            stream
+                .getTracks()
+                .forEach(
+                    track =>
+                        track.stop()
+                );
+
+        }
+
+    }
 );
 
 
-/* KHÔNG TỰ ĐỘNG MỞ CAMERA */
+/* INITIAL */
 
 resize();
 
-})();
 
+})();
 </script>
 
 </body>
 </html>
+```
