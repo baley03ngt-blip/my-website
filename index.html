@@ -9,35 +9,21 @@ initial-scale=1,
 viewport-fit=cover,
 user-scalable=no">
 
-<meta name="theme-color" content="#05080d">
-
-<title>HANDLIGHT - HAND TRACKING</title>
+<title>HANDLIGHT</title>
 
 <style>
-
-:root{
-    --bg:#05080d;
-    --white:#ffffff;
-    --muted:rgba(255,255,255,.55);
-}
-
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
     width:100%;
     height:100%;
     margin:0;
     overflow:hidden;
     background:#05080d;
-}
-
-body{
     font-family:Arial,sans-serif;
-    color:white;
 }
 
 .stage{
@@ -47,10 +33,6 @@ body{
     overflow:hidden;
     background:#05080d;
 }
-
-/* =========================
-   CAMERA
-========================= */
 
 #camera{
     position:absolute;
@@ -71,31 +53,23 @@ body{
     z-index:0;
 }
 
-/* =========================
-   SKELETON CANVAS
-========================= */
-
-#skeleton{
+#canvas{
     position:absolute;
     inset:0;
 
     width:100%;
     height:100%;
 
-    z-index:3;
+    z-index:2;
 
     pointer-events:none;
 }
-
-/* =========================
-   OVERLAY
-========================= */
 
 .overlay{
     position:absolute;
     inset:0;
 
-    z-index:4;
+    z-index:3;
 
     pointer-events:none;
 
@@ -108,13 +82,8 @@ body{
         );
 }
 
-/* =========================
-   TOP
-========================= */
-
 .top{
     position:absolute;
-
     top:0;
     left:0;
     right:0;
@@ -130,9 +99,11 @@ body{
         20px
         15px;
 
+    color:white;
+
     font:9px monospace;
 
-    letter-spacing:.17em;
+    letter-spacing:.16em;
 }
 
 .logo{
@@ -141,7 +112,7 @@ body{
     gap:8px;
 }
 
-.logo-dot{
+.dot{
     width:6px;
     height:6px;
 
@@ -153,152 +124,8 @@ body{
 }
 
 .status{
-    color:var(--muted);
+    color:rgba(255,255,255,.55);
 }
-
-/* =========================
-   START
-========================= */
-
-.start{
-    position:absolute;
-    inset:0;
-
-    z-index:20;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:25px;
-
-    background:#05080d;
-
-    transition:
-        opacity .4s ease,
-        visibility .4s ease;
-}
-
-.start.hide{
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-}
-
-.start-content{
-    width:min(88vw,400px);
-
-    text-align:center;
-}
-
-.camera-icon{
-    width:68px;
-    height:68px;
-
-    margin:0 auto 25px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.35);
-
-    border-radius:50%;
-
-    display:grid;
-    place-items:center;
-
-    box-shadow:
-        0 0 35px
-        rgba(255,255,255,.08);
-}
-
-.camera-icon span{
-    width:21px;
-    height:29px;
-
-    border:
-        2px solid white;
-
-    border-radius:
-        13px 13px 8px 8px;
-}
-
-.eyebrow{
-    margin:0 0 12px;
-
-    color:
-        rgba(255,255,255,.6);
-
-    font:10px monospace;
-
-    letter-spacing:.2em;
-}
-
-h1{
-    margin:0;
-
-    font-size:
-        clamp(30px,8vw,44px);
-
-    line-height:1.02;
-
-    letter-spacing:-.04em;
-}
-
-.desc{
-    max-width:320px;
-
-    margin:
-        18px auto 27px;
-
-    color:var(--muted);
-
-    font-size:14px;
-
-    line-height:1.6;
-}
-
-.start-button{
-    border:0;
-
-    padding:
-        16px 25px;
-
-    background:white;
-
-    color:#05080d;
-
-    font:
-        800 11px Arial;
-
-    letter-spacing:.14em;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 0 30px
-        rgba(255,255,255,.18);
-}
-
-.start-button:active{
-    transform:scale(.96);
-}
-
-.error{
-    display:none;
-
-    margin-top:15px;
-
-    color:
-        rgba(255,255,255,.6);
-
-    font-size:11px;
-
-    line-height:1.5;
-}
-
-/* =========================
-   BOTTOM
-========================= */
 
 .bottom{
     position:absolute;
@@ -311,46 +138,129 @@ h1{
 
     display:flex;
     justify-content:space-between;
-    align-items:center;
 
     padding:
-        15px
-        20px
+        15px 20px
         max(24px,env(safe-area-inset-bottom));
 
-    color:
-        rgba(255,255,255,.5);
+    color:rgba(255,255,255,.55);
 
     font:9px monospace;
 
     letter-spacing:.08em;
 }
 
-.hint{
+.start{
+    position:absolute;
+    inset:0;
+
+    z-index:20;
+
     display:flex;
+    justify-content:center;
     align-items:center;
-    gap:8px;
+
+    background:#05080d;
+
+    transition:.4s;
 }
 
-.line{
-    width:23px;
-    height:1px;
+.start.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.start-content{
+    width:min(88vw,400px);
+    text-align:center;
+}
+
+.camera-icon{
+    width:68px;
+    height:68px;
+
+    margin:0 auto 25px;
+
+    border:1px solid rgba(255,255,255,.35);
+
+    border-radius:50%;
+
+    display:grid;
+    place-items:center;
+}
+
+.camera-icon span{
+    width:21px;
+    height:29px;
+
+    border:2px solid white;
+
+    border-radius:
+        13px 13px 8px 8px;
+}
+
+.eyebrow{
+    color:rgba(255,255,255,.55);
+
+    font:10px monospace;
+
+    letter-spacing:.2em;
+}
+
+h1{
+    margin:0;
+
+    font-size:
+        clamp(30px,8vw,44px);
+
+    line-height:1.03;
+}
+
+.desc{
+    max-width:320px;
+
+    margin:18px auto 27px;
+
+    color:rgba(255,255,255,.55);
+
+    font-size:14px;
+
+    line-height:1.6;
+}
+
+button{
+    border:0;
+
+    padding:16px 25px;
 
     background:white;
 
-    box-shadow:
-        0 0 8px white;
+    color:#05080d;
+
+    font-weight:800;
+
+    font-size:11px;
+
+    letter-spacing:.14em;
+
+    cursor:pointer;
 }
 
-/* =========================
-   DESKTOP
-========================= */
+.error{
+    display:none;
+
+    margin-top:15px;
+
+    color:rgba(255,255,255,.6);
+
+    font-size:11px;
+}
 
 @media(min-width:700px){
 
     .stage{
         max-width:430px;
-
         margin:auto;
 
         box-shadow:
@@ -360,9 +270,7 @@ h1{
             0 30px 90px
             rgba(0,0,0,.5);
     }
-
 }
-
 </style>
 </head>
 
@@ -370,110 +278,78 @@ h1{
 
 <main class="stage">
 
-    <video
-        id="camera"
-        autoplay
-        muted
-        playsinline>
-    </video>
+<video
+id="camera"
+autoplay
+muted
+playsinline>
+</video>
 
-    <canvas id="skeleton"></canvas>
+<canvas id="canvas"></canvas>
 
-    <div class="overlay"></div>
+<div class="overlay"></div>
 
+<header class="top">
 
-    <header class="top">
+<div class="logo">
+<span class="dot"></span>
+HANDLIGHT
+</div>
 
-        <div class="logo">
+<div id="status">
+CAMERA OFF
+</div>
 
-            <span class="logo-dot"></span>
-
-            HANDLIGHT
-
-        </div>
-
-        <div
-            id="status"
-            class="status">
-
-            CAMERA OFF
-
-        </div>
-
-    </header>
+</header>
 
 
-    <!-- START -->
+<section id="start" class="start">
 
-    <section
-        id="start"
-        class="start">
+<div class="start-content">
 
-        <div class="start-content">
+<div class="camera-icon">
+<span></span>
+</div>
 
-            <div class="camera-icon">
+<div class="eyebrow">
+HAND TRACKING
+</div>
 
-                <span></span>
+<h1>
+Đưa hai bàn tay<br>
+vào camera
+</h1>
 
-            </div>
+<p class="desc">
+Khung xương sẽ bám trực tiếp
+theo từng khớp bàn tay.
+</p>
 
-            <p class="eyebrow">
-                HANDLIGHT
-            </p>
+<button id="startButton">
+BẬT CAMERA
+</button>
 
-            <h1>
-                Khung xương<br>
-                bàn tay
-            </h1>
+<div id="error" class="error"></div>
 
-            <p class="desc">
+</div>
 
-                Đưa hai bàn tay vào camera.
-                Hệ thống sẽ theo dõi từng
-                khớp ngón tay theo thời gian thực.
-
-            </p>
-
-            <button
-                id="startButton"
-                class="start-button">
-
-                BẬT CAMERA
-
-            </button>
-
-            <div
-                id="error"
-                class="error">
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 
-    <div class="bottom">
+<div class="bottom">
 
-        <div class="hint">
+<div id="hint">
+CHỜ HAI BÀN TAY
+</div>
 
-            <span class="line"></span>
+<div id="gesture">
+READY
+</div>
 
-            <span id="hint">
-                CHỜ BÀN TAY
-            </span>
-
-        </div>
-
-        <div id="gesture">
-            READY
-        </div>
-
-    </div>
+</div>
 
 </main>
 
-
-<!-- MEDIAPIPE -->
 
 <script
 src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
@@ -487,53 +363,49 @@ crossorigin="anonymous">
 
 
 /* =====================================================
-   ELEMENTS
+   ELEMENT
 ===================================================== */
 
 const video =
-    document.getElementById("camera");
+document.getElementById("camera");
 
 const canvas =
-    document.getElementById("skeleton");
+document.getElementById("canvas");
 
 const ctx =
-    canvas.getContext("2d");
+canvas.getContext("2d");
 
 const start =
-    document.getElementById("start");
+document.getElementById("start");
 
 const startButton =
-    document.getElementById("startButton");
+document.getElementById("startButton");
 
 const status =
-    document.getElementById("status");
-
-const errorBox =
-    document.getElementById("error");
+document.getElementById("status");
 
 const hint =
-    document.getElementById("hint");
+document.getElementById("hint");
 
 const gesture =
-    document.getElementById("gesture");
+document.getElementById("gesture");
+
+const errorBox =
+document.getElementById("error");
 
 
 /* =====================================================
-   CANVAS SIZE
+   SIZE
 ===================================================== */
 
 let W = 0;
 let H = 0;
 let DPR = 1;
 
-
 function resize(){
 
-    W =
-        canvas.clientWidth;
-
-    H =
-        canvas.clientHeight;
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
 
     DPR =
         Math.min(
@@ -542,10 +414,10 @@ function resize(){
         );
 
     canvas.width =
-        Math.round(W * DPR);
+        W * DPR;
 
     canvas.height =
-        Math.round(H * DPR);
+        H * DPR;
 
     ctx.setTransform(
         DPR,
@@ -555,12 +427,9 @@ function resize(){
         0,
         0
     );
-
 }
 
-
 resize();
-
 
 window.addEventListener(
     "resize",
@@ -574,77 +443,41 @@ window.addEventListener(
 
 let hands = null;
 
-let tracking = false;
+let running = false;
 
 let lastSend = 0;
 
 
 /* =====================================================
-   21 KHỚP XƯƠNG BÀN TAY
-=====================================================
-
-   0  = cổ tay
-
-   NGÓN CÁI
-   1  2  3  4
-
-   NGÓN TRỎ
-   5  6  7  8
-
-   NGÓN GIỮA
-   9  10 11 12
-
-   NGÓN ÁP ÚT
-   13 14 15 16
-
-   NGÓN ÚT
-   17 18 19 20
-
-===================================================== */
-
-
-/* =====================================================
-   CÁC ĐƯỜNG XƯƠNG
+   MEDIAPIPE HAND CONNECTIONS
 ===================================================== */
 
 const connections = [
-
-    /* CỔ TAY -> NGÓN TRỎ */
 
     [0,1],
     [1,2],
     [2,3],
     [3,4],
 
-    /* CỔ TAY -> NGÓN TRỎ */
-
     [0,5],
     [5,6],
     [6,7],
     [7,8],
-
-    /* CỔ TAY -> NGÓN GIỮA */
 
     [0,9],
     [9,10],
     [10,11],
     [11,12],
 
-    /* CỔ TAY -> NGÓN ÁP ÚT */
-
     [0,13],
     [13,14],
     [14,15],
     [15,16],
 
-    /* CỔ TAY -> NGÓN ÚT */
-
     [0,17],
     [17,18],
     [18,19],
     [19,20],
-
-    /* LÒNG BÀN TAY */
 
     [5,9],
     [9,13],
@@ -654,63 +487,46 @@ const connections = [
 
 
 /* =====================================================
-   ĐIỂM ĐẶC BIỆT
+   LƯU KHUNG XƯƠNG
 ===================================================== */
 
-const THUMB_TIP = 4;
-
-const INDEX_TIP = 8;
-
-const PINKY_TIP = 20;
-
-
-/* =====================================================
-   MÀU KHUNG XƯƠNG
-===================================================== */
-
-const boneColor =
-    "rgba(255,255,255,.82)";
-
-const jointColor =
-    "rgba(255,255,255,.95)";
-
-
-/* =====================================================
-   SMOOTHING
-===================================================== */
-
-const SMOOTH = .42;
+let smoothHands = [];
 
 
 /*
-   Lưu vị trí đã làm mượt
+    Đây là phần quan trọng.
+
+    Không tạo skeleton cố định.
+
+    Mỗi frame:
+    MediaPipe đưa ra 21 khớp mới.
+
+    Skeleton cũ sẽ tiến gần
+    đến đúng 21 khớp mới.
 */
 
-let smoothedHands = [];
+const SMOOTH = 0.38;
 
 
-function smoothLandmarks(
-    oldPoints,
-    newPoints
+function smoothHand(
+    oldHand,
+    newHand
 ){
 
-    if(!oldPoints){
+    if(!oldHand){
 
-        return newPoints.map(
-            p => ({
-                x:p.x,
-                y:p.y
-            })
-        );
+        return newHand.map(p => ({
+            x:p.x,
+            y:p.y
+        }));
 
     }
 
-
-    return newPoints.map(
+    return newHand.map(
         (p,i) => {
 
             const old =
-                oldPoints[i];
+                oldHand[i];
 
             if(!old){
 
@@ -725,33 +541,32 @@ function smoothLandmarks(
 
                 x:
                     old.x +
-                    (p.x-old.x) *
-                    SMOOTH,
+                    (p.x-old.x)
+                    * SMOOTH,
 
                 y:
                     old.y +
-                    (p.y-old.y) *
-                    SMOOTH
+                    (p.y-old.y)
+                    * SMOOTH
 
             };
 
         }
     );
-
 }
 
 
 /* =====================================================
-   CHUYỂN TỌA ĐỘ CAMERA -> CANVAS
+   CAMERA -> SCREEN
 ===================================================== */
 
-function convertPoint(p){
+function screenPoint(p){
 
     return {
 
         /*
-           Camera đang mirror
-           nên canvas cũng mirror.
+            Vì camera đã mirror
+            nên x cũng phải mirror.
         */
 
         x:
@@ -761,46 +576,24 @@ function convertPoint(p){
             p.y * H
 
     };
-
 }
 
 
 /* =====================================================
-   VẼ MỘT BÀN TAY
+   VẼ KHUNG XƯƠNG
 ===================================================== */
 
-function drawHand(
-    landmarks,
-    handNumber
+function drawSkeleton(
+    hand
 ){
 
-    /*
-       Chuyển toàn bộ 21 điểm
-       sang tọa độ màn hình.
-    */
-
     const points =
-        landmarks.map(
-            convertPoint
+        hand.map(
+            screenPoint
         );
 
 
-    /* =================================================
-       XÁC ĐỊNH MÀU
-    ================================================= */
-
-    /*
-       Tay trái / tay phải
-       dùng cùng màu để nhìn
-       giống khung xương thật.
-    */
-
     ctx.save();
-
-
-    /* =================================================
-       VẼ XƯƠNG
-    ================================================= */
 
     ctx.lineCap =
         "round";
@@ -809,20 +602,22 @@ function drawHand(
         "round";
 
 
+    /*
+       =========================
+       ĐƯỜNG XƯƠNG
+       =========================
+    */
+
     for(
-        const connection
+        const line
         of connections
     ){
 
         const a =
-            points[
-                connection[0]
-            ];
+            points[line[0]];
 
         const b =
-            points[
-                connection[1]
-            ];
+            points[line[1]];
 
 
         ctx.beginPath();
@@ -837,19 +632,14 @@ function drawHand(
             b.y
         );
 
-
-        /*
-           Đường xương nhỏ.
-        */
-
         ctx.strokeStyle =
-            boneColor;
+            "rgba(255,255,255,.75)";
 
         ctx.lineWidth =
-            1.25;
+            1.4;
 
         ctx.shadowColor =
-            "rgba(255,255,255,.45)";
+            "rgba(255,255,255,.35)";
 
         ctx.shadowBlur =
             4;
@@ -859,9 +649,11 @@ function drawHand(
     }
 
 
-    /* =================================================
-       VẼ TỪNG KHỚP
-    ================================================= */
+    /*
+       =========================
+       KHỚP
+       =========================
+    */
 
     for(
         let i=0;
@@ -874,16 +666,17 @@ function drawHand(
 
 
         /*
-           Điểm đầu ngón
-           hơi lớn hơn.
+           Đầu ngón lớn hơn
         */
 
-        const isTip =
-            i === 4 ||
-            i === 8 ||
-            i === 12 ||
-            i === 16 ||
-            i === 20;
+        const tip =
+            (
+                i===4 ||
+                i===8 ||
+                i===12 ||
+                i===16 ||
+                i===20
+            );
 
 
         ctx.beginPath();
@@ -892,58 +685,42 @@ function drawHand(
             p.x,
             p.y,
 
-            isTip
-                ? 3
-                : 2,
+            tip ? 3.3 : 2,
 
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
-
         ctx.fillStyle =
-            jointColor;
+            "white";
 
         ctx.shadowColor =
             "white";
 
         ctx.shadowBlur =
-            isTip
-                ? 8
-                : 4;
+            tip ? 7 : 4;
 
         ctx.fill();
 
     }
 
 
-    /* =================================================
-       ĐÁNH DẤU NGÓN CÁI
-    ================================================= */
+    /*
+       Vòng nhỏ tại 3 ngón
+       mà chúng ta sẽ dùng
+       ở bước điều khiển.
+    */
 
-    drawSpecialPoint(
-        points[THUMB_TIP],
-        "THUMB"
+    drawTarget(
+        points[4]
     );
 
-
-    /* =================================================
-       ĐÁNH DẤU NGÓN TRỎ
-    ================================================= */
-
-    drawSpecialPoint(
-        points[INDEX_TIP],
-        "INDEX"
+    drawTarget(
+        points[8]
     );
 
-
-    /* =================================================
-       ĐÁNH DẤU NGÓN ÚT
-    ================================================= */
-
-    drawSpecialPoint(
-        points[PINKY_TIP],
-        "PINKY"
+    drawTarget(
+        points[20]
     );
 
 
@@ -953,45 +730,292 @@ function drawHand(
 
 
 /* =====================================================
-   ĐIỂM ĐẶC BIỆT
+   ĐIỂM ĐIỀU KHIỂN
 ===================================================== */
 
-function drawSpecialPoint(
-    p,
-    type
-){
-
-    /*
-       Vòng tròn rất nhỏ.
-       Không tạo glow to.
-    */
+function drawTarget(p){
 
     ctx.save();
-
 
     ctx.beginPath();
 
     ctx.arc(
         p.x,
         p.y,
-        5,
+        6,
         0,
         Math.PI*2
     );
 
-
     ctx.strokeStyle =
-        "rgba(255,255,255,.75)";
+        "rgba(255,255,255,.5)";
 
     ctx.lineWidth =
         1;
 
-
     ctx.shadowColor =
-        "rgba(255,255,255,.5)";
+        "white";
 
     ctx.shadowBlur =
-        6;
+        5;
+
+    ctx.stroke();
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   DISTANCE
+===================================================== */
+
+function distance(a,b){
+
+    return Math.hypot(
+        a.x-b.x,
+        a.y-b.y
+    );
+
+}
+
+
+/* =====================================================
+   CHẠM TRỎ + CÁI
+===================================================== */
+
+function indexThumbTouch(
+    hand
+){
+
+    if(!hand)
+        return false;
+
+
+    return (
+        distance(
+            hand[4],
+            hand[8]
+        ) < .075
+    );
+
+}
+
+
+/* =====================================================
+   CHẠM ÚT + CÁI
+===================================================== */
+
+function pinkyThumbTouch(
+    hand
+){
+
+    if(!hand)
+        return false;
+
+
+    return (
+        distance(
+            hand[4],
+            hand[20]
+        ) < .075
+    );
+
+}
+
+
+/* =====================================================
+   WINDOW
+===================================================== */
+
+let windowOpen = false;
+
+
+/*
+    4 góc cửa sổ:
+
+    TL = trỏ trái
+    TR = trỏ phải
+    BR = cái phải
+    BL = cái trái
+*/
+
+const windowPoints = {
+
+    tl:{x:0,y:0},
+    tr:{x:0,y:0},
+    br:{x:0,y:0},
+    bl:{x:0,y:0}
+
+};
+
+
+const targetWindow = {
+
+    tl:{x:0,y:0},
+    tr:{x:0,y:0},
+    br:{x:0,y:0},
+    bl:{x:0,y:0}
+
+};
+
+
+function smoothWindowPoint(
+    current,
+    target
+){
+
+    current.x +=
+        (target.x-current.x)
+        * .2;
+
+    current.y +=
+        (target.y-current.y)
+        * .2;
+
+}
+
+
+/* =====================================================
+   CẬP NHẬT CỬA SỔ
+===================================================== */
+
+function updateWindow(
+    left,
+    right
+){
+
+    targetWindow.tl =
+        screenPoint(
+            left[8]
+        );
+
+    targetWindow.tr =
+        screenPoint(
+            right[8]
+        );
+
+    targetWindow.br =
+        screenPoint(
+            right[4]
+        );
+
+    targetWindow.bl =
+        screenPoint(
+            left[4]
+        );
+
+
+    smoothWindowPoint(
+        windowPoints.tl,
+        targetWindow.tl
+    );
+
+    smoothWindowPoint(
+        windowPoints.tr,
+        targetWindow.tr
+    );
+
+    smoothWindowPoint(
+        windowPoints.br,
+        targetWindow.br
+    );
+
+    smoothWindowPoint(
+        windowPoints.bl,
+        targetWindow.bl
+    );
+
+}
+
+
+/* =====================================================
+   VẼ CỬA SỔ
+===================================================== */
+
+function drawWindow(){
+
+    if(!windowOpen)
+        return;
+
+
+    const p =
+        windowPoints;
+
+
+    ctx.save();
+
+
+    /*
+       KHUNG
+    */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        p.tl.x,
+        p.tl.y
+    );
+
+    ctx.lineTo(
+        p.tr.x,
+        p.tr.y
+    );
+
+    ctx.lineTo(
+        p.br.x,
+        p.br.y
+    );
+
+    ctx.lineTo(
+        p.bl.x,
+        p.bl.y
+    );
+
+    ctx.closePath();
+
+
+    /*
+       KÍNH BÊN TRONG
+    */
+
+    ctx.fillStyle =
+        "rgba(255,255,255,.035)";
+
+    ctx.fill();
+
+
+    /*
+       VIỀN NGOÀI
+    */
+
+    ctx.shadowColor =
+        "rgba(255,255,255,.8)";
+
+    ctx.shadowBlur =
+        14;
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.85)";
+
+    ctx.lineWidth =
+        2;
+
+    ctx.stroke();
+
+
+    /*
+       VIỀN NHỎ BÊN TRONG
+    */
+
+    ctx.shadowBlur =
+        0;
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.35)";
+
+    ctx.lineWidth =
+        1;
 
     ctx.stroke();
 
@@ -1002,29 +1026,20 @@ function drawSpecialPoint(
 
 
 /* =====================================================
-   NHẬN DIỆN TAY
+   XỬ LÝ HAI TAY
 ===================================================== */
 
-function processResults(
-    result
+function processHands(
+    detected,
+    handedness
 ){
-
-    const detected =
-        result.multiHandLandmarks || [];
-
-
-    /*
-       Không có tay
-    */
 
     if(
         detected.length === 0
     ){
 
-        smoothedHands = [];
-
         hint.textContent =
-            "ĐƯA BÀN TAY VÀO";
+            "ĐƯA HAI BÀN TAY VÀO";
 
         gesture.textContent =
             "WAITING";
@@ -1035,92 +1050,248 @@ function processResults(
 
 
     /*
-       Tối đa 2 tay
+       Lấy tối đa 2 tay.
+    */
+
+    const data = [];
+
+
+    for(
+        let i=0;
+        i<detected.length && i<2;
+        i++
+    ){
+
+        data.push({
+
+            landmarks:
+                detected[i],
+
+            label:
+                handedness &&
+                handedness[i]
+                ? handedness[i].label
+                : ""
+
+        });
+
+    }
+
+
+    /*
+       LÀM MƯỢT
     */
 
     const handsNow =
-        detected.slice(0,2);
-
-
-    /*
-       Làm mượt từng bàn tay
-    */
-
-    const output = [];
-
-
-    for(
-        let i=0;
-        i<handsNow.length;
-        i++
-    ){
-
-        const current =
-            handsNow[i];
-
-
-        const previous =
-            smoothedHands[i];
-
-
-        const smooth =
-            smoothLandmarks(
-                previous,
-                current
-            );
-
-
-        output.push(
-            smooth
+        data.map(
+            (item,i) =>
+            smoothHand(
+                smoothHands[i],
+                item.landmarks
+            )
         );
 
-    }
 
-
-    smoothedHands =
-        output;
+    smoothHands =
+        handsNow;
 
 
     /*
-       Hiện khung xương
+       VẼ SKELETON
     */
 
     for(
-        let i=0;
-        i<output.length;
-        i++
+        const hand
+        of handsNow
     ){
 
-        drawHand(
-            output[i],
-            i
+        drawSkeleton(
+            hand
         );
 
     }
 
 
     /*
-       Trạng thái
+       CHƯA ĐỦ 2 TAY
     */
 
     if(
-        output.length === 1
+        handsNow.length < 2
     ){
 
         hint.textContent =
-            "ĐÃ THẤY 1 BÀN TAY";
+            "CẦN ĐỦ HAI BÀN TAY";
 
         gesture.textContent =
             "1 HAND";
 
+        return;
+
     }
-    else{
+
+
+    /*
+       =========================
+       XÁC ĐỊNH TRÁI / PHẢI
+       =========================
+
+       Dùng vị trí trên màn hình,
+       không phụ thuộc label của
+       MediaPipe.
+    */
+
+    const converted =
+        handsNow.map(
+            hand => ({
+
+                hand,
+
+                center:
+                    screenPoint(
+                        hand[9]
+                    )
+
+            })
+        );
+
+
+    converted.sort(
+        (a,b) =>
+        a.center.x-b.center.x
+    );
+
+
+    const left =
+        converted[0].hand;
+
+    const right =
+        converted[1].hand;
+
+
+    /*
+       =========================
+       CỬA SỔ ĐANG ĐÓNG
+       =========================
+    */
+
+    if(!windowOpen){
+
+        const leftTouch =
+            indexThumbTouch(
+                left
+            );
+
+        const rightTouch =
+            indexThumbTouch(
+                right
+            );
+
+
+        if(
+            leftTouch &&
+            rightTouch
+        ){
+
+            windowOpen =
+                true;
+
+
+            /*
+               Khởi tạo cửa sổ
+               đúng theo bàn tay
+            */
+
+            targetWindow.tl =
+                screenPoint(
+                    left[8]
+                );
+
+            targetWindow.tr =
+                screenPoint(
+                    right[8]
+                );
+
+            targetWindow.br =
+                screenPoint(
+                    right[4]
+                );
+
+            targetWindow.bl =
+                screenPoint(
+                    left[4]
+                );
+
+
+            windowPoints.tl =
+                {...targetWindow.tl};
+
+            windowPoints.tr =
+                {...targetWindow.tr};
+
+            windowPoints.br =
+                {...targetWindow.br};
+
+            windowPoints.bl =
+                {...targetWindow.bl};
+
+
+            hint.textContent =
+                "CỬA SỔ ĐÃ MỞ";
+
+            gesture.textContent =
+                "WINDOW OPEN";
+
+        }
+        else{
+
+            hint.textContent =
+                "TRỎ + CÁI Ở HAI TAY";
+
+            gesture.textContent =
+                "READY";
+
+        }
+
+    }
+
+
+    /*
+       =========================
+       CỬA SỔ ĐANG MỞ
+       =========================
+    */
+
+    if(windowOpen){
+
+        /*
+           Cập nhật liên tục.
+
+           Vì vậy nếu bạn:
+           - đưa trỏ lên
+           - đưa trỏ xuống
+           - đưa cái sang trái
+           - đưa cái sang phải
+
+           thì cửa sổ cũng biến dạng
+           theo chính bàn tay.
+        */
+
+        updateWindow(
+            left,
+            right
+        );
+
+
+        /*
+           Hiện cửa sổ
+        */
 
         hint.textContent =
-            "ĐÃ THẤY 2 BÀN TAY";
+            "DI CHUYỂN BÀN TAY";
 
         gesture.textContent =
-            "2 HANDS";
+            "WINDOW ACTIVE";
 
     }
 
@@ -1133,10 +1304,6 @@ function processResults(
 
 function onResults(result){
 
-    /*
-       Xóa frame cũ
-    */
-
     ctx.clearRect(
         0,
         0,
@@ -1145,9 +1312,26 @@ function onResults(result){
     );
 
 
-    processResults(
-        result
+    const detected =
+        result.multiHandLandmarks || [];
+
+
+    const handedness =
+        result.multiHandedness || [];
+
+
+    processHands(
+        detected,
+        handedness
     );
+
+
+    /*
+       Cửa sổ vẽ sau skeleton
+       để nó nằm phía trên.
+    */
+
+    drawWindow();
 
 }
 
@@ -1158,7 +1342,7 @@ function onResults(result){
 
 async function trackingLoop(){
 
-    if(!tracking)
+    if(!running)
         return;
 
 
@@ -1166,14 +1350,10 @@ async function trackingLoop(){
         performance.now();
 
 
-    /*
-       Khoảng 24 FPS.
-    */
-
     if(
         hands &&
         video.readyState >= 2 &&
-        now-lastSend >= 42
+        now-lastSend >= 40
     ){
 
         lastSend =
@@ -1189,8 +1369,7 @@ async function trackingLoop(){
         }
         catch(error){
 
-            console.log(
-                "MediaPipe:",
+            console.error(
                 error
             );
 
@@ -1207,31 +1386,18 @@ async function trackingLoop(){
 
 
 /* =====================================================
-   START MEDIAPIPE
+   START HANDS
 ===================================================== */
 
 async function startTracking(){
-
-    if(
-        !window.Hands
-    ){
-
-        showError(
-            "Không tải được hệ thống nhận diện bàn tay."
-        );
-
-        return;
-
-    }
-
 
     hands =
         new Hands({
 
             locateFile:
-                file =>
-                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
-                    + file
+            file =>
+            "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
+            + file
 
         });
 
@@ -1242,9 +1408,9 @@ async function startTracking(){
 
         modelComplexity:1,
 
-        minDetectionConfidence:.6,
+        minDetectionConfidence:.65,
 
-        minTrackingConfidence:.6
+        minTrackingConfidence:.65
 
     });
 
@@ -1254,7 +1420,7 @@ async function startTracking(){
     );
 
 
-    tracking =
+    running =
         true;
 
 
@@ -1286,7 +1452,7 @@ function showError(
 
 
 /* =====================================================
-   OPEN CAMERA
+   CAMERA
 ===================================================== */
 
 async function openCamera(){
@@ -1294,44 +1460,16 @@ async function openCamera(){
     startButton.disabled =
         true;
 
-    errorBox.style.display =
-        "none";
-
     status.textContent =
         "ĐANG XIN QUYỀN";
 
-
-    /*
-       Camera bắt buộc HTTPS
-    */
 
     if(
         !window.isSecureContext
     ){
 
         showError(
-            "Website phải chạy bằng HTTPS hoặc GitHub Pages."
-        );
-
-        status.textContent =
-            "HTTPS ERROR";
-
-        return;
-
-    }
-
-
-    /*
-       Kiểm tra browser
-    */
-
-    if(
-        !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
-    ){
-
-        showError(
-            "Trình duyệt không hỗ trợ Camera."
+            "Hãy mở website bằng HTTPS hoặc GitHub Pages."
         );
 
         return;
@@ -1343,33 +1481,33 @@ async function openCamera(){
 
         const stream =
             await navigator
-                .mediaDevices
-                .getUserMedia({
+            .mediaDevices
+            .getUserMedia({
 
-                    audio:false,
+                audio:false,
 
-                    video:{
+                video:{
 
-                        facingMode:{
-                            ideal:"user"
-                        },
+                    facingMode:{
+                        ideal:"user"
+                    },
 
-                        width:{
-                            ideal:640
-                        },
+                    width:{
+                        ideal:640
+                    },
 
-                        height:{
-                            ideal:480
-                        },
+                    height:{
+                        ideal:480
+                    },
 
-                        frameRate:{
-                            ideal:24,
-                            max:30
-                        }
-
+                    frameRate:{
+                        ideal:24,
+                        max:30
                     }
 
-                });
+                }
+
+            });
 
 
         video.srcObject =
@@ -1378,10 +1516,6 @@ async function openCamera(){
 
         await video.play();
 
-
-        /*
-           Ẩn màn hình bắt đầu
-        */
 
         start.classList.add(
             "hide"
@@ -1394,10 +1528,6 @@ async function openCamera(){
 
         resize();
 
-
-        /*
-           Bắt đầu nhận diện
-        */
 
         await startTracking();
 
@@ -1423,11 +1553,10 @@ async function openCamera(){
         ){
 
             showError(
-                "Camera đang bị chặn. Hãy cho phép Camera rồi tải lại trang."
+                "Camera bị chặn. Hãy cấp quyền Camera."
             );
 
         }
-
         else if(
             error.name ===
             "NotFoundError"
@@ -1438,23 +1567,20 @@ async function openCamera(){
             );
 
         }
-
         else if(
             error.name ===
             "NotReadableError"
         ){
 
             showError(
-                "Camera đang được chương trình khác sử dụng."
+                "Camera đang được ứng dụng khác sử dụng."
             );
 
         }
-
         else{
 
             showError(
-                "Không thể mở Camera: "
-                + error.message
+                "Không thể mở Camera."
             );
 
         }
@@ -1482,7 +1608,7 @@ window.addEventListener(
     "beforeunload",
     () => {
 
-        tracking =
+        running =
             false;
 
 
@@ -1491,11 +1617,11 @@ window.addEventListener(
         ){
 
             video.srcObject
-                .getTracks()
-                .forEach(
-                    track =>
-                        track.stop()
-                );
+            .getTracks()
+            .forEach(
+                track =>
+                track.stop()
+            );
 
         }
 
