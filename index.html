@@ -1,25 +1,23 @@
-```html
 <!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1,
-viewport-fit=cover,
-user-scalable=no">
+      content="width=device-width,
+      initial-scale=1,
+      viewport-fit=cover,
+      user-scalable=no">
 
 <meta name="theme-color" content="#05070d">
 
-<title>Handlight V3</title>
+<title>HANDLIGHT V4</title>
 
 <style>
-
 :root{
     --bg:#05070d;
-    --white:#f5f7ff;
-    --muted:rgba(245,247,255,.6);
+    --white:#ffffff;
+    --muted:rgba(255,255,255,.58);
 }
 
 *{
@@ -37,8 +35,8 @@ body{
 }
 
 body{
+    color:white;
     font-family:Arial,sans-serif;
-    color:var(--white);
 }
 
 .stage{
@@ -68,8 +66,8 @@ body{
 
     filter:
         brightness(.78)
-        contrast(1.08)
-        saturate(1.02);
+        contrast(1.06)
+        saturate(.95);
 
     z-index:0;
 }
@@ -91,7 +89,7 @@ body{
 }
 
 /* =========================
-   CINEMATIC OVERLAY
+   DARK CINEMATIC OVERLAY
 ========================= */
 
 .overlay{
@@ -103,37 +101,36 @@ body{
     pointer-events:none;
 
     background:
-
         radial-gradient(
-            circle at center,
-            transparent 25%,
-            rgba(0,0,0,.18) 65%,
-            rgba(0,0,0,.72) 100%
+            ellipse at center,
+            transparent 28%,
+            rgba(0,0,0,.12) 62%,
+            rgba(0,0,0,.68) 100%
         ),
 
         linear-gradient(
             180deg,
-            rgba(0,0,0,.4),
+            rgba(0,0,0,.35),
             transparent 30%,
             transparent 70%,
-            rgba(0,0,0,.55)
+            rgba(0,0,0,.52)
         );
 }
 
 /* =========================
-   TOP UI
+   TOP
 ========================= */
 
 .top{
     position:absolute;
-
     top:0;
     left:0;
     right:0;
 
-    z-index:6;
+    z-index:8;
 
     display:flex;
+    align-items:center;
     justify-content:space-between;
 
     padding:
@@ -143,14 +140,13 @@ body{
 
     font-family:monospace;
     font-size:9px;
-
     letter-spacing:.18em;
 }
 
 .logo{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:9px;
 }
 
 .logo-dot{
@@ -183,19 +179,19 @@ body{
     align-items:center;
     justify-content:center;
 
-    background:
+    padding:25px;
 
+    background:
         radial-gradient(
             circle at center,
-            rgba(120,100,255,.08),
+            rgba(255,255,255,.05),
             transparent 42%
         ),
-
         #05070d;
 
     transition:
-        opacity .55s ease,
-        visibility .55s ease;
+        opacity .5s ease,
+        visibility .5s ease;
 }
 
 .start.hide{
@@ -252,18 +248,17 @@ body{
     50%{
         transform:scale(1.06);
     }
-
 }
 
 .eyebrow{
     margin:0 0 12px;
 
+    color:rgba(255,255,255,.62);
+
     font:
         10px monospace;
 
     letter-spacing:.22em;
-
-    color:rgba(255,255,255,.65);
 }
 
 h1{
@@ -313,8 +308,7 @@ h1{
         rgba(255,255,255,.18);
 
     transition:
-        transform .2s,
-        box-shadow .2s;
+        transform .2s ease;
 }
 
 .start-button:active{
@@ -333,6 +327,8 @@ h1{
     color:rgba(255,255,255,.5);
 
     font-size:11px;
+
+    line-height:1.5;
 }
 
 /* =========================
@@ -346,9 +342,10 @@ h1{
     right:0;
     bottom:0;
 
-    z-index:6;
+    z-index:8;
 
     display:flex;
+    align-items:center;
     justify-content:space-between;
 
     padding:
@@ -360,24 +357,27 @@ h1{
 
     letter-spacing:.08em;
 
-    color:rgba(255,255,255,.5);
+    color:rgba(255,255,255,.48);
 }
 
 .hint{
     display:flex;
     align-items:center;
-
     gap:9px;
 }
 
-.line{
-    width:23px;
+.hint-line{
+    width:24px;
     height:1px;
 
     background:white;
 
     box-shadow:
         0 0 8px white;
+}
+
+.gesture{
+    text-align:right;
 }
 
 /* =========================
@@ -397,6 +397,24 @@ h1{
     pointer-events:none;
 }
 
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:700px){
+
+    .stage{
+        max-width:430px;
+        margin:auto;
+
+        box-shadow:
+            0 0 0 1px
+            rgba(255,255,255,.08),
+
+            0 30px 90px
+            rgba(0,0,0,.5);
+    }
+}
 </style>
 </head>
 
@@ -404,116 +422,111 @@ h1{
 
 <main class="stage">
 
-<!-- CAMERA -->
-<video
-    id="camera"
-    autoplay
-    muted
-    playsinline>
-</video>
+    <video
+        id="camera"
+        autoplay
+        muted
+        playsinline>
+    </video>
 
+    <canvas id="effects"></canvas>
 
-<!-- EFFECTS -->
-<canvas id="effects"></canvas>
+    <div class="overlay"></div>
 
+    <div id="flash"></div>
 
-<!-- OVERLAY -->
-<div class="overlay"></div>
+    <header class="top">
 
+        <div class="logo">
 
-<!-- FLASH -->
-<div id="flash"></div>
+            <span class="logo-dot"></span>
 
+            HANDLIGHT
 
-<!-- TOP -->
-
-<header class="top">
-
-    <div class="logo">
-        <span class="logo-dot"></span>
-        HANDLIGHT
-    </div>
-
-    <div
-        id="status"
-        class="status">
-        CAMERA OFF
-    </div>
-
-</header>
-
-
-<!-- START -->
-
-<section
-    id="start"
-    class="start">
-
-    <div class="start-content">
-
-        <div class="camera-circle">
-            <span></span>
         </div>
-
-        <p class="eyebrow">
-            DUAL HAND EXPERIENCE
-        </p>
-
-        <h1>
-            Mở cánh cửa<br>
-            bằng đôi tay
-        </h1>
-
-        <p class="description">
-
-            Chạm trỏ vào ngón cái
-            của cả hai tay,
-            sau đó mở hai tay ra.
-
-        </p>
-
-        <button
-            id="startButton"
-            class="start-button">
-
-            BẬT CAMERA
-
-        </button>
 
         <div
-            id="error"
-            class="error">
+            id="status"
+            class="status">
+
+            CAMERA OFF
+
+        </div>
+
+    </header>
+
+
+    <!-- START -->
+
+    <section
+        id="start"
+        class="start">
+
+        <div class="start-content">
+
+            <div class="camera-circle">
+                <span></span>
+            </div>
+
+            <p class="eyebrow">
+                DUAL HAND EXPERIENCE
+            </p>
+
+            <h1>
+                Mở cánh cửa<br>
+                bằng đôi tay
+            </h1>
+
+            <p class="description">
+
+                Chạm ngón trỏ vào ngón cái
+                của cả hai tay,
+                sau đó mở hai tay ra.
+
+            </p>
+
+            <button
+                id="startButton"
+                class="start-button">
+
+                BẬT CAMERA
+
+            </button>
+
+            <div
+                id="error"
+                class="error">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="bottom">
+
+        <div class="hint">
+
+            <span class="hint-line"></span>
+
+            <span id="hint">
+                CHỜ HAI BÀN TAY
+            </span>
+
+        </div>
+
+        <div
+            id="gesture"
+            class="gesture">
+
+            READY
+
         </div>
 
     </div>
-
-</section>
-
-
-<!-- BOTTOM -->
-
-<div class="bottom">
-
-    <div class="hint">
-
-        <span class="line"></span>
-
-        <span id="hint">
-            CHỜ HAI BÀN TAY
-        </span>
-
-    </div>
-
-    <div id="gesture">
-        READY
-    </div>
-
-</div>
 
 </main>
 
-
-<!-- MEDIAPIPE -->
 
 <script
 src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
@@ -539,9 +552,11 @@ const canvas =
     document.getElementById("effects");
 
 const ctx =
-    canvas.getContext("2d");
+    canvas.getContext("2d",{
+        alpha:true
+    });
 
-const startScreen =
+const start =
     document.getElementById("start");
 
 const startButton =
@@ -550,13 +565,13 @@ const startButton =
 const status =
     document.getElementById("status");
 
-const error =
+const errorBox =
     document.getElementById("error");
 
 const hint =
     document.getElementById("hint");
 
-const gestureText =
+const gesture =
     document.getElementById("gesture");
 
 const flash =
@@ -564,12 +579,12 @@ const flash =
 
 
 /* =====================================================
-   VARIABLES
+   BASIC VARIABLES
 ===================================================== */
 
 let stream = null;
 
-let hands = null;
+let handsModel = null;
 
 let tracking = false;
 
@@ -580,72 +595,78 @@ let W = 0;
 let H = 0;
 
 
-/*
-    0 = chưa tạo cửa sổ
-    1 = đang giữ pinch
-    2 = đang mở cửa sổ
-*/
+/* =====================================================
+   PORTAL STATE
 
-let portalState = 0;
+   0 = chưa kích hoạt
+   1 = hai tay đang pinch
+   2 = cửa sổ đang mở
+===================================================== */
+
+let state = 0;
 
 
-/* cửa sổ */
+/* =====================================================
+   SMOOTH PORTAL
 
-let portal = {
+   target = vị trí thực tế
+   current = vị trí đang hiển thị
+
+   Dùng lerp để cửa sổ
+   không giật theo landmark.
+===================================================== */
+
+const portal = {
 
     active:false,
 
-    x1:0,
-    y1:0,
+    current:{
+        x:0,
+        y:0,
+        width:0,
+        height:0
+    },
 
-    x2:0,
-    y2:0,
+    target:{
+        x:0,
+        y:0,
+        width:0,
+        height:0
+    },
+
+    initialized:false,
 
     colorIndex:0,
 
-    progress:0
+    lastColorChange:0
 
 };
 
 
-/* màu */
+/* =====================================================
+   7 COLORS
+
+   Chỉ phần kính bên trong
+   dùng 7 màu này.
+
+   VIỀN KHUNG LUÔN TRẮNG.
+===================================================== */
 
 const colors = [
 
-    {
-        main:"#ff4f81",
-        glow:"#ff4f81"
-    },
+    "#ff4f81",
 
-    {
-        main:"#ff8a3d",
-        glow:"#ff8a3d"
-    },
+    "#ff8b42",
 
-    {
-        main:"#ffe45c",
-        glow:"#ffe45c"
-    },
+    "#ffe45b",
 
-    {
-        main:"#65f58b",
-        glow:"#65f58b"
-    },
+    "#62ed8b",
 
-    {
-        main:"#53e6ff",
-        glow:"#53e6ff"
-    },
+    "#4ce4ff",
 
-    {
-        main:"#6688ff",
-        glow:"#6688ff"
-    },
+    "#6688ff",
 
-    {
-        main:"#c86cff",
-        glow:"#c86cff"
-    }
+    "#c76cff"
 
 ];
 
@@ -704,18 +725,18 @@ function distance(a,b){
 
 
 /* =====================================================
-   POINT
+   SCREEN POINT
+
+   Camera bị mirror nên X đảo lại.
 ===================================================== */
 
 function screenPoint(p){
 
     return {
 
-        x:
-            (1-p.x)*W,
+        x:(1-p.x)*W,
 
-        y:
-            p.y*H
+        y:p.y*H
 
     };
 
@@ -723,67 +744,110 @@ function screenPoint(p){
 
 
 /* =====================================================
-   PINCH
+   PINCH INDEX + THUMB
 ===================================================== */
-
-/*
-    Kiểm tra ngón trỏ chạm ngón cái
-*/
 
 function indexPinch(hand){
 
-    const thumb =
-        hand[4];
-
-    const index =
-        hand[8];
-
-
     return (
         distance(
-            thumb,
-            index
-        ) < 0.075
-    );
-
-}
-
-
-/*
-    Kiểm tra út chạm ngón cái
-*/
-
-function pinkyPinch(hand){
-
-    const thumb =
-        hand[4];
-
-    const pinky =
-        hand[20];
-
-
-    return (
-        distance(
-            thumb,
-            pinky
-        ) < 0.085
+            hand[4],
+            hand[8]
+        ) < .075
     );
 
 }
 
 
 /* =====================================================
-   GLOW DOT
+   PINCH PINKY + THUMB
 ===================================================== */
 
-function glowDot(
+function pinkyPinch(hand){
+
+    return (
+        distance(
+            hand[4],
+            hand[20]
+        ) < .085
+    );
+
+}
+
+
+/* =====================================================
+   LERP
+===================================================== */
+
+function lerp(a,b,t){
+
+    return a +
+        (b-a)*t;
+
+}
+
+
+/* =====================================================
+   SMOOTH PORTAL
+===================================================== */
+
+function smoothPortal(){
+
+    /*
+        0.22 là mức mượt.
+        Không quá chậm,
+        cũng không giật.
+    */
+
+    const smooth = .22;
+
+
+    portal.current.x =
+        lerp(
+            portal.current.x,
+            portal.target.x,
+            smooth
+        );
+
+
+    portal.current.y =
+        lerp(
+            portal.current.y,
+            portal.target.y,
+            smooth
+        );
+
+
+    portal.current.width =
+        lerp(
+            portal.current.width,
+            portal.target.width,
+            smooth
+        );
+
+
+    portal.current.height =
+        lerp(
+            portal.current.height,
+            portal.target.height,
+            smooth
+        );
+
+}
+
+
+/* =====================================================
+   ENERGY DOT
+===================================================== */
+
+function drawGlow(
     p,
-    color,
+    color="#ffffff",
     size=1
 ){
 
-    const radius =
-        20*size;
+    const r =
+        18*size;
 
 
     const gradient =
@@ -793,7 +857,7 @@ function glowDot(
             0,
             p.x,
             p.y,
-            radius*3
+            r*3
         );
 
 
@@ -804,7 +868,7 @@ function glowDot(
 
     gradient.addColorStop(
         .25,
-        color+"bb"
+        color+"aa"
     );
 
     gradient.addColorStop(
@@ -822,7 +886,7 @@ function glowDot(
     ctx.arc(
         p.x,
         p.y,
-        radius*3,
+        r*3,
         0,
         Math.PI*2
     );
@@ -830,8 +894,10 @@ function glowDot(
     ctx.fill();
 
 
+    ctx.save();
+
     ctx.fillStyle =
-        "#ffffff";
+        "#fff";
 
     ctx.shadowColor =
         color;
@@ -839,89 +905,51 @@ function glowDot(
     ctx.shadowBlur =
         18;
 
-
     ctx.beginPath();
 
     ctx.arc(
         p.x,
         p.y,
-        3.5*size,
+        3.2*size,
         0,
         Math.PI*2
     );
 
     ctx.fill();
 
-
-    ctx.shadowBlur=0;
+    ctx.restore();
 
 }
 
 
 /* =====================================================
    ENERGY LINE
+
+   Đây là đường nối hai ngón.
+   LUÔN TRẮNG.
 ===================================================== */
 
-function drawEnergyLine(
-    a,
-    b,
-    color
-){
-
-    const gradient =
-        ctx.createLinearGradient(
-            a.x,
-            a.y,
-            b.x,
-            b.y
-        );
-
-
-    gradient.addColorStop(
-        0,
-        color+"00"
-    );
-
-    gradient.addColorStop(
-        .25,
-        color
-    );
-
-    gradient.addColorStop(
-        .5,
-        "#ffffff"
-    );
-
-    gradient.addColorStop(
-        .75,
-        color
-    );
-
-    gradient.addColorStop(
-        1,
-        color+"00"
-    );
-
+function drawEnergyLine(a,b){
 
     ctx.save();
-
 
     ctx.lineCap =
         "round";
 
 
-    /* glow */
+    /* outer glow */
 
     ctx.strokeStyle =
-        color;
+        "rgba(255,255,255,.7)";
 
     ctx.shadowColor =
-        color;
+        "#ffffff";
 
     ctx.shadowBlur =
-        25;
+        24;
 
-    ctx.lineWidth = 5;
+    ctx.lineWidth =
+        5;
 
 
     ctx.beginPath();
@@ -946,7 +974,8 @@ function drawEnergyLine(
     ctx.strokeStyle =
         "#ffffff";
 
-    ctx.lineWidth = 1.4;
+    ctx.lineWidth =
+        1.4;
 
 
     ctx.beginPath();
@@ -970,13 +999,45 @@ function drawEnergyLine(
 
 
 /* =====================================================
-   PORTAL
+   PORTAL GLASS
+
+   Đây là phần QUAN TRỌNG.
+
+   Màu chỉ nằm bên trong
+   cửa sổ.
 ===================================================== */
 
-function drawPortal(){
+function drawGlass(){
 
     if(
         !portal.active
+    ){
+
+        return;
+
+    }
+
+
+    const p =
+        portal.current;
+
+
+    const x =
+        p.x-p.width/2;
+
+    const y =
+        p.y-p.height/2;
+
+    const w =
+        p.width;
+
+    const h =
+        p.height;
+
+
+    if(
+        w < 40 ||
+        h < 40
     ){
 
         return;
@@ -990,96 +1051,30 @@ function drawPortal(){
         ];
 
 
-    const x =
-        Math.min(
-            portal.x1,
-            portal.x2
-        );
-
-    const y =
-        Math.min(
-            portal.y1,
-            portal.y2
-        );
-
-
-    const w =
-        Math.abs(
-            portal.x2-
-            portal.x1
-        );
-
-
-    const h =
-        Math.abs(
-            portal.y2-
-            portal.y1
-        );
-
-
-    if(
-        w<80 ||
-        h<80
-    ){
-
-        return;
-
-    }
-
-
     ctx.save();
 
 
-    /* =====================
-       OUTER GLOW
-    ===================== */
+    /*
+        CLIP
+        để màu không tràn ra
+        ngoài cửa sổ.
+    */
 
-    ctx.shadowColor =
-        color.glow;
+    ctx.beginPath();
 
-    ctx.shadowBlur =
-        35;
-
-
-    ctx.strokeStyle =
-        color.main;
-
-    ctx.lineWidth =
-        2;
-
-
-    ctx.strokeRect(
+    ctx.roundRect(
         x,
         y,
         w,
-        h
+        h,
+        18
     );
+
+    ctx.clip();
 
 
     /* =====================
-       INNER FRAME
-    ===================== */
-
-    ctx.shadowBlur =
-        15;
-
-    ctx.strokeStyle =
-        "#ffffffaa";
-
-    ctx.lineWidth =
-        1;
-
-
-    ctx.strokeRect(
-        x+7,
-        y+7,
-        w-14,
-        h-14
-    );
-
-
-    /* =====================
-       GLASS
+       GLASS GRADIENT
     ===================== */
 
     const gradient =
@@ -1093,21 +1088,24 @@ function drawPortal(){
 
     gradient.addColorStop(
         0,
-        color.main+"18"
+        color+"42"
     );
 
     gradient.addColorStop(
-        .5,
-        "#ffffff05"
+        .35,
+        color+"18"
+    );
+
+    gradient.addColorStop(
+        .65,
+        "#ffffff08"
     );
 
     gradient.addColorStop(
         1,
-        color.main+"22"
+        color+"3c"
     );
 
-
-    ctx.shadowBlur=0;
 
     ctx.fillStyle =
         gradient;
@@ -1121,31 +1119,284 @@ function drawPortal(){
     );
 
 
-    /* =====================
-       CORNER LIGHTS
-    ===================== */
+    /*
+        Ánh sáng ở giữa
+    */
 
-    const s=18;
+    const radial =
+        ctx.createRadialGradient(
+            p.x,
+            p.y,
+            0,
+            p.x,
+            p.y,
+            Math.max(w,h)*.65
+        );
+
+
+    radial.addColorStop(
+        0,
+        "#ffffff22"
+    );
+
+    radial.addColorStop(
+        .45,
+        color+"12"
+    );
+
+    radial.addColorStop(
+        1,
+        color+"00"
+    );
+
+
+    ctx.fillStyle =
+        radial;
+
+
+    ctx.fillRect(
+        x,
+        y,
+        w,
+        h
+    );
+
+
+    /*
+        SCAN LINES
+    */
+
+    const time =
+        performance.now()*.035;
+
+
+    ctx.globalAlpha =
+        .12;
 
 
     ctx.strokeStyle =
         "#ffffff";
 
-    ctx.lineWidth=2;
+
+    ctx.lineWidth = 1;
+
+
+    for(
+        let yy =
+            y-40+(time%40);
+        yy<y+h;
+        yy+=40
+    ){
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            yy
+        );
+
+        ctx.lineTo(
+            x+w,
+            yy
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    /*
+        shine diagonal
+    */
+
+    const shine =
+        ctx.createLinearGradient(
+            x,
+            y,
+            x+w,
+            y+h
+        );
+
+
+    shine.addColorStop(
+        0,
+        "#ffffff00"
+    );
+
+    shine.addColorStop(
+        .45,
+        "#ffffff15"
+    );
+
+    shine.addColorStop(
+        .5,
+        "#ffffff2a"
+    );
+
+    shine.addColorStop(
+        .55,
+        "#ffffff15"
+    );
+
+    shine.addColorStop(
+        1,
+        "#ffffff00"
+    );
+
+
+    ctx.globalAlpha =
+        .7;
+
+    ctx.fillStyle =
+        shine;
+
+    ctx.fillRect(
+        x,
+        y,
+        w,
+        h
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   PORTAL FRAME
+
+   KHUNG LUÔN TRẮNG.
+===================================================== */
+
+function drawPortalFrame(){
+
+    if(
+        !portal.active
+    ){
+
+        return;
+
+    }
+
+
+    const p =
+        portal.current;
+
+
+    const x =
+        p.x-p.width/2;
+
+    const y =
+        p.y-p.height/2;
+
+    const w =
+        p.width;
+
+    const h =
+        p.height;
+
+
+    if(
+        w<40 ||
+        h<40
+    ){
+
+        return;
+
+    }
+
+
+    ctx.save();
+
+
+    /*
+        Outer glow
+    */
 
     ctx.shadowColor =
-        color.main;
+        "#ffffff";
 
-    ctx.shadowBlur=15;
+    ctx.shadowBlur =
+        25;
+
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.95)";
+
+    ctx.lineWidth =
+        2;
+
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        x,
+        y,
+        w,
+        h,
+        18
+    );
+
+    ctx.stroke();
+
+
+    /*
+        Inner white line
+    */
+
+    ctx.shadowBlur =
+        8;
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.55)";
+
+    ctx.lineWidth =
+        1;
+
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        x+7,
+        y+7,
+        w-14,
+        h-14,
+        13
+    );
+
+    ctx.stroke();
+
+
+    /*
+        Corner energy
+    */
+
+    ctx.shadowColor =
+        "#ffffff";
+
+    ctx.shadowBlur =
+        15;
+
+    ctx.strokeStyle =
+        "#ffffff";
+
+    ctx.lineWidth =
+        2;
+
+
+    const c = 20;
 
 
     /* top left */
 
     ctx.beginPath();
 
-    ctx.moveTo(x,y+s);
+    ctx.moveTo(x,y+c);
+
     ctx.lineTo(x,y);
-    ctx.lineTo(x+s,y);
+
+    ctx.lineTo(x+c,y);
 
     ctx.stroke();
 
@@ -1154,9 +1405,11 @@ function drawPortal(){
 
     ctx.beginPath();
 
-    ctx.moveTo(x+w-s,y);
+    ctx.moveTo(x+w-c,y);
+
     ctx.lineTo(x+w,y);
-    ctx.lineTo(x+w,y+s);
+
+    ctx.lineTo(x+w,y+c);
 
     ctx.stroke();
 
@@ -1165,9 +1418,11 @@ function drawPortal(){
 
     ctx.beginPath();
 
-    ctx.moveTo(x,y+h-s);
+    ctx.moveTo(x,y+h-c);
+
     ctx.lineTo(x,y+h);
-    ctx.lineTo(x+s,y+h);
+
+    ctx.lineTo(x+c,y+h);
 
     ctx.stroke();
 
@@ -1176,9 +1431,11 @@ function drawPortal(){
 
     ctx.beginPath();
 
-    ctx.moveTo(x+w-s,y+h);
+    ctx.moveTo(x+w-c,y+h);
+
     ctx.lineTo(x+w,y+h);
-    ctx.lineTo(x+w,y+h-s);
+
+    ctx.lineTo(x+w,y+h-c);
 
     ctx.stroke();
 
@@ -1189,38 +1446,300 @@ function drawPortal(){
 
 
 /* =====================================================
-   UPDATE PORTAL
+   FULL PORTAL
 ===================================================== */
 
-function updatePortal(
-    leftHand,
-    rightHand
-){
+function drawPortal(){
 
-    const leftIndex =
-        leftHand[8];
+    if(
+        !portal.active
+    ){
 
-    const rightIndex =
-        rightHand[8];
+        return;
+
+    }
 
 
-    const leftThumb =
-        leftHand[4];
+    drawGlass();
 
-    const rightThumb =
-        rightHand[4];
+    drawPortalFrame();
+
+}
+
+
+/* =====================================================
+   CHANGE COLOR
+===================================================== */
+
+function changeColor(){
+
+    const now =
+        performance.now();
 
 
     /*
-        Khi hai ngón trỏ + cái
-        đang chạm
+        Chống đổi màu liên tục
+        khi người dùng giữ ngón.
+    */
+
+    if(
+        now-
+        portal.lastColorChange
+        <
+        900
+    ){
+
+        return;
+
+    }
+
+
+    portal.lastColorChange =
+        now;
+
+
+    portal.colorIndex =
+        (
+            portal.colorIndex+1
+        ) %
+        colors.length;
+
+
+    flashEffect();
+
+}
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+function flashEffect(){
+
+    flash.animate(
+
+        [
+            {
+                opacity:0
+            },
+
+            {
+                opacity:.10
+            },
+
+            {
+                opacity:0
+            }
+        ],
+
+        {
+            duration:300,
+            easing:"ease-out"
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   SET PORTAL TARGET
+
+   Hai ngón trỏ là điểm điều khiển
+   duy nhất của cửa sổ.
+===================================================== */
+
+function setPortalTarget(
+    leftIndex,
+    rightIndex
+){
+
+    const centerX =
+        (
+            leftIndex.x+
+            rightIndex.x
+        )/2;
+
+    const centerY =
+        (
+            leftIndex.y+
+            rightIndex.y
+        )/2;
+
+
+    const spread =
+        distance(
+            leftIndex,
+            rightIndex
+        );
+
+
+    /*
+        Kích thước cửa sổ
+        dựa trực tiếp vào
+        khoảng cách hai ngón trỏ.
+    */
+
+    const targetWidth =
+        Math.max(
+            120,
+            spread*1.15
+        );
+
+
+    const targetHeight =
+        Math.max(
+            100,
+            spread*.72
+        );
+
+
+    portal.target.x =
+        centerX;
+
+    portal.target.y =
+        centerY;
+
+    portal.target.width =
+        targetWidth;
+
+    portal.target.height =
+        targetHeight;
+
+
+    /*
+        Frame đầu tiên
+        đặt ngay lập tức
+        tránh cửa sổ bay từ góc màn hình.
+    */
+
+    if(
+        !portal.initialized
+    ){
+
+        portal.current.x =
+            portal.target.x;
+
+        portal.current.y =
+            portal.target.y;
+
+        portal.current.width =
+            portal.target.width;
+
+        portal.current.height =
+            portal.target.height;
+
+        portal.initialized =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   PROCESS HANDS
+===================================================== */
+
+function processHands(
+    handData
+){
+
+    /*
+        Cần đủ 2 tay.
+    */
+
+    if(
+        handData.length < 2
+    ){
+
+        /*
+            KHÔNG XÓA PORTAL NGAY.
+
+            Điều này cực kỳ quan trọng:
+            MediaPipe đôi khi mất tay 1 frame.
+
+            Portal vẫn giữ vị trí cũ,
+            tránh nhấp nháy/mất cửa sổ.
+        */
+
+        if(
+            state === 0
+        ){
+
+            hint.textContent =
+                "ĐƯA HAI BÀN TAY VÀO KHUNG";
+
+            gesture.textContent =
+                "WAITING";
+
+        }
+
+
+        return;
+
+    }
+
+
+    /*
+        Chuyển sang tọa độ màn hình.
+    */
+
+    const screenHands =
+        handData.map(
+            hand =>
+                hand.map(
+                    screenPoint
+                )
+        );
+
+
+    /*
+        Xác định trái/phải
+        bằng vị trí trên màn hình.
+
+        Không phụ thuộc MediaPipe
+        báo Left/Right.
+    */
+
+    screenHands.sort(
+        (a,b) =>
+            a[9].x-b[9].x
+    );
+
+
+    const left =
+        screenHands[0];
+
+    const right =
+        screenHands[1];
+
+
+    const leftIndex =
+        left[8];
+
+    const rightIndex =
+        right[8];
+
+
+    const leftThumb =
+        left[4];
+
+    const rightThumb =
+        right[4];
+
+
+    /*
+        ========================
+        GIAI ĐOẠN 1
+        ========================
     */
 
     const leftPinch =
-        indexPinch(leftHand);
+        indexPinch(left);
 
     const rightPinch =
-        indexPinch(rightHand);
+        indexPinch(right);
 
 
     const bothPinch =
@@ -1228,169 +1747,168 @@ function updatePortal(
         rightPinch;
 
 
-    /* =====================
-       START ENERGY
-    ===================== */
+    /*
+        Khi chưa kích hoạt
+    */
 
     if(
-        bothPinch &&
-        portalState === 0
+        state === 0
     ){
 
-        portalState = 1;
-
-        portal.active = false;
-
         hint.textContent =
-            "MỞ HAI TAY RA";
+            "CHẠM TRỎ + CÁI Ở CẢ HAI TAY";
 
-        gestureText.textContent =
-            "ENERGY LINK";
+        gesture.textContent =
+            "READY";
+
+
+        /*
+            Vẽ điểm chỉ dẫn
+        */
+
+        drawGlow(
+            leftIndex,
+            "#ffffff",
+            .7
+        );
+
+        drawGlow(
+            rightIndex,
+            "#ffffff",
+            .7
+        );
+
+
+        /*
+            Cả hai bên cùng pinch
+        */
+
+        if(
+            bothPinch
+        ){
+
+            state = 1;
+
+            drawEnergyLine(
+                leftIndex,
+                rightIndex
+            );
+
+
+            hint.textContent =
+                "BÂY GIỜ MỞ HAI TAY RA";
+
+            gesture.textContent =
+                "ENERGY LINK";
+
+        }
+
+
+        return;
 
     }
 
 
     /*
-        Khi mở tay
+        ========================
+        GIAI ĐOẠN 2
+        ========================
     */
 
     if(
-        portalState === 1 &&
-        !bothPinch
+        state === 1
     ){
 
-        const L =
-            screenPoint(
-                leftIndex
-            );
+        /*
+            Luôn nối hai ngón
+        */
 
-        const R =
-            screenPoint(
-                rightIndex
-            );
+        drawEnergyLine(
+            leftIndex,
+            rightIndex
+        );
 
 
         const spread =
             distance(
-                L,
-                R
+                leftIndex,
+                rightIndex
             );
 
 
         /*
-            Cần mở đủ xa
+            Khi mở đủ rộng
+            tạo portal.
         */
 
         if(
-            spread > Math.min(W,H)*.28
+            !bothPinch &&
+            spread >
+            Math.min(W,H)*.25
         ){
 
-            portalState = 2;
+            state = 2;
 
-            portal.active = true;
+            portal.active =
+                true;
 
-            portal.x1 =
-                L.x;
+            portal.initialized =
+                false;
 
-            portal.y1 =
-                L.y;
+            setPortalTarget(
+                leftIndex,
+                rightIndex
+            );
 
-            portal.x2 =
-                R.x;
-
-            portal.y2 =
-                R.y;
 
             hint.textContent =
-                "CHẠM ÚT VÀO NGÓN CÁI ĐỂ ĐỔI MÀU";
+                "ÚT + CÁI HAI BÊN ĐỂ ĐỔI MÀU";
 
-            gestureText.textContent =
-                "PORTAL ACTIVE";
+            gesture.textContent =
+                "PORTAL";
+
+            flashEffect();
 
         }
+
+
+        return;
 
     }
 
 
     /*
-        Cửa sổ đang hoạt động
+        ========================
+        GIAI ĐOẠN 3
+        PORTAL
+        ========================
     */
 
     if(
-        portalState === 2
+        state === 2
     ){
 
         /*
-            Cửa sổ nằm giữa hai tay.
+            CỬA SỔ LUÔN BÁM
+            THEO HAI NGÓN TRỎ.
         */
 
-        const L =
-            screenPoint(
-                leftIndex
-            );
-
-        const R =
-            screenPoint(
-                rightIndex
-            );
-
-
-        const centerX =
-            (L.x+R.x)/2;
-
-        const centerY =
-            (L.y+R.y)/2;
+        setPortalTarget(
+            leftIndex,
+            rightIndex
+        );
 
 
         /*
-            Chiều rộng cửa sổ
-        */
-
-        const spread =
-            distance(L,R);
-
-
-        const portalWidth =
-            spread;
-
-
-        const portalHeight =
-            Math.max(
-                110,
-                spread*.62
-            );
-
-
-        portal.x1 =
-            centerX-
-            portalWidth/2;
-
-        portal.x2 =
-            centerX+
-            portalWidth/2;
-
-        portal.y1 =
-            centerY-
-            portalHeight/2;
-
-        portal.y2 =
-            centerY+
-            portalHeight/2;
-
-
-        /*
-            ĐỔI MÀU
+            ÚT + CÁI
+            CẢ HAI BÊN
         */
 
         const leftPinky =
-            pinkyPinch(
-                leftHand
-            );
+            pinkyPinch(left);
 
         const rightPinky =
-            pinkyPinch(
-                rightHand
-            );
+            pinkyPinch(right);
 
 
         if(
@@ -1408,84 +1926,7 @@ function updatePortal(
 
 
 /* =====================================================
-   COLOR CHANGE
-===================================================== */
-
-let lastColorChange = 0;
-
-
-function changeColor(){
-
-    const now =
-        performance.now();
-
-
-    /*
-        chống đổi màu
-        liên tục
-    */
-
-    if(
-        now-lastColorChange <
-        1000
-    ){
-
-        return;
-
-    }
-
-
-    lastColorChange =
-        now;
-
-
-    portal.colorIndex =
-        (
-            portal.colorIndex+1
-        )
-        %
-        colors.length;
-
-
-    triggerFlash();
-
-}
-
-
-/* =====================================================
-   FLASH
-===================================================== */
-
-function triggerFlash(){
-
-    flash.animate(
-
-        [
-            {
-                opacity:0
-            },
-
-            {
-                opacity:.12
-            },
-
-            {
-                opacity:0
-            }
-        ],
-
-        {
-            duration:350,
-            easing:"ease-out"
-        }
-
-    );
-
-}
-
-
-/* =====================================================
-   MEDIAPIPE RESULTS
+   RESULTS
 ===================================================== */
 
 function onResults(result){
@@ -1502,190 +1943,22 @@ function onResults(result){
         result.multiHandLandmarks || [];
 
 
-    /*
-        Không có đủ 2 tay
-    */
-
-    if(
-        detected.length < 2
-    ){
-
-        if(
-            portalState === 0
-        ){
-
-            hint.textContent =
-                "ĐƯA HAI BÀN TAY VÀO KHUNG";
-
-            gestureText.textContent =
-                "WAITING";
-
-        }
-
-
-        drawPortal();
-
-        return;
-
-    }
-
-
-    /*
-        MediaPipe có thể
-        trả thứ tự tay khác nhau.
-        Ta chỉ cần chọn
-        tay trái + tay phải
-        theo vị trí trên màn hình.
-    */
-
-    const hands =
-        detected.map(
-            hand =>
-                hand.map(
-                    screenPoint
-                )
-        );
-
-
-    hands.sort(
-        (a,b) =>
-            a[9].x-b[9].x
-    );
-
-
-    const left =
-        detected[
-            hands.indexOf(
-                hands[0]
-            )
-        ];
-
-
-    const right =
-        detected[
-            hands.indexOf(
-                hands[1]
-            )
-        ];
-
-
-    /*
-        Hai điểm ngón cái/trỏ
-    */
-
-    const leftThumb =
-        screenPoint(
-            left[4]
-        );
-
-    const leftIndex =
-        screenPoint(
-            left[8]
-        );
-
-    const rightThumb =
-        screenPoint(
-            right[4]
-        );
-
-    const rightIndex =
-        screenPoint(
-            right[8]
-        );
-
-
-    /*
-        Khi chưa tạo cửa sổ
-        hiển thị điểm sáng
-    */
-
-    if(
-        portalState === 0
-    ){
-
-        glowDot(
-            leftThumb,
-            "#ffffff",
-            .8
-        );
-
-        glowDot(
-            leftIndex,
-            "#ffffff",
-            .8
-        );
-
-        glowDot(
-            rightThumb,
-            "#ffffff",
-            .8
-        );
-
-        glowDot(
-            rightIndex,
-            "#ffffff",
-            .8
-        );
-
-
-        /*
-            Nếu cả hai bên pinch
-            thì nối hai bên.
-        */
-
-        if(
-            indexPinch(left) &&
-            indexPinch(right)
-        ){
-
-            drawEnergyLine(
-                leftIndex,
-                rightIndex,
-                "#ffffff"
-            );
-
-            glowDot(
-                leftIndex,
-                "#ffffff",
-                1.2
-            );
-
-            glowDot(
-                rightIndex,
-                "#ffffff",
-                1.2
-            );
-
-        }
-
-    }
-
-
-    updatePortal(
-        left,
-        right
+    processHands(
+        detected
     );
 
 
     /*
-        Nếu đang tạo năng lượng
+        LUÔN smooth portal
+        dù frame này MediaPipe
+        có nhận đủ tay hay không.
     */
 
-    if(
-        portalState === 1
-    ){
-
-        drawEnergyLine(
-            leftIndex,
-            rightIndex,
-            "#ffffff"
-        );
-
-    }
+    smoothPortal();
 
 
     /*
-        Cửa sổ
+        Vẽ portal sau cùng.
     */
 
     drawPortal();
@@ -1713,14 +1986,14 @@ async function trackingLoop(){
 
 
     /*
-        22 FPS nhận diện
-        giúp điện thoại nhẹ hơn
+        Khoảng 22 FPS.
+        Giảm tải CPU điện thoại.
     */
 
     if(
-        hands &&
+        handsModel &&
         video.readyState >= 2 &&
-        now-lastSend > 45
+        now-lastSend >= 45
     ){
 
         lastSend =
@@ -1729,7 +2002,7 @@ async function trackingLoop(){
 
         try{
 
-            await hands.send({
+            await handsModel.send({
                 image:video
             });
 
@@ -1737,7 +2010,7 @@ async function trackingLoop(){
         catch(err){
 
             console.warn(
-                "Hand tracking:",
+                "Hand tracking error:",
                 err
             );
 
@@ -1754,7 +2027,7 @@ async function trackingLoop(){
 
 
 /* =====================================================
-   START TRACKING
+   START MEDIAPIPE
 ===================================================== */
 
 async function startTracking(){
@@ -1773,7 +2046,7 @@ async function startTracking(){
 
     try{
 
-        hands =
+        handsModel =
             new Hands({
 
                 locateFile:
@@ -1784,7 +2057,7 @@ async function startTracking(){
             });
 
 
-        hands.setOptions({
+        handsModel.setOptions({
 
             /*
                 BẮT BUỘC 2 TAY
@@ -1793,7 +2066,7 @@ async function startTracking(){
             maxNumHands:2,
 
             /*
-                model nhẹ
+                Model nhẹ.
             */
 
             modelComplexity:0,
@@ -1805,7 +2078,7 @@ async function startTracking(){
         });
 
 
-        hands.onResults(
+        handsModel.onResults(
             onResults
         );
 
@@ -1835,6 +2108,24 @@ async function startTracking(){
 
 
 /* =====================================================
+   ERROR
+===================================================== */
+
+function showError(text){
+
+    errorBox.style.display =
+        "block";
+
+    errorBox.textContent =
+        text;
+
+    startButton.disabled =
+        false;
+
+}
+
+
+/* =====================================================
    OPEN CAMERA
 ===================================================== */
 
@@ -1843,25 +2134,33 @@ async function openCamera(){
     startButton.disabled =
         true;
 
-
     status.textContent =
         "ĐANG XIN QUYỀN";
 
-
-    error.style.display =
+    errorBox.style.display =
         "none";
 
-
-    /*
-        HTTPS
-    */
 
     if(
         !window.isSecureContext
     ){
 
         showError(
-            "Trang cần HTTPS."
+            "Trang cần chạy bằng HTTPS. Hãy dùng link GitHub Pages."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        showError(
+            "Thiết bị hoặc trình duyệt không hỗ trợ Camera."
         );
 
         return;
@@ -1912,7 +2211,7 @@ async function openCamera(){
         resize();
 
 
-        startScreen.classList.add(
+        start.classList.add(
             "hide"
         );
 
@@ -1923,21 +2222,16 @@ async function openCamera(){
 
         await startTracking();
 
-
     }
     catch(err){
 
-        console.error(
-            err
-        );
-
-
-        startButton.disabled =
-            false;
-
+        console.error(err);
 
         status.textContent =
             "CAMERA ERROR";
+
+        startButton.disabled =
+            false;
 
 
         if(
@@ -1948,7 +2242,7 @@ async function openCamera(){
         ){
 
             showError(
-                "Camera đang bị chặn. Hãy cho phép Camera trong quyền của trình duyệt."
+                "Camera đang bị chặn. Hãy cấp quyền Camera cho trình duyệt."
             );
 
         }
@@ -1958,7 +2252,7 @@ async function openCamera(){
         ){
 
             showError(
-                "Không tìm thấy camera."
+                "Không tìm thấy Camera."
             );
 
         }
@@ -1975,30 +2269,12 @@ async function openCamera(){
         else{
 
             showError(
-                "Không thể mở camera."
+                "Không thể mở Camera."
             );
 
         }
 
     }
-
-}
-
-
-/* =====================================================
-   ERROR
-===================================================== */
-
-function showError(text){
-
-    error.style.display =
-        "block";
-
-    error.textContent =
-        text;
-
-    startButton.disabled =
-        false;
 
 }
 
@@ -2023,7 +2299,8 @@ window.addEventListener(
     "beforeunload",
     () => {
 
-        tracking=false;
+        tracking =
+            false;
 
 
         if(stream){
@@ -2053,4 +2330,3 @@ resize();
 
 </body>
 </html>
-```
