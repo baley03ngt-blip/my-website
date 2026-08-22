@@ -9,7 +9,7 @@
       viewport-fit=cover,
       user-scalable=no">
 
-<title>HANDLIGHT TEST 3</title>
+<title>HANDLIGHT V7</title>
 
 <style>
 
@@ -21,27 +21,19 @@
 
 html,
 body{
-
     width:100%;
     height:100%;
-
     overflow:hidden;
-
-    background:#05080d;
-
+    background:#02040a;
     font-family:Arial,sans-serif;
 }
 
 #app{
-
     position:relative;
-
     width:100vw;
     height:100vh;
-
     overflow:hidden;
-
-    background:#05080d;
+    background:#02040a;
 }
 
 
@@ -50,9 +42,7 @@ body{
 ===================================================== */
 
 #video{
-
     position:absolute;
-
     inset:0;
 
     width:100%;
@@ -63,6 +53,11 @@ body{
     transform:scaleX(-1);
 
     z-index:1;
+
+    filter:
+        brightness(.82)
+        contrast(1.05)
+        saturate(1.08);
 }
 
 
@@ -71,9 +66,7 @@ body{
 ===================================================== */
 
 #canvas{
-
     position:absolute;
-
     inset:0;
 
     width:100%;
@@ -86,24 +79,20 @@ body{
 
 
 /* =====================================================
-   START
+   START SCREEN
 ===================================================== */
 
 #startScreen{
-
     position:absolute;
-
     inset:0;
 
     z-index:50;
 
     display:flex;
-
+    align-items:center;
     justify-content:center;
 
-    align-items:center;
-
-    background:#05080d;
+    background:#02040a;
 
     color:white;
 
@@ -111,59 +100,51 @@ body{
 }
 
 #startBox{
-
-    width:min(90%,420px);
-
+    width:min(90%,430px);
 }
 
 #startBox h1{
-
-    font-size:34px;
-
+    font-size:38px;
+    letter-spacing:-.04em;
     margin-bottom:15px;
-
 }
 
 #startBox p{
-
-    color:#aaa;
-
+    color:rgba(255,255,255,.62);
     font-size:14px;
-
-    line-height:1.6;
-
+    line-height:1.65;
 }
 
 #startButton{
+    margin-top:22px;
 
-    margin-top:20px;
-
-    padding:16px 28px;
+    padding:16px 30px;
 
     border:0;
+    border-radius:2px;
 
     background:white;
+    color:#02040a;
 
-    color:#05080d;
+    font-size:11px;
+    font-weight:800;
 
-    font-weight:bold;
+    letter-spacing:.14em;
 
     cursor:pointer;
 
+    box-shadow:
+        0 0 35px rgba(255,255,255,.18);
 }
 
 #startButton:active{
-
     transform:scale(.96);
-
 }
 
 #error{
-
     margin-top:15px;
-
-    color:#ff7180;
-
+    color:#ff6578;
+    font-size:12px;
 }
 
 
@@ -172,60 +153,48 @@ body{
 ===================================================== */
 
 #debug{
-
     position:absolute;
 
-    left:12px;
-
     top:12px;
+    left:12px;
 
     z-index:20;
 
-    width:290px;
+    width:300px;
 
     padding:13px;
 
     background:
-        rgba(0,0,0,.72);
+        rgba(0,0,0,.68);
 
     border:
         1px solid
-        rgba(255,255,255,.18);
+        rgba(255,255,255,.16);
 
     border-radius:10px;
 
     color:white;
 
-    font-family:Consolas,monospace;
+    font:
+        12px/1.7
+        Consolas,
+        monospace;
 
-    font-size:12px;
-
-    line-height:1.7;
-
-    backdrop-filter:blur(8px);
-
+    backdrop-filter:blur(10px);
 }
 
 .debugTitle{
-
     color:#4de4ff;
-
     font-weight:bold;
-
-    margin-bottom:6px;
-
+    margin-bottom:5px;
 }
 
 .ok{
-
     color:#59e889;
-
 }
 
 .no{
-
     color:#ff6578;
-
 }
 
 
@@ -234,47 +203,79 @@ body{
 ===================================================== */
 
 #windowStatus{
-
     position:absolute;
 
-    right:12px;
-
     top:12px;
+    right:12px;
 
     z-index:20;
 
     padding:9px 12px;
 
     background:
-        rgba(0,0,0,.7);
+        rgba(0,0,0,.68);
 
     border-radius:8px;
 
     color:#ff6578;
 
     font:
-
         bold 11px
-
         Consolas,
         monospace;
-
 }
 
 
 /* =====================================================
-   BOTTOM
+   FILTER NAME
+===================================================== */
+
+#filterName{
+    position:absolute;
+
+    left:50%;
+    bottom:55px;
+
+    transform:translateX(-50%);
+
+    z-index:20;
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    background:
+        rgba(0,0,0,.48);
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    color:white;
+
+    font:
+        10px
+        Consolas,
+        monospace;
+
+    letter-spacing:.14em;
+
+    opacity:0;
+
+    transition:opacity .25s;
+}
+
+
+/* =====================================================
+   INSTRUCTION
 ===================================================== */
 
 #instruction{
-
     position:absolute;
 
     left:0;
-
     right:0;
-
-    bottom:22px;
+    bottom:18px;
 
     z-index:20;
 
@@ -282,10 +283,27 @@ body{
 
     color:white;
 
-    font-size:13px;
+    font-size:12px;
 
     text-shadow:
-        0 2px 8px black;
+        0 2px 12px black;
+}
+
+
+/* =====================================================
+   MOBILE DEBUG
+===================================================== */
+
+@media(max-width:600px){
+
+    #debug{
+        width:250px;
+        font-size:10px;
+    }
+
+    #windowStatus{
+        font-size:9px;
+    }
 
 }
 
@@ -295,13 +313,8 @@ body{
 
 <body>
 
-
 <div id="app">
 
-
-<!-- =====================================================
-     CAMERA
-===================================================== -->
 
 <video
     id="video"
@@ -311,18 +324,10 @@ body{
 </video>
 
 
-<!-- =====================================================
-     DRAW
-===================================================== -->
-
 <canvas
     id="canvas">
 </canvas>
 
-
-<!-- =====================================================
-     DEBUG
-===================================================== -->
 
 <div id="debug">
 
@@ -349,32 +354,32 @@ body{
 </div>
 
 
-<!-- =====================================================
-     WINDOW STATUS
-===================================================== -->
-
 <div id="windowStatus">
     WINDOW: OFF
 </div>
 
 
-<!-- =====================================================
-     START SCREEN
-===================================================== -->
+<div id="filterName">
+    RAINBOW
+</div>
+
+
+<div id="instruction">
+    ĐƯA HAI BÀN TAY VÀO CAMERA
+</div>
+
 
 <div id="startScreen">
 
     <div id="startBox">
 
-        <h1>
-            HANDLIGHT
-        </h1>
+        <h1>HANDLIGHT</h1>
 
         <p>
             Đưa hai bàn tay vào camera.<br><br>
 
             Chạm ngón trỏ với ngón cái
-            ở cả hai tay.
+            ở cả hai tay để mở khung.
         </p>
 
         <button id="startButton">
@@ -388,17 +393,8 @@ body{
 </div>
 
 
-<div id="instruction">
-    Đưa hai bàn tay vào camera
 </div>
 
-
-</div>
-
-
-<!-- =====================================================
-     MEDIAPIPE
-===================================================== -->
 
 <script
 src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js">
@@ -415,40 +411,43 @@ src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js">
 ===================================================== */
 
 const video =
-document.getElementById("video");
+    document.getElementById("video");
 
 const canvas =
-document.getElementById("canvas");
+    document.getElementById("canvas");
 
 const ctx =
-canvas.getContext("2d");
+    canvas.getContext("2d");
 
 const startScreen =
-document.getElementById("startScreen");
+    document.getElementById("startScreen");
 
 const startButton =
-document.getElementById("startButton");
+    document.getElementById("startButton");
 
 const errorBox =
-document.getElementById("error");
+    document.getElementById("error");
 
 const countText =
-document.getElementById("count");
+    document.getElementById("count");
 
 const leftText =
-document.getElementById("left");
+    document.getElementById("left");
 
 const rightText =
-document.getElementById("right");
+    document.getElementById("right");
 
 const stateText =
-document.getElementById("state");
+    document.getElementById("state");
 
 const windowStatus =
-document.getElementById("windowStatus");
+    document.getElementById("windowStatus");
 
 const instruction =
-document.getElementById("instruction");
+    document.getElementById("instruction");
+
+const filterName =
+    document.getElementById("filterName");
 
 
 /* =====================================================
@@ -456,19 +455,13 @@ document.getElementById("instruction");
 ===================================================== */
 
 let W = 0;
-
 let H = 0;
-
 let DPR = 1;
-
 
 function resize(){
 
-    W =
-        window.innerWidth;
-
-    H =
-        window.innerHeight;
+    W = window.innerWidth;
+    H = window.innerHeight;
 
     DPR =
         Math.min(
@@ -476,24 +469,17 @@ function resize(){
             2
         );
 
-
     canvas.width =
-        Math.round(
-            W * DPR
-        );
+        Math.round(W * DPR);
 
     canvas.height =
-        Math.round(
-            H * DPR
-        );
-
+        Math.round(H * DPR);
 
     canvas.style.width =
         W + "px";
 
     canvas.style.height =
         H + "px";
-
 
     ctx.setTransform(
         DPR,
@@ -503,12 +489,9 @@ function resize(){
         0,
         0
     );
-
 }
 
-
 resize();
-
 
 window.addEventListener(
     "resize",
@@ -521,14 +504,12 @@ window.addEventListener(
 ===================================================== */
 
 let hands = null;
-
 let running = false;
-
 let lastFrame = 0;
 
 
 /* =====================================================
-   SKELETON
+   21 ĐIỂM XƯƠNG BÀN TAY
 ===================================================== */
 
 const BONES = [
@@ -566,18 +547,113 @@ const BONES = [
 
 
 /* =====================================================
-   POINT
+   7 FILTER ĐA SẮC
+===================================================== */
+
+const FILTERS = [
+
+    {
+        name:"RAINBOW",
+        colors:[
+            "#ff0055",
+            "#ff7a00",
+            "#ffe600",
+            "#00ff88",
+            "#00eaff",
+            "#4b5cff",
+            "#d000ff"
+        ]
+    },
+
+    {
+        name:"AURORA",
+        colors:[
+            "#00fff0",
+            "#00ff9d",
+            "#66ff00",
+            "#b000ff",
+            "#ff00cc",
+            "#0055ff"
+        ]
+    },
+
+    {
+        name:"NEON DREAM",
+        colors:[
+            "#ff0080",
+            "#ff00ff",
+            "#7800ff",
+            "#00aaff",
+            "#00ffff"
+        ]
+    },
+
+    {
+        name:"COSMIC",
+        colors:[
+            "#1200ff",
+            "#5b00ff",
+            "#c000ff",
+            "#ff00a8",
+            "#ff0055",
+            "#00d9ff"
+        ]
+    },
+
+    {
+        name:"SUNSET",
+        colors:[
+            "#ff003c",
+            "#ff4500",
+            "#ff8a00",
+            "#ffd000",
+            "#ff00a8",
+            "#7200ff"
+        ]
+    },
+
+    {
+        name:"OCEAN",
+        colors:[
+            "#001aff",
+            "#005eff",
+            "#00b7ff",
+            "#00fff0",
+            "#00ff9d",
+            "#5dff00"
+        ]
+    },
+
+    {
+        name:"CRYSTAL",
+        colors:[
+            "#ffffff",
+            "#9fffff",
+            "#7c9cff",
+            "#d98cff",
+            "#ff9ed8",
+            "#ffffff"
+        ]
+    }
+
+];
+
+let filterIndex = 0;
+
+let lastFilterChange = 0;
+
+
+/* =====================================================
+   CAMERA POINT
 ===================================================== */
 
 function screenPoint(p){
 
     return {
 
-        x:
-            (1 - p.x) * W,
+        x:(1-p.x) * W,
 
-        y:
-            p.y * H
+        y:p.y * H
 
     };
 
@@ -592,9 +668,9 @@ function distance(a,b){
 
     return Math.hypot(
 
-        a.x - b.x,
+        a.x-b.x,
 
-        a.y - b.y
+        a.y-b.y
 
     );
 
@@ -614,7 +690,7 @@ function getHandSize(hand){
             hand[9]
         ),
 
-        0.0001
+        .0001
 
     );
 
@@ -622,55 +698,63 @@ function getHandSize(hand){
 
 
 /* =====================================================
-   THUMB INDEX DISTANCE
+   TRỎ + CÁI
 ===================================================== */
 
-function getRatio(hand){
+function indexThumbRatio(hand){
 
-    const d =
+    return (
         distance(
             hand[4],
             hand[8]
-        );
+        )
+        /
+        getHandSize(hand)
+    );
+
+}
 
 
-    const size =
-        getHandSize(
-            hand
-        );
+function isIndexThumbTouch(hand){
 
-
-    return d / size;
+    return (
+        indexThumbRatio(hand)
+        < .75
+    );
 
 }
 
 
 /* =====================================================
-   TOUCH
+   ÚT + CÁI
 ===================================================== */
 
-function isTouching(hand){
+function pinkyThumbRatio(hand){
 
-    const ratio =
-        getRatio(
-            hand
-        );
+    return (
+        distance(
+            hand[4],
+            hand[20]
+        )
+        /
+        getHandSize(hand)
+    );
+
+}
 
 
-    /*
-       Ngưỡng rộng hơn bản cũ.
+function isPinkyThumbTouch(hand){
 
-       Nếu số < 0.75
-       coi như chạm.
-    */
-
-    return ratio < 0.75;
+    return (
+        pinkyThumbRatio(hand)
+        < .70
+    );
 
 }
 
 
 /* =====================================================
-   DRAW SKELETON
+   DRAW HAND SKELETON
 ===================================================== */
 
 function drawSkeleton(hand){
@@ -683,16 +767,12 @@ function drawSkeleton(hand){
 
     ctx.save();
 
-
-    ctx.lineCap =
-        "round";
-
-    ctx.lineJoin =
-        "round";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
 
 
     /* ==========================
-       BONES
+       XƯƠNG
     ========================== */
 
     for(
@@ -701,14 +781,10 @@ function drawSkeleton(hand){
     ){
 
         const a =
-            points[
-                bone[0]
-            ];
+            points[bone[0]];
 
         const b =
-            points[
-                bone[1]
-            ];
+            points[bone[1]];
 
 
         ctx.beginPath();
@@ -725,10 +801,9 @@ function drawSkeleton(hand){
 
 
         ctx.strokeStyle =
-            "rgba(255,255,255,.65)";
+            "rgba(255,255,255,.58)";
 
-        ctx.lineWidth =
-            1.5;
+        ctx.lineWidth = 1.4;
 
         ctx.stroke();
 
@@ -736,7 +811,7 @@ function drawSkeleton(hand){
 
 
     /* ==========================
-       JOINTS
+       KHỚP
     ========================== */
 
     for(
@@ -748,42 +823,35 @@ function drawSkeleton(hand){
         const p =
             points[i];
 
-
-        const tip =
-
-            i === 4 ||
-            i === 8 ||
-            i === 12 ||
-            i === 16 ||
-            i === 20;
+        const fingerTip =
+            (
+                i === 4 ||
+                i === 8 ||
+                i === 12 ||
+                i === 16 ||
+                i === 20
+            );
 
 
         ctx.beginPath();
 
         ctx.arc(
-
             p.x,
             p.y,
-
-            tip ? 4 : 2.4,
-
+            fingerTip ? 3.8 : 2.1,
             0,
             Math.PI * 2
-
         );
 
 
         ctx.fillStyle =
-            "white";
-
+            "#ffffff";
 
         ctx.shadowColor =
-            "white";
-
+            "#ffffff";
 
         ctx.shadowBlur =
-            tip ? 8 : 3;
-
+            fingerTip ? 8 : 3;
 
         ctx.fill();
 
@@ -791,17 +859,17 @@ function drawSkeleton(hand){
 
 
     /* ==========================
-       THUMB + INDEX RINGS
+       TRỎ + CÁI
     ========================== */
 
-    drawRing(
+    drawFingerRing(
         points[4],
-        "#4de4ff"
+        "#00eaff"
     );
 
-    drawRing(
+    drawFingerRing(
         points[8],
-        "#4de4ff"
+        "#00eaff"
     );
 
 
@@ -811,47 +879,39 @@ function drawSkeleton(hand){
 
 
 /* =====================================================
-   RING
+   FINGER RING
 ===================================================== */
 
-function drawRing(
+function drawFingerRing(
     p,
     color
 ){
 
     ctx.save();
 
-
     ctx.beginPath();
 
     ctx.arc(
-
         p.x,
         p.y,
-
-        8,
-
+        7,
         0,
         Math.PI * 2
-
     );
-
 
     ctx.strokeStyle =
         color;
 
     ctx.lineWidth =
-        1.5;
+        1.3;
 
     ctx.shadowColor =
         color;
 
     ctx.shadowBlur =
-        10;
-
+        9;
 
     ctx.stroke();
-
 
     ctx.restore();
 
@@ -867,59 +927,29 @@ let windowOpen = false;
 
 const windowPoints = {
 
-    tl:{
-        x:0,
-        y:0
-    },
-
-    tr:{
-        x:0,
-        y:0
-    },
-
-    br:{
-        x:0,
-        y:0
-    },
-
-    bl:{
-        x:0,
-        y:0
-    }
+    tl:{x:0,y:0},
+    tr:{x:0,y:0},
+    br:{x:0,y:0},
+    bl:{x:0,y:0}
 
 };
 
 
 const targetPoints = {
 
-    tl:{
-        x:0,
-        y:0
-    },
-
-    tr:{
-        x:0,
-        y:0
-    },
-
-    br:{
-        x:0,
-        y:0
-    },
-
-    bl:{
-        x:0,
-        y:0
-    }
+    tl:{x:0,y:0},
+    tr:{x:0,y:0},
+    br:{x:0,y:0},
+    bl:{x:0,y:0}
 
 };
 
 
 /* =====================================================
-   SET WINDOW POINTS
+   UPDATE TARGET
 ===================================================== */
 
-function setWindowPoints(
+function setWindowTargets(
     left,
     right
 ){
@@ -971,7 +1001,7 @@ function setWindowPoints(
 
 
 /* =====================================================
-   OPEN WINDOW
+   CREATE WINDOW
 ===================================================== */
 
 function createWindow(
@@ -979,32 +1009,23 @@ function createWindow(
     right
 ){
 
-    setWindowPoints(
+    setWindowTargets(
         left,
         right
     );
 
 
-    /*
-       Đặt ngay lập tức.
-       Không chờ animation.
-    */
+    windowPoints.tl =
+        {...targetPoints.tl};
 
-    windowPoints.tl = {
-        ...targetPoints.tl
-    };
+    windowPoints.tr =
+        {...targetPoints.tr};
 
-    windowPoints.tr = {
-        ...targetPoints.tr
-    };
+    windowPoints.br =
+        {...targetPoints.br};
 
-    windowPoints.br = {
-        ...targetPoints.br
-    };
-
-    windowPoints.bl = {
-        ...targetPoints.bl
-    };
+    windowPoints.bl =
+        {...targetPoints.bl};
 
 
     windowOpen =
@@ -1014,13 +1035,21 @@ function createWindow(
     windowStatus.textContent =
         "WINDOW: ON";
 
-
     windowStatus.style.color =
         "#59e889";
 
 
+    filterName.textContent =
+        FILTERS[
+            filterIndex
+        ].name;
+
+    filterName.style.opacity =
+        "1";
+
+
     instruction.textContent =
-        "CỬA SỔ ĐÃ MỞ — DI CHUYỂN 4 NGÓN";
+        "DI CHUYỂN 4 NGÓN ĐỂ ĐIỀU KHIỂN KHUNG";
 
 
     stateText.innerHTML =
@@ -1038,76 +1067,218 @@ function updateWindow(
     right
 ){
 
-    setWindowPoints(
+    setWindowTargets(
         left,
         right
     );
 
 
     const smooth =
-        0.35;
+        .35;
 
 
-    windowPoints.tl.x +=
-        (
-            targetPoints.tl.x -
-            windowPoints.tl.x
-        ) * smooth;
+    for(
+        const key
+        of [
+            "tl",
+            "tr",
+            "br",
+            "bl"
+        ]
+    ){
+
+        windowPoints[key].x +=
+            (
+                targetPoints[key].x -
+                windowPoints[key].x
+            )
+            * smooth;
 
 
-    windowPoints.tl.y +=
-        (
-            targetPoints.tl.y -
-            windowPoints.tl.y
-        ) * smooth;
+        windowPoints[key].y +=
+            (
+                targetPoints[key].y -
+                windowPoints[key].y
+            )
+            * smooth;
 
-
-    windowPoints.tr.x +=
-        (
-            targetPoints.tr.x -
-            windowPoints.tr.x
-        ) * smooth;
-
-
-    windowPoints.tr.y +=
-        (
-            targetPoints.tr.y -
-            windowPoints.tr.y
-        ) * smooth;
-
-
-    windowPoints.br.x +=
-        (
-            targetPoints.br.x -
-            windowPoints.br.x
-        ) * smooth;
-
-
-    windowPoints.br.y +=
-        (
-            targetPoints.br.y -
-            windowPoints.br.y
-        ) * smooth;
-
-
-    windowPoints.bl.x +=
-        (
-            targetPoints.bl.x -
-            windowPoints.bl.x
-        ) * smooth;
-
-
-    windowPoints.bl.y +=
-        (
-            targetPoints.bl.y -
-            windowPoints.bl.y
-        ) * smooth;
+    }
 
 }
 
 
 /* =====================================================
-   DRAW WINDOW
+   MULTICOLOR GRADIENT
+===================================================== */
+
+function createRainbowGradient(){
+
+    const p =
+        windowPoints;
+
+
+    const centerX =
+        (
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
+            p.bl.x
+        ) / 4;
+
+
+    const centerY =
+        (
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
+            p.bl.y
+        ) / 4;
+
+
+    const radius =
+        Math.max(
+            W,
+            H
+        ) * .75;
+
+
+    /*
+       Dùng radial gradient
+       nhiều màu.
+    */
+
+    const gradient =
+        ctx.createRadialGradient(
+
+            centerX - W*.15,
+            centerY - H*.15,
+            0,
+
+            centerX,
+            centerY,
+            radius
+
+        );
+
+
+    const colors =
+        FILTERS[
+            filterIndex
+        ].colors;
+
+
+    /*
+       Mỗi filter có
+       nhiều màu cùng lúc.
+    */
+
+    colors.forEach(
+        (color,index) => {
+
+            gradient.addColorStop(
+
+                index /
+                (colors.length - 1),
+
+                color
+
+            );
+
+        }
+    );
+
+
+    return gradient;
+
+}
+
+
+/* =====================================================
+   SECONDARY MOVING GRADIENT
+===================================================== */
+
+function createMovingGradient(){
+
+    const p =
+        windowPoints;
+
+
+    const time =
+        performance.now()
+        * .00018;
+
+
+    const centerX =
+        (
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
+            p.bl.x
+        ) / 4;
+
+
+    const centerY =
+        (
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
+            p.bl.y
+        ) / 4;
+
+
+    const moveX =
+        Math.cos(time)
+        * W
+        * .25;
+
+
+    const moveY =
+        Math.sin(time * 1.3)
+        * H
+        * .25;
+
+
+    const g =
+        ctx.createLinearGradient(
+
+            centerX - W*.55 + moveX,
+            centerY - H*.55 + moveY,
+
+            centerX + W*.55 - moveX,
+            centerY + H*.55 - moveY
+
+        );
+
+
+    const colors =
+        FILTERS[
+            filterIndex
+        ].colors;
+
+
+    colors.forEach(
+        (color,index) => {
+
+            g.addColorStop(
+
+                index /
+                (colors.length - 1),
+
+                color + "55"
+
+            );
+
+        }
+    );
+
+
+    return g;
+
+}
+
+
+/* =====================================================
+   DRAW MULTICOLOR WINDOW
 ===================================================== */
 
 function drawWindow(){
@@ -1125,89 +1296,226 @@ function drawWindow(){
         windowPoints;
 
 
+    /* =================================================
+       SHAPE
+    ================================================= */
+
     ctx.save();
 
-
-    /*
-       ==========================
-       KHUNG
-       ==========================
-    */
-
     ctx.beginPath();
-
 
     ctx.moveTo(
         p.tl.x,
         p.tl.y
     );
 
-
     ctx.lineTo(
         p.tr.x,
         p.tr.y
     );
-
 
     ctx.lineTo(
         p.br.x,
         p.br.y
     );
 
+    ctx.lineTo(
+        p.bl.x,
+        p.bl.y
+    );
+
+    ctx.closePath();
+
+    ctx.clip();
+
+
+    /* =================================================
+       LỚP CẦU VỒNG CHÍNH
+    ================================================= */
+
+    const rainbow =
+        createRainbowGradient();
+
+
+    ctx.globalCompositeOperation =
+        "screen";
+
+
+    ctx.globalAlpha =
+        .22;
+
+
+    ctx.fillStyle =
+        rainbow;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* =================================================
+       LỚP MÀU CHUYỂN ĐỘNG
+    ================================================= */
+
+    const moving =
+        createMovingGradient();
+
+
+    ctx.globalAlpha =
+        .16;
+
+
+    ctx.fillStyle =
+        moving;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* =================================================
+       ÁNH SÁNG TRUNG TÂM
+    ================================================= */
+
+    const centerX =
+        (
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
+            p.bl.x
+        ) / 4;
+
+
+    const centerY =
+        (
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
+            p.bl.y
+        ) / 4;
+
+
+    const glow =
+        ctx.createRadialGradient(
+
+            centerX,
+            centerY,
+            0,
+
+            centerX,
+            centerY,
+            Math.max(W,H)*.6
+
+        );
+
+
+    glow.addColorStop(
+        0,
+        "rgba(255,255,255,.09)"
+    );
+
+    glow.addColorStop(
+        .45,
+        "rgba(255,255,255,.025)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(255,255,255,0)"
+    );
+
+
+    ctx.globalAlpha =
+        1;
+
+    ctx.fillStyle =
+        glow;
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    ctx.restore();
+
+
+    /* =================================================
+       KHUNG NEON
+    ================================================= */
+
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        p.tl.x,
+        p.tl.y
+    );
+
+    ctx.lineTo(
+        p.tr.x,
+        p.tr.y
+    );
+
+    ctx.lineTo(
+        p.br.x,
+        p.br.y
+    );
 
     ctx.lineTo(
         p.bl.x,
         p.bl.y
     );
 
-
     ctx.closePath();
 
 
     /*
-       KÍNH TRONG SUỐT
+       Dùng gradient trên chính viền
     */
 
-    ctx.fillStyle =
-        "rgba(77,228,255,.045)";
-
-    ctx.fill();
+    const border =
+        createRainbowGradient();
 
 
-    /*
-       GLOW
-    */
+    ctx.strokeStyle =
+        border;
+
+    ctx.lineWidth =
+        6;
 
     ctx.shadowColor =
-        "#4de4ff";
+        "rgba(120,220,255,.9)";
 
     ctx.shadowBlur =
         18;
 
-
-    ctx.strokeStyle =
-        "#ffffff";
-
-    ctx.lineWidth =
-        2;
-
-
     ctx.stroke();
 
 
-    /*
-       VIỀN XANH NHẸ
-    */
+    /* =================================================
+       VIỀN TRẮNG MỎNG
+    ================================================= */
 
     ctx.shadowBlur =
-        0;
+        7;
 
     ctx.strokeStyle =
-        "rgba(77,228,255,.75)";
+        "rgba(255,255,255,.9)";
 
     ctx.lineWidth =
-        1;
-
+        1.5;
 
     ctx.stroke();
 
@@ -1215,11 +1523,9 @@ function drawWindow(){
     ctx.restore();
 
 
-    /*
-       ==========================
-       4 ĐIỂM
-       ==========================
-    */
+    /* =================================================
+       4 ĐIỂM GÓC
+    ================================================= */
 
     drawWindowCorner(
         p.tl
@@ -1252,24 +1558,20 @@ function drawWindowCorner(p){
     ctx.beginPath();
 
     ctx.arc(
-
         p.x,
         p.y,
-
         5,
-
         0,
         Math.PI * 2
-
     );
 
 
     ctx.fillStyle =
-        "white";
+        "#ffffff";
 
 
     ctx.shadowColor =
-        "#4de4ff";
+        "#00eaff";
 
 
     ctx.shadowBlur =
@@ -1285,18 +1587,139 @@ function drawWindowCorner(p){
 
 
 /* =====================================================
-   PROCESS
+   CHANGE FILTER
+===================================================== */
+
+function nextFilter(){
+
+    const now =
+        performance.now();
+
+
+    /*
+       Chống đổi liên tục
+       khi đang giữ tay.
+    */
+
+    if(
+        now - lastFilterChange
+        < 900
+    ){
+
+        return;
+
+    }
+
+
+    lastFilterChange =
+        now;
+
+
+    filterIndex++;
+
+
+    if(
+        filterIndex >=
+        FILTERS.length
+    ){
+
+        filterIndex = 0;
+
+    }
+
+
+    filterName.textContent =
+        FILTERS[
+            filterIndex
+        ].name;
+
+
+    filterName.style.opacity =
+        "1";
+
+
+    clearTimeout(
+        nextFilter.hideTimer
+    );
+
+
+    nextFilter.hideTimer =
+        setTimeout(
+            function(){
+
+                filterName.style.opacity =
+                    "0";
+
+            },
+            1200
+        );
+
+
+    /*
+       Flash đa sắc nhẹ.
+    */
+
+    flashEffect();
+
+}
+
+
+/* =====================================================
+   FILTER FLASH
+===================================================== */
+
+function flashEffect(){
+
+    const colors =
+        FILTERS[
+            filterIndex
+        ].colors;
+
+
+    const color =
+        colors[
+            Math.floor(
+                Math.random() *
+                colors.length
+            )
+        ];
+
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+        color;
+
+
+    ctx.globalAlpha =
+        .08;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================================
+   PROCESS HANDS
 ===================================================== */
 
 function processHands(
     detected
 ){
 
-    /*
-       ==========================
-       0 TAY
-       ==========================
-    */
+    /* ================================================
+       KHÔNG CÓ TAY
+    ================================================= */
 
     if(
         detected.length === 0
@@ -1322,9 +1745,9 @@ function processHands(
     }
 
 
-    /*
+    /* ================================================
        VẼ XƯƠNG
-    */
+    ================================================= */
 
     for(
         const hand
@@ -1338,11 +1761,9 @@ function processHands(
     }
 
 
-    /*
-       ==========================
-       1 TAY
-       ==========================
-    */
+    /* ================================================
+       CHỈ 1 TAY
+    ================================================= */
 
     if(
         detected.length === 1
@@ -1359,11 +1780,9 @@ function processHands(
     }
 
 
-    /*
-       ==========================
+    /* ================================================
        2 TAY
-       ==========================
-    */
+    ================================================= */
 
     let handA =
         detected[0];
@@ -1410,35 +1829,49 @@ function processHands(
     }
 
 
-    /*
-       ==========================
-       TOUCH
-       ==========================
-    */
+    /* ================================================
+       INDEX + THUMB
+    ================================================= */
 
     const leftRatio =
-        getRatio(
+        indexThumbRatio(
             left
         );
 
 
     const rightRatio =
-        getRatio(
+        indexThumbRatio(
             right
         );
 
 
     const leftTouch =
-        leftRatio < 0.75;
+        leftRatio < .75;
 
 
     const rightTouch =
-        rightRatio < 0.75;
+        rightRatio < .75;
 
 
-    /*
+    /* ================================================
+       PINKY + THUMB
+    ================================================= */
+
+    const leftPinky =
+        isPinkyThumbTouch(
+            left
+        );
+
+
+    const rightPinky =
+        isPinkyThumbTouch(
+            right
+        );
+
+
+    /* ================================================
        DEBUG
-    */
+    ================================================= */
 
     countText.innerHTML =
         "HAI TAY: <span class='ok'>2 / 2</span>";
@@ -1448,11 +1881,12 @@ function processHands(
         "TRÁI: " +
         leftRatio.toFixed(3) +
         " → " +
-
         (
             leftTouch
-            ? "<span class='ok'>TOUCH</span>"
-            : "<span class='no'>OPEN</span>"
+            ?
+            "<span class='ok'>TOUCH</span>"
+            :
+            "<span class='no'>OPEN</span>"
         );
 
 
@@ -1460,19 +1894,18 @@ function processHands(
         "PHẢI: " +
         rightRatio.toFixed(3) +
         " → " +
-
         (
             rightTouch
-            ? "<span class='ok'>TOUCH</span>"
-            : "<span class='no'>OPEN</span>"
+            ?
+            "<span class='ok'>TOUCH</span>"
+            :
+            "<span class='no'>OPEN</span>"
         );
 
 
-    /*
-       ==========================
-       CHƯA CÓ KHUNG
-       ==========================
-    */
+    /* ================================================
+       MỞ KHUNG
+    ================================================= */
 
     if(
         !windowOpen
@@ -1483,14 +1916,6 @@ function processHands(
             rightTouch
         ){
 
-            /*
-               QUAN TRỌNG:
-
-               MỞ NGAY.
-               Không delay.
-               Không hold.
-            */
-
             createWindow(
                 left,
                 right
@@ -1500,30 +1925,53 @@ function processHands(
         else{
 
             stateText.textContent =
-                "GESTURE: TOUCH BOTH HANDS";
+                "GESTURE: TOUCH BOTH";
 
             instruction.textContent =
                 "CHẠM TRỎ + CÁI Ở CẢ HAI TAY";
 
         }
 
+        return;
+
     }
 
 
-    /*
-       ==========================
+    /* ================================================
        KHUNG ĐANG MỞ
-       ==========================
-    */
+    ================================================= */
+
+    updateWindow(
+        left,
+        right
+    );
+
+
+    /* ================================================
+       ĐỔI FILTER
+    ================================================= */
 
     if(
-        windowOpen
+        leftPinky &&
+        rightPinky
     ){
 
-        updateWindow(
-            left,
-            right
-        );
+        nextFilter();
+
+        stateText.innerHTML =
+            "GESTURE: <span class='ok'>COLOR CHANGE</span>";
+
+        instruction.textContent =
+            "🌈 ĐÃ ĐỔI FILTER";
+
+    }
+    else{
+
+        stateText.innerHTML =
+            "GESTURE: <span class='ok'>WINDOW ACTIVE</span>";
+
+        instruction.textContent =
+            "ÚT + CÁI HAI TAY = ĐỔI MÀU";
 
     }
 
@@ -1557,7 +2005,8 @@ function onResults(
 
 
     /*
-       KHUNG VẼ CUỐI CÙNG
+       Vẽ khung sau cùng
+       để luôn nằm trên skeleton.
     */
 
     drawWindow();
@@ -1566,7 +2015,7 @@ function onResults(
 
 
 /* =====================================================
-   START TRACKING
+   TRACKING
 ===================================================== */
 
 async function startTracking(){
@@ -1636,7 +2085,7 @@ async function trackingLoop(){
 
 
     if(
-        now-lastFrame >= 33 &&
+        now - lastFrame >= 33 &&
         video.readyState >= 2
     ){
 
@@ -1657,7 +2106,7 @@ async function trackingLoop(){
         catch(error){
 
             console.error(
-                "MediaPipe:",
+                "HAND TRACKING:",
                 error
             );
 
@@ -1692,7 +2141,7 @@ async function startCamera(){
     ){
 
         errorBox.textContent =
-            "Hãy chạy bằng HTTPS hoặc GitHub Pages.";
+            "Hãy mở bằng HTTPS hoặc GitHub Pages.";
 
         startButton.disabled =
             false;
@@ -1746,10 +2195,6 @@ async function startCamera(){
             "none";
 
 
-        instruction.textContent =
-            "ĐƯA HAI BÀN TAY VÀO CAMERA";
-
-
         await startTracking();
 
     }
@@ -1761,7 +2206,7 @@ async function startCamera(){
 
 
         errorBox.textContent =
-            "Lỗi camera: " +
+            "Không thể mở camera: " +
             error.message;
 
 
@@ -1813,6 +2258,42 @@ window.addEventListener(
 
     }
 );
+
+
+/* =====================================================
+   ANIMATION LOOP
+   Làm gradient bên trong chuyển động liên tục.
+===================================================== */
+
+function visualAnimation(){
+
+    if(windowOpen){
+
+        /*
+           Không cần tracking mới
+           vẫn làm hiệu ứng màu chuyển động.
+        */
+
+        ctx.save();
+
+        /*
+           Chỉ redraw khi có khung.
+           Frame tiếp theo sẽ được
+           MediaPipe vẽ lại.
+        */
+
+        ctx.restore();
+
+    }
+
+    requestAnimationFrame(
+        visualAnimation
+    );
+
+}
+
+
+visualAnimation();
 
 </script>
 
