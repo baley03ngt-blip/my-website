@@ -5,9 +5,9 @@
 
 <meta name="viewport"
       content="width=device-width,
-      initial-scale=1,
-      viewport-fit=cover,
-      user-scalable=no">
+               initial-scale=1,
+               viewport-fit=cover,
+               user-scalable=no">
 
 <title>HANDLIGHT</title>
 
@@ -24,11 +24,11 @@ body{
     height:100%;
     overflow:hidden;
     background:#02040a;
-    font-family:Arial,sans-serif;
 }
 
 body{
     touch-action:none;
+    font-family:Arial,sans-serif;
 }
 
 #app{
@@ -39,9 +39,7 @@ body{
     background:#02040a;
 }
 
-/* =========================
-   CAMERA
-========================= */
+/* CAMERA */
 
 #video{
     position:absolute;
@@ -62,9 +60,7 @@ body{
         saturate(1.08);
 }
 
-/* =========================
-   CANVAS
-========================= */
+/* CANVAS */
 
 #canvas{
     position:absolute;
@@ -78,9 +74,7 @@ body{
     pointer-events:none;
 }
 
-/* =========================
-   START SCREEN
-========================= */
+/* START */
 
 #startScreen{
     position:absolute;
@@ -120,7 +114,7 @@ body{
     padding:16px 28px;
 
     border:0;
-    border-radius:6px;
+    border-radius:5px;
 
     background:white;
     color:#02040a;
@@ -143,18 +137,17 @@ body{
     color:#ff6578;
 
     font-size:12px;
+
     line-height:1.5;
 }
 
-/* =========================
-   FILTER NAME
-========================= */
+/* FILTER NAME */
 
 #filterName{
     position:absolute;
 
     left:50%;
-    bottom:55px;
+    bottom:45px;
 
     transform:translateX(-50%);
 
@@ -166,7 +159,8 @@ body{
 
     background:rgba(0,0,0,.50);
 
-    border:1px solid
+    border:
+        1px solid
         rgba(255,255,255,.18);
 
     color:white;
@@ -183,9 +177,7 @@ body{
     transition:opacity .25s;
 }
 
-/* =========================
-   INSTRUCTION
-========================= */
+/* INSTRUCTION */
 
 #instruction{
     position:absolute;
@@ -193,7 +185,7 @@ body{
     left:0;
     right:0;
 
-    bottom:18px;
+    bottom:15px;
 
     z-index:30;
 
@@ -201,23 +193,18 @@ body{
 
     color:white;
 
-    font-size:12px;
+    font-size:11px;
 
     text-shadow:
         0 2px 12px #000;
 
-    transition:opacity .2s;
+    opacity:.85;
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:600px){
 
     #instruction{
-        font-size:11px;
-        bottom:16px;
+        font-size:10px;
     }
 
 }
@@ -237,24 +224,19 @@ body{
 
     <canvas id="canvas"></canvas>
 
-    <!-- FILTER -->
     <div id="filterName">
         RAINBOW
     </div>
 
-    <!-- INSTRUCTION -->
     <div id="instruction">
         ĐƯA HAI BÀN TAY VÀO CAMERA
     </div>
 
-    <!-- START -->
     <div id="startScreen">
 
         <div class="startBox">
 
-            <h1>
-                HANDLIGHT
-            </h1>
+            <h1>HANDLIGHT</h1>
 
             <p>
                 Đưa hai bàn tay vào camera.<br><br>
@@ -278,11 +260,13 @@ body{
 
 </div>
 
-<!-- MEDIAPIPE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
 
 <script>
+
 "use strict";
+
 
 /* =========================================================
    ELEMENTS
@@ -295,7 +279,10 @@ const canvas =
     document.getElementById("canvas");
 
 const ctx =
-    canvas.getContext("2d");
+    canvas.getContext("2d", {
+        alpha:true,
+        desynchronized:true
+    });
 
 const startScreen =
     document.getElementById("startScreen");
@@ -306,15 +293,15 @@ const startButton =
 const errorBox =
     document.getElementById("error");
 
-const instruction =
-    document.getElementById("instruction");
-
 const filterName =
     document.getElementById("filterName");
 
+const instruction =
+    document.getElementById("instruction");
+
 
 /* =========================================================
-   CANVAS SIZE
+   SIZE
 ========================================================= */
 
 let W = 0;
@@ -462,30 +449,49 @@ const FILTERS = [
 
 let filterIndex = 0;
 
-let lastFilterChange = 0;
-
-const COLOR_COOLDOWN = 850;
-
 
 /* =========================================================
-   WINDOW STATE
+   WINDOW
 ========================================================= */
 
 let windowOpen = false;
 
-let colorGestureHeld = false;
-
 
 /* =========================================================
-   WINDOW POINTS
+   POINT STRUCTURE
 ========================================================= */
+
+function point(x=0,y=0){
+
+    return {
+        x,
+        y,
+
+        vx:0,
+        vy:0,
+
+        initialized:false,
+
+        lastTime:performance.now()
+    };
+}
+
+
+/*
+    4 GÓC CỐ ĐỊNH:
+
+    tl = trỏ trái
+    tr = trỏ phải
+    br = cái phải
+    bl = cái trái
+*/
 
 const windowPoints = {
 
-    tl:{x:0,y:0},
-    tr:{x:0,y:0},
-    br:{x:0,y:0},
-    bl:{x:0,y:0}
+    tl:point(),
+    tr:point(),
+    br:point(),
+    bl:point()
 
 };
 
@@ -500,97 +506,19 @@ const targetPoints = {
 
 
 /* =========================================================
-   SMOOTHING SYSTEM
+   CAMERA POINT
 ========================================================= */
 
-/*
-   Đây là phần quan trọng nhất.
+function screenPoint(p){
 
-   Không lấy trực tiếp tọa độ MediaPipe
-   để vẽ khung.
+    return {
 
-   MediaPipe -> target
-              -> lọc rung
-              -> smoothing
-              -> khung
-*/
+        x:(1 - p.x) * W,
 
-const smoothState = {
+        y:p.y * H
 
-    tl:{
-        x:0,
-        y:0,
-        vx:0,
-        vy:0,
-        initialized:false
-    },
-
-    tr:{
-        x:0,
-        y:0,
-        vx:0,
-        vy:0,
-        initialized:false
-    },
-
-    br:{
-        x:0,
-        y:0,
-        vx:0,
-        vy:0,
-        initialized:false
-    },
-
-    bl:{
-        x:0,
-        y:0,
-        vx:0,
-        vy:0,
-        initialized:false
-    }
-
-};
-
-
-/* =========================================================
-   SMOOTHING PARAMETERS
-========================================================= */
-
-const SMOOTH = {
-
-    /*
-       Giá trị nhỏ:
-       mượt hơn nhưng chậm hơn.
-
-       Giá trị lớn:
-       bám tay nhanh hơn.
-    */
-
-    slow:0.12,
-
-    normal:0.22,
-
-    fast:0.48,
-
-    /*
-       chống rung
-    */
-
-    deadZone:0.45,
-
-    /*
-       giới hạn tốc độ thay đổi
-    */
-
-    maxStep:55,
-
-    /*
-       giảm vận tốc
-    */
-
-    velocityDamping:0.72
-
-};
+    };
+}
 
 
 /* =========================================================
@@ -600,27 +528,9 @@ const SMOOTH = {
 function distance(a,b){
 
     return Math.hypot(
-        a.x-b.x,
-        a.y-b.y
+        a.x - b.x,
+        a.y - b.y
     );
-
-}
-
-
-/* =========================================================
-   SCREEN POINT
-========================================================= */
-
-function screenPoint(p){
-
-    return {
-
-        x:(1-p.x)*W,
-
-        y:p.y*H
-
-    };
-
 }
 
 
@@ -638,9 +548,7 @@ function getHandSize(hand){
         ),
 
         0.0001
-
     );
-
 }
 
 
@@ -648,7 +556,7 @@ function getHandSize(hand){
    INDEX + THUMB
 ========================================================= */
 
-function getIndexThumbRatio(hand){
+function indexThumbTouch(hand){
 
     return (
 
@@ -656,28 +564,10 @@ function getIndexThumbRatio(hand){
             hand[4],
             hand[8]
         )
-
         /
-
         getHandSize(hand)
 
-    );
-
-}
-
-
-function indexThumbTouch(hand){
-
-    return (
-
-        getIndexThumbRatio(hand)
-
-        <
-
-        0.82
-
-    );
-
+    ) < 0.82;
 }
 
 
@@ -685,7 +575,7 @@ function indexThumbTouch(hand){
    PINKY + THUMB
 ========================================================= */
 
-function getPinkyThumbRatio(hand){
+function pinkyThumbTouch(hand){
 
     return (
 
@@ -693,210 +583,169 @@ function getPinkyThumbRatio(hand){
             hand[4],
             hand[20]
         )
-
         /
-
         getHandSize(hand)
 
-    );
-
-}
-
-
-function pinkyThumbTouch(hand){
-
-    return (
-
-        getPinkyThumbRatio(hand)
-
-        <
-
-        1.05
-
-    );
-
+    ) < 1.05;
 }
 
 
 /* =========================================================
-   ADVANCED SMOOTHING
+   ULTRA SMOOTH POINT
 ========================================================= */
 
+/*
+    Đây là phần quan trọng nhất.
+
+    Không dùng smoothing cố định.
+
+    Tay đứng yên:
+        → smoothing mạnh
+        → chống rung.
+
+    Tay chạy nhanh:
+        → smoothing nhẹ
+        → giảm delay.
+
+    Đồng thời dự đoán vị trí tiếp theo
+    dựa vào vận tốc.
+*/
+
 function smoothPoint(
-    key,
-    target
+    current,
+    target,
+    dt
 ){
 
-    const s =
-        smoothState[key];
+    if(!current.initialized){
 
-    /*
-       Lần đầu tiên:
-       đặt thẳng vào vị trí tay.
-    */
+        current.x = target.x;
+        current.y = target.y;
 
-    if(!s.initialized){
+        current.vx = 0;
+        current.vy = 0;
 
-        s.x = target.x;
-        s.y = target.y;
+        current.initialized = true;
 
-        s.vx = 0;
-        s.vy = 0;
-
-        s.initialized = true;
-
-        return {
-            x:s.x,
-            y:s.y
-        };
-
+        return;
     }
 
 
-    const dx =
-        target.x - s.x;
+    dt = Math.max(
+        0.001,
+        Math.min(dt,0.05)
+    );
 
-    const dy =
-        target.y - s.y;
 
-    const dist =
-        Math.hypot(dx,dy);
+    /* vận tốc hiện tại */
+
+    const rawVX =
+        (target.x - current.x)
+        / dt;
+
+    const rawVY =
+        (target.y - current.y)
+        / dt;
 
 
     /*
-       Dead zone:
+        Smooth vận tốc.
 
-       Nếu tay chỉ rung rất nhẹ
-       thì bỏ qua.
+        0.35 giúp vận tốc không bị
+        nhảy loạn vì camera.
     */
 
-    if(
-        dist < SMOOTH.deadZone
-    ){
+    current.vx +=
+        (
+            rawVX -
+            current.vx
+        ) * 0.35;
 
-        return {
-            x:s.x,
-            y:s.y
-        };
-
-    }
-
-
-    /*
-       Adaptive smoothing.
-
-       Di chuyển chậm:
-       smoothing mạnh.
-
-       Di chuyển nhanh:
-       smoothing nhẹ hơn
-       để khung không bị tụt.
-    */
-
-    let amount;
-
-    if(dist < 8){
-
-        amount =
-            SMOOTH.slow;
-
-    }
-    else if(dist < 30){
-
-        amount =
-            SMOOTH.normal;
-
-    }
-    else{
-
-        amount =
-            SMOOTH.fast;
-
-    }
+    current.vy +=
+        (
+            rawVY -
+            current.vy
+        ) * 0.35;
 
 
-    /*
-       Giới hạn bước nhảy.
-    */
-
-    const step =
-        Math.min(
-            dist * amount,
-            SMOOTH.maxStep
+    const speed =
+        Math.hypot(
+            current.vx,
+            current.vy
         );
 
 
     /*
-       Hướng di chuyển.
+        Tốc độ càng cao
+        → phản hồi càng nhanh.
     */
 
-    const nx =
-        dx / dist;
-
-    const ny =
-        dy / dist;
+    const speedNorm =
+        Math.min(
+            speed / 1800,
+            1
+        );
 
 
     /*
-       cập nhật velocity
+        Adaptive smoothing.
+
+        chậm:
+            ~0.18
+
+        nhanh:
+            ~0.72
     */
 
-    s.vx =
-        s.vx * SMOOTH.velocityDamping
-        +
-        nx * step * .25;
-
-    s.vy =
-        s.vy * SMOOTH.velocityDamping
-        +
-        ny * step * .25;
+    const alpha =
+        0.18 +
+        speedNorm * 0.54;
 
 
     /*
-       cập nhật vị trí.
+        Prediction.
+
+        Chỉ dự đoán nhẹ.
+
+        Không cho dự đoán quá xa
+        để tránh khung bị vượt khỏi ngón.
     */
 
-    s.x +=
-        nx * step
-        +
-        s.vx;
+    const prediction =
+        0.010 +
+        speedNorm * 0.018;
 
-    s.y +=
-        ny * step
-        +
-        s.vy;
+
+    const predictedX =
+        target.x +
+        current.vx *
+        prediction;
+
+    const predictedY =
+        target.y +
+        current.vy *
+        prediction;
 
 
     /*
-       Không cho vượt quá target.
+        Smooth vị trí.
     */
 
-    if(
-        Math.abs(target.x-s.x) < 0.8
-    ){
+    current.x +=
+        (
+            predictedX -
+            current.x
+        ) * alpha;
 
-        s.x = target.x;
-        s.vx *= .2;
-
-    }
-
-    if(
-        Math.abs(target.y-s.y) < 0.8
-    ){
-
-        s.y = target.y;
-        s.vy *= .2;
-
-    }
+    current.y +=
+        (
+            predictedY -
+            current.y
+        ) * alpha;
 
 
-    return {
-
-        x:s.x,
-        y:s.y
-
-    };
-
+    current.lastTime =
+        performance.now();
 }
 
 
@@ -909,6 +758,16 @@ function setWindowTargets(
     right
 ){
 
+    /*
+        QUAN TRỌNG:
+
+        Không bao giờ xác định góc
+        bằng vị trí X nữa.
+
+        left/right đã được MediaPipe
+        xác định bằng handedness.
+    */
+
     targetPoints.tl =
         screenPoint(left[8]);
 
@@ -920,7 +779,6 @@ function setWindowTargets(
 
     targetPoints.bl =
         screenPoint(left[4]);
-
 }
 
 
@@ -939,26 +797,34 @@ function createWindow(
     );
 
 
+    const now =
+        performance.now();
+
+
     for(
-        const key of
-        ["tl","tr","br","bl"]
+        const key of [
+            "tl",
+            "tr",
+            "br",
+            "bl"
+        ]
     ){
 
-        smoothState[key].initialized =
-            false;
-
         const p =
-            smoothPoint(
-                key,
-                targetPoints[key]
-            );
+            windowPoints[key];
 
-        windowPoints[key].x =
-            p.x;
+        const t =
+            targetPoints[key];
 
-        windowPoints[key].y =
-            p.y;
+        p.x = t.x;
+        p.y = t.y;
 
+        p.vx = 0;
+        p.vy = 0;
+
+        p.initialized = true;
+
+        p.lastTime = now;
     }
 
 
@@ -969,8 +835,7 @@ function createWindow(
         "DI CHUYỂN 4 ĐẦU NGÓN ĐỂ ĐIỀU KHIỂN KHUNG";
 
 
-    showFilter();
-
+    showFilterName();
 }
 
 
@@ -989,23 +854,56 @@ function updateWindow(
     );
 
 
+    const now =
+        performance.now();
+
+
+    const dt =
+        Math.min(
+            (now -
+                windowPoints.tl.lastTime)
+            / 1000,
+
+            0.05
+        );
+
+
+    smoothPoint(
+        windowPoints.tl,
+        targetPoints.tl,
+        dt
+    );
+
+    smoothPoint(
+        windowPoints.tr,
+        targetPoints.tr,
+        dt
+    );
+
+    smoothPoint(
+        windowPoints.br,
+        targetPoints.br,
+        dt
+    );
+
+    smoothPoint(
+        windowPoints.bl,
+        targetPoints.bl,
+        dt
+    );
+
+
     for(
-        const key of
-        ["tl","tr","br","bl"]
+        const key of [
+            "tl",
+            "tr",
+            "br",
+            "bl"
+        ]
     ){
 
-        const p =
-            smoothPoint(
-                key,
-                targetPoints[key]
-            );
-
-        windowPoints[key].x =
-            p.x;
-
-        windowPoints[key].y =
-            p.y;
-
+        windowPoints[key].lastTime =
+            now;
     }
 
 }
@@ -1015,30 +913,104 @@ function updateWindow(
    GRADIENT
 ========================================================= */
 
-function createGradient(){
+function rainbowGradient(){
 
     const p =
         windowPoints;
 
+
     const centerX =
         (
-            p.tl.x+
-            p.tr.x+
-            p.br.x+
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
             p.bl.x
-        )/4;
+        ) / 4;
+
 
     const centerY =
         (
-            p.tl.y+
-            p.tr.y+
-            p.br.y+
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
             p.bl.y
-        )/4;
+        ) / 4;
+
+
+    const gradient =
+        ctx.createRadialGradient(
+
+            centerX - W * .20,
+            centerY - H * .20,
+
+            0,
+
+            centerX,
+            centerY,
+
+            Math.max(W,H) * .75
+
+        );
+
+
+    const colors =
+        FILTERS[
+            filterIndex
+        ].colors;
+
+
+    for(
+        let i=0;
+        i<colors.length;
+        i++
+    ){
+
+        gradient.addColorStop(
+
+            i /
+            (colors.length - 1),
+
+            colors[i]
+
+        );
+    }
+
+
+    return gradient;
+}
+
+
+/* =========================================================
+   MOVING GRADIENT
+========================================================= */
+
+function movingGradient(){
+
+    const p =
+        windowPoints;
+
+
+    const centerX =
+        (
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
+            p.bl.x
+        ) / 4;
+
+
+    const centerY =
+        (
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
+            p.bl.y
+        ) / 4;
 
 
     const t =
-        performance.now()*0.00035;
+        performance.now()
+        * 0.00035;
 
 
     const moveX =
@@ -1048,7 +1020,7 @@ function createGradient(){
 
 
     const moveY =
-        Math.sin(t*1.25)
+        Math.sin(t * 1.25)
         * H
         * .35;
 
@@ -1056,11 +1028,21 @@ function createGradient(){
     const g =
         ctx.createLinearGradient(
 
-            centerX-W*.7+moveX,
-            centerY-H*.7+moveY,
+            centerX -
+            W * .70 +
+            moveX,
 
-            centerX+W*.7-moveX,
-            centerY+H*.7-moveY
+            centerY -
+            H * .70 +
+            moveY,
+
+            centerX +
+            W * .70 -
+            moveX,
+
+            centerY +
+            H * .70 -
+            moveY
 
         );
 
@@ -1079,7 +1061,8 @@ function createGradient(){
 
         g.addColorStop(
 
-            i/(colors.length-1),
+            i /
+            (colors.length - 1),
 
             colors[i]
 
@@ -1089,7 +1072,6 @@ function createGradient(){
 
 
     return g;
-
 }
 
 
@@ -1099,11 +1081,8 @@ function createGradient(){
 
 function drawWindow(){
 
-    if(!windowOpen){
-
+    if(!windowOpen)
         return;
-
-    }
 
 
     const p =
@@ -1111,12 +1090,11 @@ function drawWindow(){
 
 
     /*
-       ============================
-       CLIP WINDOW
-       ============================
+        WINDOW SHAPE
     */
 
     ctx.save();
+
 
     ctx.beginPath();
 
@@ -1146,19 +1124,18 @@ function drawWindow(){
 
 
     /*
-       ============================
-       COLOR
-       ============================
+        COLOR
     */
 
     ctx.globalCompositeOperation =
         "screen";
 
+
     ctx.globalAlpha =
-        .22;
+        0.25;
 
     ctx.fillStyle =
-        createGradient();
+        rainbowGradient();
 
     ctx.fillRect(
         0,
@@ -1169,26 +1146,43 @@ function drawWindow(){
 
 
     /*
-       ============================
-       GLASS LIGHT
-       ============================
+        MOVING COLOR
+    */
+
+    ctx.globalAlpha =
+        0.20;
+
+    ctx.fillStyle =
+        movingGradient();
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /*
+        GLASS
     */
 
     const centerX =
         (
-            p.tl.x+
-            p.tr.x+
-            p.br.x+
+            p.tl.x +
+            p.tr.x +
+            p.br.x +
             p.bl.x
-        )/4;
+        ) / 4;
+
 
     const centerY =
         (
-            p.tl.y+
-            p.tr.y+
-            p.br.y+
+            p.tl.y +
+            p.tr.y +
+            p.br.y +
             p.bl.y
-        )/4;
+        ) / 4;
 
 
     const glass =
@@ -1200,19 +1194,19 @@ function drawWindow(){
 
             centerX,
             centerY,
-            Math.max(W,H)*.65
+            Math.max(W,H) * .65
 
         );
 
 
     glass.addColorStop(
         0,
-        "rgba(255,255,255,.09)"
+        "rgba(255,255,255,.10)"
     );
 
     glass.addColorStop(
-        .5,
-        "rgba(255,255,255,.025)"
+        .45,
+        "rgba(255,255,255,.035)"
     );
 
     glass.addColorStop(
@@ -1238,12 +1232,11 @@ function drawWindow(){
 
 
     /*
-       ============================
-       NEON BORDER
-       ============================
+        NEON BORDER
     */
 
     ctx.save();
+
 
     ctx.beginPath();
 
@@ -1271,15 +1264,12 @@ function drawWindow(){
 
 
     ctx.strokeStyle =
-        createGradient();
+        rainbowGradient();
 
     ctx.lineWidth =
         5;
 
     ctx.lineJoin =
-        "round";
-
-    ctx.lineCap =
         "round";
 
     ctx.shadowColor =
@@ -1292,16 +1282,17 @@ function drawWindow(){
 
 
     /*
-       lớp sáng trắng mảnh
+        INNER LIGHT
     */
 
-    ctx.shadowBlur = 6;
+    ctx.shadowBlur =
+        6;
 
     ctx.strokeStyle =
-        "rgba(255,255,255,.85)";
+        "rgba(255,255,255,.88)";
 
     ctx.lineWidth =
-        1.3;
+        1.2;
 
     ctx.stroke();
 
@@ -1310,36 +1301,35 @@ function drawWindow(){
 
 
     /*
-       ============================
-       CORNER LIGHT
-       ============================
+        CORNER LIGHT
     */
 
     drawCorner(p.tl);
     drawCorner(p.tr);
     drawCorner(p.br);
     drawCorner(p.bl);
-
 }
 
 
 /* =========================================================
-   DRAW CORNER
+   CORNER
 ========================================================= */
 
 function drawCorner(p){
 
     ctx.save();
 
+
     ctx.beginPath();
 
     ctx.arc(
         p.x,
         p.y,
-        4,
+        4.5,
         0,
-        Math.PI*2
+        Math.PI * 2
     );
+
 
     ctx.fillStyle =
         "#ffffff";
@@ -1348,47 +1338,26 @@ function drawCorner(p){
         "#00eaff";
 
     ctx.shadowBlur =
-        12;
+        13;
 
     ctx.fill();
 
-    ctx.restore();
 
+    ctx.restore();
 }
 
 
 /* =========================================================
-   FILTER CHANGE
+   FILTER
 ========================================================= */
 
-function showFilter(){
+let lastFilterChange = 0;
 
-    filterName.textContent =
-        FILTERS[
-            filterIndex
-        ].name;
+const COLOR_COOLDOWN =
+    700;
 
-    filterName.style.opacity =
-        "1";
-
-
-    clearTimeout(
-        showFilter.timer
-    );
-
-
-    showFilter.timer =
-        setTimeout(
-            ()=>{
-
-                filterName.style.opacity =
-                    "0";
-
-            },
-            1000
-        );
-
-}
+let colorGestureHeld =
+    false;
 
 
 function nextFilter(){
@@ -1398,13 +1367,12 @@ function nextFilter(){
 
 
     if(
-        now-lastFilterChange
-        <
-        COLOR_COOLDOWN
+        now -
+        lastFilterChange
+        < COLOR_COOLDOWN
     ){
 
         return;
-
     }
 
 
@@ -1421,13 +1389,59 @@ function nextFilter(){
     ){
 
         filterIndex = 0;
-
     }
 
 
-    showFilter();
-
+    showFilterName();
 }
+
+
+function showFilterName(){
+
+    filterName.textContent =
+        FILTERS[
+            filterIndex
+        ].name;
+
+
+    filterName.style.opacity =
+        "1";
+
+
+    clearTimeout(
+        showFilterName.timer
+    );
+
+
+    showFilterName.timer =
+        setTimeout(
+            () => {
+
+                filterName.style.opacity =
+                    "0";
+
+            },
+
+            1000
+        );
+}
+
+
+/* =========================================================
+   HAND STATE
+========================================================= */
+
+/*
+    Lưu tay dựa trên handedness.
+
+    Không dùng vị trí X.
+
+    Vì vậy hai tay có chạy qua nhau
+    cũng không tráo góc.
+*/
+
+let leftHand = null;
+let rightHand = null;
 
 
 /* =========================================================
@@ -1435,116 +1449,106 @@ function nextFilter(){
 ========================================================= */
 
 function processHands(
-    detected
+    detected,
+    handedness
 ){
 
+    leftHand = null;
+    rightHand = null;
+
+
     /*
-       Không có tay
+        Gán tay theo MediaPipe.
+    */
+
+    for(
+        let i=0;
+        i<detected.length;
+        i++
+    ){
+
+        const hand =
+            detected[i];
+
+        const label =
+            handedness[i]?.label;
+
+
+        /*
+            Camera mirror:
+
+            MediaPipe vẫn trả về
+            handedness thực tế.
+
+            Left = tay trái người dùng.
+            Right = tay phải người dùng.
+        */
+
+        if(label === "Left"){
+
+            leftHand = hand;
+
+        }
+
+        else if(label === "Right"){
+
+            rightHand = hand;
+
+        }
+
+    }
+
+
+    /*
+        Không đủ 2 tay.
     */
 
     if(
-        detected.length === 0
+        !leftHand ||
+        !rightHand
     ){
 
         if(!windowOpen){
 
             instruction.textContent =
-                "ĐƯA HAI BÀN TAY VÀO CAMERA";
+                detected.length === 1
+                ? "ĐƯA BÀN TAY THỨ HAI VÀO"
+                : "ĐƯA HAI BÀN TAY VÀO CAMERA";
 
         }
 
         return;
-
     }
 
 
     /*
-       Chỉ có một tay
-    */
-
-    if(
-        detected.length === 1
-    ){
-
-        if(!windowOpen){
-
-            instruction.textContent =
-                "ĐƯA BÀN TAY THỨ HAI VÀO";
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       ============================
-       2 TAY
-       ============================
-    */
-
-    const handA =
-        detected[0];
-
-    const handB =
-        detected[1];
-
-
-    const xA =
-        screenPoint(
-            handA[9]
-        ).x;
-
-
-    const xB =
-        screenPoint(
-            handB[9]
-        ).x;
-
-
-    let left;
-    let right;
-
-
-    if(xA < xB){
-
-        left = handA;
-        right = handB;
-
-    }
-    else{
-
-        left = handB;
-        right = handA;
-
-    }
-
-
-    /*
-       ============================
-       GESTURE
-       ============================
+        Gesture.
     */
 
     const leftIndex =
-        indexThumbTouch(left);
+        indexThumbTouch(
+            leftHand
+        );
 
     const rightIndex =
-        indexThumbTouch(right);
+        indexThumbTouch(
+            rightHand
+        );
 
 
     const leftPinky =
-        pinkyThumbTouch(left);
+        pinkyThumbTouch(
+            leftHand
+        );
 
     const rightPinky =
-        pinkyThumbTouch(right);
+        pinkyThumbTouch(
+            rightHand
+        );
 
 
     /*
-       ============================
-       OPEN WINDOW
-       ============================
+        OPEN WINDOW
     */
 
     if(!windowOpen){
@@ -1555,39 +1559,28 @@ function processHands(
         ){
 
             createWindow(
-                left,
-                right
+                leftHand,
+                rightHand
             );
-
-        }
-        else{
-
-            instruction.textContent =
-                "CHẠM TRỎ + CÁI Ở CẢ HAI TAY";
 
         }
 
         return;
-
     }
 
 
     /*
-       ============================
-       UPDATE WINDOW
-       ============================
+        UPDATE POSITION
     */
 
     updateWindow(
-        left,
-        right
+        leftHand,
+        rightHand
     );
 
 
     /*
-       ============================
-       CHANGE COLOR
-       ============================
+        CHANGE COLOR
     */
 
     const bothPinky =
@@ -1610,6 +1603,7 @@ function processHands(
         }
 
     }
+
     else{
 
         colorGestureHeld =
@@ -1619,7 +1613,6 @@ function processHands(
             "ÚT + CÁI 2 TAY = ĐỔI MÀU";
 
     }
-
 }
 
 
@@ -1642,13 +1635,24 @@ function onResults(results){
         || [];
 
 
+    const handedness =
+        results.multiHandedness
+        || [];
+
+
     processHands(
-        detected
+        detected,
+        handedness
     );
 
 
-    drawWindow();
+    /*
+        CHỈ VẼ KHUNG.
 
+        KHÔNG VẼ SKELETON.
+    */
+
+    drawWindow();
 }
 
 
@@ -1668,24 +1672,20 @@ async function startTracking(){
     if(!window.Hands){
 
         throw new Error(
-            "Không tải được MediaPipe Hands"
+            "Không tải được MediaPipe Hands."
         );
-
     }
 
 
     hands =
         new Hands({
 
-            locateFile:
-            function(file){
+            locateFile:function(file){
 
                 return (
-
                     "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
                     +
                     file
-
                 );
 
             }
@@ -1701,7 +1701,7 @@ async function startTracking(){
 
         minDetectionConfidence:.55,
 
-        minTrackingConfidence:.60
+        minTrackingConfidence:.65
 
     });
 
@@ -1717,7 +1717,6 @@ async function startTracking(){
     requestAnimationFrame(
         trackingLoop
     );
-
 }
 
 
@@ -1727,11 +1726,8 @@ async function startTracking(){
 
 async function trackingLoop(){
 
-    if(!tracking){
-
+    if(!tracking)
         return;
-
-    }
 
 
     const now =
@@ -1739,16 +1735,21 @@ async function trackingLoop(){
 
 
     /*
-       khoảng 30 FPS
+        ~30 FPS.
+
+        MediaPipe chạy ổn định hơn
+        khi không gửi frame quá nhanh.
     */
 
     if(
-        now-lastSend >= 33
+        now -
+        lastSend >= 30
         &&
         video.readyState >= 2
     ){
 
-        lastSend = now;
+        lastSend =
+            now;
 
 
         try{
@@ -1760,6 +1761,7 @@ async function trackingLoop(){
             });
 
         }
+
         catch(error){
 
             console.error(
@@ -1775,7 +1777,6 @@ async function trackingLoop(){
     requestAnimationFrame(
         trackingLoop
     );
-
 }
 
 
@@ -1785,9 +1786,11 @@ async function trackingLoop(){
 
 async function startCamera(){
 
-    startButton.disabled = true;
+    startButton.disabled =
+        true;
 
-    errorBox.textContent = "";
+    errorBox.textContent =
+        "";
 
 
     if(!window.isSecureContext){
@@ -1795,10 +1798,10 @@ async function startCamera(){
         errorBox.textContent =
             "Hãy mở website bằng HTTPS hoặc GitHub Pages.";
 
-        startButton.disabled = false;
+        startButton.disabled =
+            false;
 
         return;
-
     }
 
 
@@ -1812,14 +1815,11 @@ async function startCamera(){
             throw new Error(
                 "Trình duyệt không hỗ trợ Camera."
             );
-
         }
 
 
         const stream =
-            await navigator
-            .mediaDevices
-            .getUserMedia({
+            await navigator.mediaDevices.getUserMedia({
 
                 audio:false,
 
@@ -1864,6 +1864,7 @@ async function startCamera(){
         await startTracking();
 
     }
+
     catch(error){
 
         console.error(error);
@@ -1873,9 +1874,8 @@ async function startCamera(){
             "Không mở được camera: "
             +
             (
-                error.message
-                ||
-                "Không xác định"
+                error.message ||
+                "Unknown error"
             );
 
 
