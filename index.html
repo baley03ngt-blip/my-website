@@ -2,12 +2,11 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
       content="width=device-width,
-               initial-scale=1,
-               viewport-fit=cover,
-               user-scalable=no">
+      initial-scale=1,
+      viewport-fit=cover,
+      user-scalable=no">
 
 <title>HANDLIGHT</title>
 
@@ -38,61 +37,40 @@ body{
     background:#02040a;
 }
 
-/* =====================================================
-   CAMERA
-===================================================== */
-
+/* CAMERA */
 #video{
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:cover;
-
     transform:scaleX(-1);
-
     z-index:1;
-
     filter:
-        brightness(.84)
-        contrast(1.04)
+        brightness(.82)
+        contrast(1.05)
         saturate(1.05);
 }
 
-/* =====================================================
-   CANVAS
-===================================================== */
-
+/* CANVAS */
 #canvas{
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
-    z-index:5;
-
+    z-index:10;
     pointer-events:none;
 }
 
-/* =====================================================
-   START SCREEN
-===================================================== */
-
+/* START */
 #startScreen{
     position:absolute;
     inset:0;
-
     z-index:100;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     background:#02040a;
-
     color:white;
     text-align:center;
 }
@@ -104,41 +82,26 @@ body{
 .startBox h1{
     font-size:42px;
     letter-spacing:-.05em;
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
 .startBox p{
-    color:rgba(255,255,255,.6);
+    color:rgba(255,255,255,.62);
     font-size:14px;
     line-height:1.7;
 }
 
 #startButton{
     margin-top:25px;
-
-    padding:16px 28px;
-
+    padding:16px 30px;
     border:0;
-    border-radius:8px;
-
+    border-radius:10px;
     background:white;
     color:#02040a;
-
     font-weight:800;
     font-size:11px;
-
     letter-spacing:.15em;
-
     cursor:pointer;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-}
-
-#startButton:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 30px rgba(255,255,255,.25);
 }
 
 #startButton:active{
@@ -147,371 +110,251 @@ body{
 
 #error{
     margin-top:14px;
-
     color:#ff6578;
-
     font-size:12px;
-
-    line-height:1.5;
 }
 
-/* =====================================================
-   FILTER NAME
-===================================================== */
-
-#filterName{
+/* DARK UI */
+#darkUI{
     position:absolute;
-
-    left:50%;
-    bottom:35px;
-
-    transform:translateX(-50%);
-
-    z-index:30;
-
-    padding:8px 15px;
-
-    border-radius:20px;
-
-    background:rgba(0,0,0,.45);
-
-    border:
-        1px solid
-        rgba(255,255,255,.16);
-
-    color:white;
-
-    font:
-        10px
-        Consolas,
-        monospace;
-
-    letter-spacing:.15em;
-
-    opacity:0;
-
-    transition:opacity .3s;
-}
-
-/* =====================================================
-   SECRET MENU OVERLAY
-===================================================== */
-
-#menuOverlay{
-    position:absolute;
-
     inset:0;
-
-    z-index:80;
+    z-index:20;
 
     display:none;
-
     align-items:center;
     justify-content:center;
 
     background:rgba(0,0,0,.48);
 
-    backdrop-filter:
-        blur(4px);
-
-    -webkit-backdrop-filter:
-        blur(4px);
-
-    opacity:0;
-
-    transition:opacity .35s ease;
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
 }
 
-#menuOverlay.show{
-    display:flex;
+/* MAIN PANEL */
+#panel{
+    position:relative;
+
+    width:min(86vw,430px);
+    min-height:330px;
+
+    padding:38px 24px 28px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,24,35,.90),
+            rgba(3,5,12,.90)
+        );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    text-align:center;
+
+    transform:scale(.96);
+    opacity:0;
+
+    transition:
+        transform .35s ease,
+        opacity .35s ease;
+}
+
+#darkUI.active #panel{
+    transform:scale(1);
     opacity:1;
 }
 
-/* =====================================================
-   MENU WINDOW
-===================================================== */
-
-.menuWindow{
-    width:min(88vw,500px);
-
-    min-height:300px;
-
-    padding:28px;
-
-    border-radius:24px;
-
-    background:
-        rgba(8,10,18,.78);
-
-    border:
-        1px solid
-        rgba(255,255,255,.14);
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.5),
-        inset 0 1px 0 rgba(255,255,255,.08);
-
-    backdrop-filter:
-        blur(25px);
-
-    -webkit-backdrop-filter:
-        blur(25px);
-
-    transform:
-        scale(.94)
-        translateY(15px);
-
-    transition:
-        transform .4s cubic-bezier(.2,.8,.2,1);
-}
-
-#menuOverlay.show .menuWindow{
-    transform:
-        scale(1)
-        translateY(0);
-}
-
-.menuTitle{
-    text-align:center;
-
+#panelTitle{
     color:white;
-
-    font-size:22px;
-
-    font-weight:700;
-
-    letter-spacing:.04em;
-
-    margin-bottom:8px;
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:-.03em;
 }
 
-.menuSubtitle{
-    text-align:center;
-
+#panelSub{
+    margin-top:8px;
     color:rgba(255,255,255,.45);
-
-    font-size:11px;
-
-    margin-bottom:28px;
+    font-size:12px;
 }
 
-/* =====================================================
-   SOCIAL BUTTONS
-===================================================== */
-
+/* SOCIAL BUTTONS */
 .socialGrid{
     display:grid;
-
     grid-template-columns:
         repeat(3,1fr);
 
-    gap:14px;
+    gap:15px;
+
+    margin-top:35px;
 }
 
 .socialButton{
     position:relative;
 
-    min-height:135px;
+    height:105px;
+
+    border-radius:20px;
 
     border:1px solid
-        rgba(255,255,255,.1);
-
-    border-radius:18px;
+        rgba(255,255,255,.12);
 
     background:
-        rgba(255,255,255,.045);
+        rgba(255,255,255,.055);
 
     color:white;
 
-    cursor:pointer;
-
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
-
     justify-content:center;
 
-    gap:12px;
-
     transition:
-        transform .18s ease,
-        background .18s ease,
-        box-shadow .18s ease;
-
-    overflow:hidden;
+        transform .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
 }
 
-.socialButton:hover,
 .socialButton.active{
-    transform:
-        translateY(-4px)
-        scale(1.03);
+    transform:scale(1.08);
 
     background:
-        rgba(255,255,255,.10);
+        rgba(255,255,255,.14);
 
     box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.35);
+        0 0 30px
+        rgba(255,255,255,.12);
 }
 
 .socialIcon{
-    width:62px;
-    height:62px;
-
-    border-radius:18px;
+    width:45px;
+    height:45px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
+    border-radius:12px;
+
+    background:rgba(255,255,255,.10);
+
+    font-size:25px;
     font-weight:900;
-
-    font-size:30px;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    box-shadow:
-        inset 0 1px 0
-        rgba(255,255,255,.1);
-}
-
-.facebook .socialIcon{
-    font-family:Arial,sans-serif;
-    font-size:38px;
-}
-
-.tiktok .socialIcon{
-    font-size:31px;
-}
-
-.instagram .socialIcon{
-    font-size:30px;
 }
 
 .socialName{
-    font-size:11px;
-
-    letter-spacing:.12em;
-
-    color:
-        rgba(255,255,255,.78);
+    margin-top:9px;
+    font-size:10px;
+    color:rgba(255,255,255,.7);
 }
 
-/* =====================================================
-   POINTER INDICATOR
-===================================================== */
+/* HOME */
+#homeButton{
+    margin-top:25px;
 
-#pointerDot{
+    width:100%;
+    height:45px;
+
+    border-radius:12px;
+
+    border:1px solid
+        rgba(255,255,255,.12);
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:white;
+
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.1em;
+}
+
+/* POINTER */
+#pointer{
     position:absolute;
 
-    z-index:90;
+    width:22px;
+    height:22px;
 
-    width:24px;
-    height:24px;
-
-    margin-left:-12px;
-    margin-top:-12px;
+    margin-left:-11px;
+    margin-top:-11px;
 
     border-radius:50%;
 
-    border:
-        2px solid
-        rgba(255,255,255,.95);
-
-    background:
-        rgba(255,255,255,.08);
+    border:2px solid white;
 
     box-shadow:
-        0 0 0 5px
-        rgba(255,255,255,.08),
-        0 0 25px
-        rgba(255,255,255,.7);
+        0 0 10px white,
+        0 0 25px rgba(0,234,255,.8);
+
+    z-index:50;
 
     pointer-events:none;
 
-    display:none;
+    opacity:0;
+
+    transform:scale(.75);
 
     transition:
-        transform .08s linear;
+        opacity .15s,
+        transform .15s;
 }
 
-#pointerDot.selecting{
-    transform:scale(1.45);
-
-    background:
-        rgba(255,255,255,.28);
-
-    box-shadow:
-        0 0 0 8px
-        rgba(255,255,255,.1),
-        0 0 35px
-        rgba(255,255,255,.9);
+#pointer.show{
+    opacity:1;
+    transform:scale(1);
 }
 
-/* =====================================================
-   LOADING
-===================================================== */
-
-#gestureLoading{
+/* LOADING */
+#loading{
     position:absolute;
-
     inset:0;
 
-    z-index:75;
+    z-index:60;
 
     display:none;
 
     align-items:center;
     justify-content:center;
+
+    background:rgba(0,0,0,.20);
 
     pointer-events:none;
 }
 
 .loaderBox{
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
-
-    gap:18px;
 }
 
 .loader{
-    width:70px;
-    height:70px;
+    width:75px;
+    height:75px;
 
     border-radius:50%;
 
-    border:
-        3px solid
+    border:3px solid
         rgba(255,255,255,.12);
 
-    border-top-color:
-        rgba(255,255,255,.95);
+    border-top-color:white;
 
     animation:
         spin .8s linear infinite;
-
-    box-shadow:
-        0 0 35px
-        rgba(255,255,255,.15);
 }
 
-.loaderText{
+#loadingText{
+    margin-top:15px;
+
     color:white;
 
-    font-size:10px;
-
-    letter-spacing:.18em;
+    font-size:11px;
+    letter-spacing:.12em;
 }
 
 @keyframes spin{
@@ -520,81 +363,42 @@ body{
     }
 }
 
-/* =====================================================
-   HOME BUTTON
-===================================================== */
+/* INSTRUCTION */
+#hint{
+    position:absolute;
 
-#homeButton{
-    display:block;
+    left:0;
+    right:0;
+    bottom:25px;
 
-    margin:24px auto 0;
+    z-index:30;
 
-    padding:12px 25px;
+    text-align:center;
 
-    border-radius:20px;
+    color:rgba(255,255,255,.75);
 
-    border:
-        1px solid
-        rgba(255,255,255,.15);
+    font-size:12px;
 
-    background:
-        rgba(255,255,255,.06);
+    text-shadow:
+        0 2px 12px black;
 
-    color:
-        rgba(255,255,255,.8);
-
-    font-size:10px;
-
-    letter-spacing:.12em;
-
-    cursor:pointer;
-
-    transition:
-        .2s ease;
+    pointer-events:none;
 }
 
-#homeButton:hover{
-    background:
-        rgba(255,255,255,.12);
-
-    transform:scale(1.04);
-}
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
+/* MOBILE */
 @media(max-width:600px){
 
-    .menuWindow{
-        width:92vw;
-
-        padding:20px;
-
-        border-radius:20px;
+    #panel{
+        width:88vw;
+        min-height:315px;
     }
 
     .socialGrid{
-        gap:9px;
+        gap:10px;
     }
 
     .socialButton{
-        min-height:120px;
-    }
-
-    .socialIcon{
-        width:52px;
-        height:52px;
-
-        font-size:26px;
-    }
-
-    .menuTitle{
-        font-size:19px;
-    }
-
-    .menuSubtitle{
-        margin-bottom:20px;
+        height:95px;
     }
 }
 </style>
@@ -604,6 +408,7 @@ body{
 
 <div id="app">
 
+    <!-- CAMERA -->
     <video
         id="video"
         autoplay
@@ -611,48 +416,50 @@ body{
         playsinline>
     </video>
 
+    <!-- TRACKING CANVAS -->
     <canvas id="canvas"></canvas>
 
-    <!-- FILTER -->
-    <div id="filterName">
-        RAINBOW
+    <!-- POINTER -->
+    <div id="pointer"></div>
+
+    <!-- HINT -->
+    <div id="hint">
+        GIƠ NGÓN TRỎ LÊN ĐỂ MỞ MENU
     </div>
 
-    <!-- POINTER -->
-    <div id="pointerDot"></div>
-
     <!-- LOADING -->
-    <div id="gestureLoading">
+    <div id="loading">
 
         <div class="loaderBox">
 
             <div class="loader"></div>
 
-            <div class="loaderText">
-                ĐANG MỞ KHÔNG GIAN
+            <div id="loadingText">
+                ĐANG NHẬN DIỆN...
             </div>
 
         </div>
 
     </div>
 
-    <!-- MENU -->
-    <div id="menuOverlay">
+    <!-- DARK UI -->
+    <div id="darkUI">
 
-        <div class="menuWindow">
+        <div id="panel">
 
-            <div class="menuTitle">
+            <div id="panelTitle">
                 HANDLIGHT
             </div>
 
-            <div class="menuSubtitle">
-                ĐƯA NGÓN TRỎ ĐẾN MỘT ỨNG DỤNG
+            <div id="panelSub">
+                Di chuyển ngón trỏ để chọn
             </div>
 
             <div class="socialGrid">
 
-                <button
-                    class="socialButton facebook"
+                <div
+                    class="socialButton"
+                    data-name="Facebook"
                     data-url="https://www.facebook.com">
 
                     <div class="socialIcon">
@@ -663,10 +470,12 @@ body{
                         FACEBOOK
                     </div>
 
-                </button>
+                </div>
 
-                <button
-                    class="socialButton tiktok"
+
+                <div
+                    class="socialButton"
+                    data-name="TikTok"
                     data-url="https://www.tiktok.com">
 
                     <div class="socialIcon">
@@ -677,10 +486,12 @@ body{
                         TIKTOK
                     </div>
 
-                </button>
+                </div>
 
-                <button
-                    class="socialButton instagram"
+
+                <div
+                    class="socialButton"
+                    data-name="Instagram"
                     data-url="https://www.instagram.com">
 
                     <div class="socialIcon">
@@ -691,17 +502,18 @@ body{
                         INSTAGRAM
                     </div>
 
-                </button>
+                </div>
 
             </div>
 
             <button id="homeButton">
-                HOME
+                ← HOME
             </button>
 
         </div>
 
     </div>
+
 
     <!-- START -->
     <div id="startScreen">
@@ -713,16 +525,10 @@ body{
             </h1>
 
             <p>
-                Đưa hai bàn tay vào camera.<br><br>
+                Cho phép camera để bắt đầu.<br><br>
 
-                Chạm ngón trỏ + ngón cái
-                ở cả hai tay để tạo khung.<br><br>
-
-                Út + cái ở cả hai tay
-                để đổi màu.<br><br>
-
-                Chỉ ngón trỏ lên trên
-                để mở menu.
+                Sau đó đưa một bàn tay vào camera
+                và giơ ngón trỏ lên.
             </p>
 
             <button id="startButton">
@@ -738,10 +544,13 @@ body{
 </div>
 
 
+<!-- MEDIAPIPE -->
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+
 
 <script>
 "use strict";
+
 
 /* =====================================================
    ELEMENTS
@@ -765,24 +574,30 @@ const startButton =
 const errorBox =
     document.getElementById("error");
 
-const filterName =
-    document.getElementById("filterName");
+const darkUI =
+    document.getElementById("darkUI");
 
-const menuOverlay =
-    document.getElementById("menuOverlay");
+const panel =
+    document.getElementById("panel");
 
-const gestureLoading =
-    document.getElementById("gestureLoading");
+const pointer =
+    document.getElementById("pointer");
 
-const pointerDot =
-    document.getElementById("pointerDot");
+const loading =
+    document.getElementById("loading");
+
+const hint =
+    document.getElementById("hint");
 
 const homeButton =
     document.getElementById("homeButton");
 
+const buttons =
+    [...document.querySelectorAll(".socialButton")];
+
 
 /* =====================================================
-   SIZE
+   CANVAS SIZE
 ===================================================== */
 
 let W = 0;
@@ -791,11 +606,8 @@ let DPR = 1;
 
 function resize(){
 
-    W =
-        window.innerWidth;
-
-    H =
-        window.innerHeight;
+    W = window.innerWidth;
+    H = window.innerHeight;
 
     DPR =
         Math.min(
@@ -834,184 +646,64 @@ window.addEventListener(
 
 
 /* =====================================================
-   BONES
+   TRACKING
 ===================================================== */
 
-const BONES = [
+let hands = null;
 
-    [0,1],
-    [1,2],
-    [2,3],
-    [3,4],
+let tracking = false;
 
-    [0,5],
-    [5,6],
-    [6,7],
-    [7,8],
-
-    [0,9],
-    [9,10],
-    [10,11],
-    [11,12],
-
-    [0,13],
-    [13,14],
-    [14,15],
-    [15,16],
-
-    [0,17],
-    [17,18],
-    [18,19],
-    [19,20],
-
-    [5,9],
-    [9,13],
-    [13,17]
-
-];
+let lastSend = 0;
 
 
 /* =====================================================
-   FILTERS
+   POINTER SMOOTHING
 ===================================================== */
 
-const FILTERS = [
+let pointerX = W / 2;
+let pointerY = H / 2;
 
-    {
-        name:"RAINBOW",
-        colors:[
-            "#ff006e",
-            "#ff4d00",
-            "#ffe600",
-            "#00ff88",
-            "#00eaff",
-            "#3867ff",
-            "#b000ff"
-        ]
-    },
+let targetX = W / 2;
+let targetY = H / 2;
 
-    {
-        name:"AURORA",
-        colors:[
-            "#00fff0",
-            "#00ff9d",
-            "#70ff00",
-            "#00aaff",
-            "#7b00ff",
-            "#ff00d4"
-        ]
-    },
 
-    {
-        name:"NEON DREAM",
-        colors:[
-            "#ff0080",
-            "#ff00ff",
-            "#8a00ff",
-            "#0055ff",
-            "#00eaff"
-        ]
-    },
+/*
+    Smoothing rất cao nhưng vẫn bám nhanh.
+*/
 
-    {
-        name:"COSMIC",
-        colors:[
-            "#1600ff",
-            "#5c00ff",
-            "#b900ff",
-            "#ff00aa",
-            "#ff0055",
-            "#00cfff"
-        ]
-    },
-
-    {
-        name:"SUNSET",
-        colors:[
-            "#ff003c",
-            "#ff4800",
-            "#ff9700",
-            "#ffe000",
-            "#ff00a8",
-            "#7200ff"
-        ]
-    },
-
-    {
-        name:"OCEAN",
-        colors:[
-            "#001eff",
-            "#006eff",
-            "#00c8ff",
-            "#00fff0",
-            "#00ff9d",
-            "#64ff00"
-        ]
-    },
-
-    {
-        name:"CRYSTAL",
-        colors:[
-            "#ffffff",
-            "#9fffff",
-            "#789dff",
-            "#c78cff",
-            "#ff9edb",
-            "#ffffff"
-        ]
-    }
-
-];
-
-let filterIndex = 0;
-
-let lastFilterChange = 0;
-
-const COLOR_COOLDOWN = 800;
-
-let colorGestureHeld = false;
+const SMOOTHING = 0.42;
 
 
 /* =====================================================
-   WINDOW
+   MENU STATE
 ===================================================== */
 
-let windowOpen = false;
+let menuOpen = false;
 
-const windowPoints = {
+let loadingStarted = false;
 
-    tl:{x:0,y:0},
-    tr:{x:0,y:0},
-    br:{x:0,y:0},
-    bl:{x:0,y:0}
+let gestureStart = 0;
 
-};
+let lastGesture = false;
 
-const targetPoints = {
 
-    tl:{x:0,y:0},
-    tr:{x:0,y:0},
-    br:{x:0,y:0},
-    bl:{x:0,y:0}
+/*
+    Thời gian giữ ngón trỏ
+    trước khi mở menu.
+*/
 
-};
+const GESTURE_TIME = 650;
 
 
 /* =====================================================
-   SCREEN POINT
+   TOUCH / HOVER
 ===================================================== */
 
-function screenPoint(p){
+let selectedButton = null;
 
-    return {
+let buttonHoverStart = 0;
 
-        x:(1-p.x)*W,
-
-        y:p.y*H
-
-    };
-
-}
+const BUTTON_ACTIVATE_TIME = 180;
 
 
 /* =====================================================
@@ -1021,10 +713,24 @@ function screenPoint(p){
 function distance(a,b){
 
     return Math.hypot(
-        a.x-b.x,
-        a.y-b.y
+        a.x - b.x,
+        a.y - b.y
     );
+}
 
+
+/* =====================================================
+   SCREEN POINT
+
+   Camera đang mirror nên đảo X.
+===================================================== */
+
+function screenPoint(p){
+
+    return {
+        x:(1 - p.x) * W,
+        y:p.y * H
+    };
 }
 
 
@@ -1032,868 +738,319 @@ function distance(a,b){
    HAND SIZE
 ===================================================== */
 
-function getHandSize(hand){
+function handSize(hand){
 
     return Math.max(
-        distance(hand[0],hand[9]),
-        0.0001
-    );
-
-}
-
-
-/* =====================================================
-   INDEX + THUMB
-===================================================== */
-
-function indexThumbRatio(hand){
-
-    return (
         distance(
-            hand[4],
-            hand[8]
-        )
-        /
-        getHandSize(hand)
+            hand[0],
+            hand[9]
+        ),
+        .0001
     );
-
-}
-
-function indexThumbTouch(hand){
-
-    return (
-        indexThumbRatio(hand)
-        < .82
-    );
-
 }
 
 
 /* =====================================================
-   PINKY + THUMB
-===================================================== */
-
-function pinkyThumbRatio(hand){
-
-    return (
-        distance(
-            hand[4],
-            hand[20]
-        )
-        /
-        getHandSize(hand)
-    );
-
-}
-
-function pinkyThumbTouch(hand){
-
-    return (
-        pinkyThumbRatio(hand)
-        < 1.05
-    );
-
-}
-
-
-/* =====================================================
-   NEW GESTURE
    INDEX UP
+
+   Kiểm tra ngón trỏ đang dựng lên.
 ===================================================== */
 
-/*
-    Kiểm tra ngón trỏ có hướng lên hay không.
+function isIndexUp(hand){
 
-    8 = đầu ngón trỏ
-    6 = khớp giữa
-    5 = gốc ngón trỏ
-*/
+    const wrist = hand[0];
 
-function indexPointingUp(hand){
+    const indexMCP = hand[5];
 
-    const tip = hand[8];
-    const pip = hand[6];
-    const mcp = hand[5];
+    const indexPIP = hand[6];
 
-    const fingerVector = {
+    const indexDIP = hand[7];
 
-        x:tip.x-mcp.x,
+    const indexTIP = hand[8];
 
-        y:tip.y-mcp.y
 
-    };
-
-    const length =
-        Math.hypot(
-            fingerVector.x,
-            fingerVector.y
-        );
-
-    if(length < .01)
-        return false;
+    /*
+        Ngón trỏ phải cao hơn
+        khớp MCP rõ ràng.
+    */
 
     const vertical =
-        -fingerVector.y / length;
+        indexTIP.y <
+        indexPIP.y &&
+        indexPIP.y <
+        indexMCP.y;
 
-    const horizontal =
-        Math.abs(
-            fingerVector.x
-        ) / length;
-
-    /*
-        Phải hướng lên tương đối thẳng.
-    */
-
-    const pointingUp =
-        vertical > .78 &&
-        horizontal < .62;
 
     /*
-        Các ngón còn lại phải gập.
+        Khoảng cách đủ lớn
+        để ngón trỏ thật sự duỗi.
     */
 
-    const middleFolded =
-        distance(hand[12],hand[9])
-        <
-        getHandSize(hand)*.72;
+    const length =
+        distance(
+            indexTIP,
+            indexMCP
+        );
 
-    const ringFolded =
-        distance(hand[16],hand[13])
-        <
-        getHandSize(hand)*.72;
 
-    const pinkyFolded =
-        distance(hand[20],hand[17])
-        <
-        getHandSize(hand)*.75;
+    const size =
+        handSize(hand);
+
+
+    const longEnough =
+        length / size > .55;
+
+
+    /*
+        Các ngón còn lại
+        phải tương đối cụp.
+    */
+
+    const middleClosed =
+        hand[12].y >
+        hand[10].y;
+
+    const ringClosed =
+        hand[16].y >
+        hand[14].y;
+
+    const pinkyClosed =
+        hand[20].y >
+        hand[18].y;
+
 
     return (
-        pointingUp &&
-        middleFolded &&
-        ringFolded &&
-        pinkyFolded
+        vertical &&
+        longEnough &&
+        middleClosed &&
+        ringClosed &&
+        pinkyClosed
     );
-
 }
 
 
 /* =====================================================
-   SMOOTHING
+   FALLBACK GESTURE
+
+   Nếu camera góc khác,
+   dùng điều kiện đơn giản hơn.
 ===================================================== */
 
-/*
-    Adaptive smoothing:
+function isIndexUpSimple(hand){
 
-    Tay chạy nhanh
-    → bám nhanh hơn.
+    const tip =
+        hand[8];
 
-    Tay đứng yên
-    → lọc rung mạnh hơn.
-*/
+    const pip =
+        hand[6];
 
-function adaptiveSmooth(
-    current,
-    target,
-    previousVelocity
-){
+    const mcp =
+        hand[5];
 
-    const dx =
-        target.x-current.x;
+    const wrist =
+        hand[0];
 
-    const dy =
-        target.y-current.y;
 
-    const speed =
-        Math.hypot(dx,dy);
-
-    let amount;
-
-    if(speed > 70){
-
-        amount = .72;
-
-    }
-    else if(speed > 30){
-
-        amount = .56;
-
-    }
-    else if(speed > 10){
-
-        amount = .42;
-
-    }
-    else{
-
-        amount = .27;
-
-    }
-
-    current.x +=
-        dx*amount;
-
-    current.y +=
-        dy*amount;
-
-    return current;
+    return (
+        tip.y < pip.y &&
+        pip.y < mcp.y &&
+        tip.y < wrist.y - .05
+    );
 }
 
 
 /* =====================================================
-   SET WINDOW TARGET
+   FINAL GESTURE
 ===================================================== */
 
-function setWindowTargets(
-    left,
-    right
-){
+function detectGesture(hand){
 
-    targetPoints.tl =
-        screenPoint(left[8]);
-
-    targetPoints.tr =
-        screenPoint(right[8]);
-
-    targetPoints.br =
-        screenPoint(right[4]);
-
-    targetPoints.bl =
-        screenPoint(left[4]);
-
+    return (
+        isIndexUp(hand) ||
+        isIndexUpSimple(hand)
+    );
 }
 
 
 /* =====================================================
-   CREATE WINDOW
+   POINTER TARGET
 ===================================================== */
 
-function createWindow(
-    left,
-    right
-){
+function updatePointer(hand){
 
-    setWindowTargets(
-        left,
-        right
-    );
-
-    windowPoints.tl =
-        {...targetPoints.tl};
-
-    windowPoints.tr =
-        {...targetPoints.tr};
-
-    windowPoints.br =
-        {...targetPoints.br};
-
-    windowPoints.bl =
-        {...targetPoints.bl};
-
-    windowOpen = true;
-
-    filterName.textContent =
-        FILTERS[filterIndex].name;
-
-    filterName.style.opacity =
-        "1";
-
-}
-
-
-/* =====================================================
-   UPDATE WINDOW
-===================================================== */
-
-function updateWindow(
-    left,
-    right
-){
-
-    setWindowTargets(
-        left,
-        right
-    );
-
-    adaptiveSmooth(
-        windowPoints.tl,
-        targetPoints.tl
-    );
-
-    adaptiveSmooth(
-        windowPoints.tr,
-        targetPoints.tr
-    );
-
-    adaptiveSmooth(
-        windowPoints.br,
-        targetPoints.br
-    );
-
-    adaptiveSmooth(
-        windowPoints.bl,
-        targetPoints.bl
-    );
-
-}
-
-
-/* =====================================================
-   GRADIENT
-===================================================== */
-
-function rainbowGradient(){
-
-    const p =
-        windowPoints;
-
-    const cx =
-        (
-            p.tl.x+
-            p.tr.x+
-            p.br.x+
-            p.bl.x
-        )/4;
-
-    const cy =
-        (
-            p.tl.y+
-            p.tr.y+
-            p.br.y+
-            p.bl.y
-        )/4;
-
-    const gradient =
-        ctx.createRadialGradient(
-            cx-W*.20,
-            cy-H*.20,
-            0,
-            cx,
-            cy,
-            Math.max(W,H)*.75
+    const point =
+        screenPoint(
+            hand[8]
         );
 
-    const colors =
-        FILTERS[filterIndex].colors;
+    targetX = point.x;
+    targetY = point.y;
 
-    colors.forEach(
-        (color,i)=>{
 
-            gradient.addColorStop(
-                i/(colors.length-1),
-                color
-            );
+    /*
+        Smoothing theo frame.
+    */
 
-        }
-    );
+    pointerX +=
+        (targetX - pointerX)
+        * SMOOTHING;
 
-    return gradient;
+    pointerY +=
+        (targetY - pointerY)
+        * SMOOTHING;
 
+
+    pointer.style.left =
+        pointerX + "px";
+
+    pointer.style.top =
+        pointerY + "px";
+
+
+    pointer.classList.add("show");
 }
 
 
 /* =====================================================
-   MOVING GRADIENT
+   HIDE POINTER
 ===================================================== */
 
-function movingGradient(){
+function hidePointer(){
 
-    const p =
-        windowPoints;
+    pointer.classList.remove(
+        "show"
+    );
+}
 
-    const cx =
-        (
-            p.tl.x+
-            p.tr.x+
-            p.br.x+
-            p.bl.x
-        )/4;
 
-    const cy =
-        (
-            p.tl.y+
-            p.tr.y+
-            p.br.y+
-            p.bl.y
-        )/4;
+/* =====================================================
+   BUTTON HIT TEST
+===================================================== */
 
-    const t =
-        performance.now()*.00035;
+function checkButtons(){
 
-    const mx =
-        Math.cos(t)*W*.35;
+    if(!menuOpen){
 
-    const my =
-        Math.sin(t*1.25)*H*.35;
+        selectedButton = null;
 
-    const g =
-        ctx.createLinearGradient(
-            cx-W*.70+mx,
-            cy-H*.70+my,
-            cx+W*.70-mx,
-            cy+H*.70-my
+        buttons.forEach(
+            b =>
+                b.classList.remove(
+                    "active"
+                )
         );
 
-    const colors =
-        FILTERS[filterIndex].colors;
-
-    colors.forEach(
-        (color,i)=>{
-
-            g.addColorStop(
-                i/(colors.length-1),
-                color
-            );
-
-        }
-    );
-
-    return g;
-
-}
-
-
-/* =====================================================
-   DRAW WINDOW
-===================================================== */
-
-function drawWindow(){
-
-    if(!windowOpen)
         return;
-
-    const p =
-        windowPoints;
-
-    ctx.save();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        p.tl.x,
-        p.tl.y
-    );
-
-    ctx.lineTo(
-        p.tr.x,
-        p.tr.y
-    );
-
-    ctx.lineTo(
-        p.br.x,
-        p.br.y
-    );
-
-    ctx.lineTo(
-        p.bl.x,
-        p.bl.y
-    );
-
-    ctx.closePath();
-
-    ctx.clip();
-
-    ctx.globalCompositeOperation =
-        "screen";
-
-    ctx.globalAlpha =
-        .25;
-
-    ctx.fillStyle =
-        rainbowGradient();
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-    ctx.globalAlpha =
-        .20;
-
-    ctx.fillStyle =
-        movingGradient();
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-    const cx =
-        (
-            p.tl.x+
-            p.tr.x+
-            p.br.x+
-            p.bl.x
-        )/4;
-
-    const cy =
-        (
-            p.tl.y+
-            p.tr.y+
-            p.br.y+
-            p.bl.y
-        )/4;
-
-    const glass =
-        ctx.createRadialGradient(
-            cx,
-            cy,
-            0,
-            cx,
-            cy,
-            Math.max(W,H)*.65
-        );
-
-    glass.addColorStop(
-        0,
-        "rgba(255,255,255,.10)"
-    );
-
-    glass.addColorStop(
-        .45,
-        "rgba(255,255,255,.035)"
-    );
-
-    glass.addColorStop(
-        1,
-        "rgba(255,255,255,0)"
-    );
-
-    ctx.globalAlpha = 1;
-
-    ctx.fillStyle =
-        glass;
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-    ctx.restore();
-
-
-    /* BORDER */
-
-    ctx.save();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        p.tl.x,
-        p.tl.y
-    );
-
-    ctx.lineTo(
-        p.tr.x,
-        p.tr.y
-    );
-
-    ctx.lineTo(
-        p.br.x,
-        p.br.y
-    );
-
-    ctx.lineTo(
-        p.bl.x,
-        p.bl.y
-    );
-
-    ctx.closePath();
-
-    ctx.strokeStyle =
-        rainbowGradient();
-
-    ctx.lineWidth = 6;
-
-    ctx.lineJoin =
-        "round";
-
-    ctx.shadowColor =
-        "#00eaff";
-
-    ctx.shadowBlur = 20;
-
-    ctx.stroke();
-
-    ctx.shadowBlur = 7;
-
-    ctx.strokeStyle =
-        "rgba(255,255,255,.9)";
-
-    ctx.lineWidth = 1.4;
-
-    ctx.stroke();
-
-    ctx.restore();
-
-}
-
-
-/* =====================================================
-   CHANGE FILTER
-===================================================== */
-
-function nextFilter(){
-
-    const now =
-        performance.now();
-
-    if(
-        now-lastFilterChange
-        <
-        COLOR_COOLDOWN
-    )
-        return;
-
-    lastFilterChange =
-        now;
-
-    filterIndex++;
-
-    if(
-        filterIndex>=FILTERS.length
-    ){
-
-        filterIndex=0;
-
     }
 
-    filterName.textContent =
-        FILTERS[filterIndex].name;
 
-    filterName.style.opacity =
-        "1";
-
-    clearTimeout(
-        nextFilter.timer
-    );
-
-    nextFilter.timer =
-        setTimeout(
-            ()=>{
-                filterName.style.opacity =
-                    "0";
-            },
-            1200
-        );
-
-}
+    let found = null;
 
 
-/* =====================================================
-   HAND STABILITY
-===================================================== */
-
-let stableLeft = null;
-let stableRight = null;
-
-function chooseHands(
-    detected,
-    handedness
-){
-
-    if(detected.length < 2)
-        return null;
-
-    let left = null;
-    let right = null;
-
-    /*
-        Ưu tiên handedness của MediaPipe.
-    */
-
-    if(
-        handedness &&
-        handedness.length >= 2
+    for(
+        const button of buttons
     ){
 
-        for(
-            let i=0;
-            i<handedness.length;
-            i++
-        ){
+        const rect =
+            button.getBoundingClientRect();
 
-            const label =
-                handedness[i][0].label;
 
-            if(label === "Left")
-                left = detected[i];
+        /*
+            Tăng vùng nhận diện
+            xung quanh nút.
+        */
 
-            if(label === "Right")
-                right = detected[i];
+        const padding = 22;
 
-        }
-
-    }
-
-    /*
-        Nếu MediaPipe chưa xác định
-        thì dùng vị trí làm fallback.
-    */
-
-    if(!left || !right){
-
-        const a =
-            screenPoint(
-                detected[0][9]
-            ).x;
-
-        const b =
-            screenPoint(
-                detected[1][9]
-            ).x;
-
-        if(a < b){
-
-            left = detected[0];
-            right = detected[1];
-
-        }
-        else{
-
-            left = detected[1];
-            right = detected[0];
-
-        }
-
-    }
-
-    /*
-        Chống đổi tay đột ngột.
-
-        Nếu kết quả mới nhảy quá xa
-        thì giữ assignment cũ.
-    */
-
-    if(
-        stableLeft &&
-        stableRight
-    ){
-
-        const newLeft =
-            screenPoint(
-                left[9]
-            );
-
-        const oldLeft =
-            screenPoint(
-                stableLeft[9]
-            );
-
-        const newRight =
-            screenPoint(
-                right[9]
-            );
-
-        const oldRight =
-            screenPoint(
-                stableRight[9]
-            );
-
-        const leftMove =
-            distance(
-                newLeft,
-                oldLeft
-            );
-
-        const rightMove =
-            distance(
-                newRight,
-                oldRight
-            );
 
         if(
-            leftMove > W*.45 ||
-            rightMove > W*.45
+            pointerX >=
+                rect.left - padding &&
+
+            pointerX <=
+                rect.right + padding &&
+
+            pointerY >=
+                rect.top - padding &&
+
+            pointerY <=
+                rect.bottom + padding
         ){
 
-            return {
-                left:stableLeft,
-                right:stableRight
-            };
+            found = button;
+
+            break;
+        }
+    }
+
+
+    buttons.forEach(
+        b => {
+
+            b.classList.toggle(
+                "active",
+                b === found
+            );
+
+        }
+    );
+
+
+    if(found !== selectedButton){
+
+        selectedButton = found;
+
+        buttonHoverStart =
+            performance.now();
+
+        return;
+    }
+
+
+    if(found){
+
+        const now =
+            performance.now();
+
+
+        if(
+            now -
+            buttonHoverStart
+            >=
+            BUTTON_ACTIVATE_TIME
+        ){
+
+            activateButton(found);
+
+            buttonHoverStart =
+                now + 100000;
 
         }
 
     }
 
-    stableLeft = left;
-    stableRight = right;
-
-    return {
-        left,
-        right
-    };
-
 }
 
 
 /* =====================================================
-   MENU STATE
+   ACTIVATE SOCIAL
 ===================================================== */
 
-let menuOpen = false;
+function activateButton(button){
 
-let loading = false;
-
-let loadingTimer = null;
-
-let lastPoint =
-    {
-        x:0,
-        y:0
-    };
-
-let menuButtonHover =
-    null;
-
-let hoverStart =
-    0;
-
-let lastClickTime =
-    0;
+    const url =
+        button.dataset.url;
 
 
-/* =====================================================
-   OPEN MENU
-===================================================== */
+    /*
+        Mở website sau khi
+        ngón trỏ giữ nhẹ trên nút.
+    */
 
-function startMenuLoading(){
-
-    if(
-        menuOpen ||
-        loading
-    )
-        return;
-
-    loading = true;
-
-    gestureLoading.style.display =
-        "flex";
-
-    clearTimeout(
-        loadingTimer
+    window.open(
+        url,
+        "_blank"
     );
-
-    loadingTimer =
-        setTimeout(
-            ()=>{
-
-                loading = false;
-
-                gestureLoading.style.display =
-                    "none";
-
-                openMenu();
-
-            },
-            1300
-        );
-
 }
 
 
@@ -1903,23 +1060,35 @@ function startMenuLoading(){
 
 function openMenu(){
 
+    if(menuOpen)
+        return;
+
+
     menuOpen = true;
 
-    menuOverlay.style.display =
+    loading.style.display =
+        "none";
+
+    darkUI.style.display =
         "flex";
 
-    requestAnimationFrame(
-        ()=>{
 
-            menuOverlay.classList.add(
-                "show"
+    requestAnimationFrame(
+        () => {
+
+            darkUI.classList.add(
+                "active"
             );
 
         }
     );
 
-    pointerDot.style.display =
-        "block";
+
+    hint.textContent =
+        "DI CHUYỂN NGÓN TRỎ ĐỂ CHỌN";
+
+
+    hidePointer();
 
 }
 
@@ -1932,139 +1101,81 @@ function closeMenu(){
 
     menuOpen = false;
 
-    menuButtonHover =
-        null;
-
-    hoverStart = 0;
-
-    menuOverlay.classList.remove(
-        "show"
+    darkUI.classList.remove(
+        "active"
     );
 
-    pointerDot.style.display =
-        "none";
 
     setTimeout(
-        ()=>{
+        () => {
 
             if(!menuOpen){
 
-                menuOverlay.style.display =
+                darkUI.style.display =
                     "none";
 
             }
 
         },
-        350
+        300
     );
 
+
+    buttons.forEach(
+        b =>
+            b.classList.remove(
+                "active"
+            )
+    );
+
+
+    selectedButton = null;
+
+    buttonHoverStart = 0;
+
+    hint.textContent =
+        "GIƠ NGÓN TRỎ LÊN ĐỂ MỞ MENU";
 }
 
 
 /* =====================================================
-   CHECK MENU BUTTON
+   START LOADING
 ===================================================== */
 
-function checkMenuButton(
-    x,
-    y
-){
+function startGestureLoading(){
 
-    if(!menuOpen)
+    if(loadingStarted)
         return;
 
-    const buttons =
-        document.querySelectorAll(
-            ".socialButton"
-        );
 
-    let current = null;
+    loadingStarted = true;
 
-    buttons.forEach(
-        button=>{
+    loading.style.display =
+        "flex";
 
-            const rect =
-                button.getBoundingClientRect();
+    gestureStart =
+        performance.now();
 
-            const inside =
-                x >= rect.left &&
-                x <= rect.right &&
-                y >= rect.top &&
-                y <= rect.bottom;
+    hint.textContent =
+        "GIỮ NGÓN TRỎ LÊN...";
+}
 
-            if(inside){
 
-                current = button;
+/* =====================================================
+   CANCEL LOADING
+===================================================== */
 
-            }
+function cancelGestureLoading(){
 
-        }
-    );
+    loadingStarted = false;
 
-    if(current !== menuButtonHover){
+    loading.style.display =
+        "none";
 
-        menuButtonHover =
-            current;
+    gestureStart = 0;
 
-        hoverStart =
-            performance.now();
-
-        buttons.forEach(
-            b=>{
-                b.classList.remove(
-                    "active"
-                );
-            }
-        );
-
-        if(current){
-
-            current.classList.add(
-                "active"
-            );
-
-        }
-
-    }
-
-    if(current){
-
-        const elapsed =
-            performance.now() -
-            hoverStart;
-
-        /*
-            Chỉ cần ngón trỏ
-            đứng/di chuyển nhẹ
-            khoảng 350ms.
-        */
-
-        if(
-            elapsed > 350 &&
-            performance.now()-lastClickTime > 1000
-        ){
-
-            lastClickTime =
-                performance.now();
-
-            const url =
-                current.dataset.url;
-
-            window.open(
-                url,
-                "_blank"
-            );
-
-            menuButtonHover =
-                null;
-
-            hoverStart =
-                0;
-
-        }
-
-    }
-
+    hint.textContent =
+        "GIƠ NGÓN TRỎ LÊN ĐỂ MỞ MENU";
 }
 
 
@@ -2072,46 +1183,60 @@ function checkMenuButton(
    PROCESS HANDS
 ===================================================== */
 
-function processHands(
-    detected,
-    handedness
-){
+function processHands(detected){
 
     /*
-        Không có tay
+        Không có tay.
     */
 
     if(
+        !detected ||
         detected.length === 0
     ){
 
-        return;
+        if(
+            loadingStarted
+        ){
 
+            cancelGestureLoading();
+
+        }
+
+        hidePointer();
+
+        lastGesture = false;
+
+        return;
     }
 
 
     /*
-        NEW MENU GESTURE
-
-        Nếu có ít nhất một tay
-        chỉ ngón trỏ lên.
+        Lấy bàn tay lớn nhất.
     */
 
-    let pointingHand =
-        null;
+    let hand =
+        detected[0];
 
-    for(
-        const hand of detected
+
+    if(
+        detected.length > 1
     ){
 
-        if(
-            indexPointingUp(hand)
-        ){
+        const sizeA =
+            handSize(
+                detected[0]
+            );
 
-            pointingHand =
-                hand;
+        const sizeB =
+            handSize(
+                detected[1]
+            );
 
-            break;
+
+        if(sizeB > sizeA){
+
+            hand =
+                detected[1];
 
         }
 
@@ -2119,155 +1244,71 @@ function processHands(
 
 
     /*
-        Nếu đang menu,
-        dùng ngón trỏ để điều khiển.
+        Nếu menu đang mở:
+        dùng ngón trỏ làm pointer.
     */
 
-    if(
-        menuOpen &&
-        pointingHand
-    ){
+    if(menuOpen){
 
-        const p =
-            screenPoint(
-                pointingHand[8]
-            );
+        updatePointer(hand);
 
-        lastPoint.x = p.x;
-        lastPoint.y = p.y;
+        checkButtons();
 
-        pointerDot.style.left =
-            p.x + "px";
-
-        pointerDot.style.top =
-            p.y + "px";
-
-        checkMenuButton(
-            p.x,
-            p.y
-        );
-
+        return;
     }
 
 
     /*
-        Chỉ mở menu khi chưa mở.
+        Nhận diện gesture.
     */
 
-    if(
-        !menuOpen &&
-        !loading &&
-        pointingHand
-    ){
-
-        startMenuLoading();
-
-    }
+    const gesture =
+        detectGesture(hand);
 
 
-    /*
-        Window cũ
-    */
+    if(gesture){
 
-    if(
-        detected.length < 2
-    )
-        return;
+        /*
+            Gesture vừa bắt đầu.
+        */
 
+        if(!lastGesture){
 
-    const hands =
-        chooseHands(
-            detected,
-            handedness
-        );
-
-    if(!hands)
-        return;
-
-    const left =
-        hands.left;
-
-    const right =
-        hands.right;
-
-
-    /*
-        Index + thumb
-    */
-
-    const leftIndex =
-        indexThumbTouch(left);
-
-    const rightIndex =
-        indexThumbTouch(right);
-
-
-    /*
-        Pinky + thumb
-    */
-
-    const leftPinky =
-        pinkyThumbTouch(left);
-
-    const rightPinky =
-        pinkyThumbTouch(right);
-
-
-    /*
-        OPEN WINDOW
-    */
-
-    if(!windowOpen){
-
-        if(
-            leftIndex &&
-            rightIndex
-        ){
-
-            createWindow(
-                left,
-                right
-            );
+            startGestureLoading();
 
         }
 
-        return;
 
-    }
-
-
-    /*
-        UPDATE WINDOW
-    */
-
-    updateWindow(
-        left,
-        right
-    );
+        lastGesture = true;
 
 
-    /*
-        COLOR
-    */
+        /*
+            Nếu giữ đủ lâu.
+        */
 
-    const bothPinky =
-        leftPinky &&
-        rightPinky;
+        if(
+            loadingStarted &&
+            performance.now()
+            -
+            gestureStart
+            >=
+            GESTURE_TIME
+        ){
 
-    if(bothPinky){
-
-        if(!colorGestureHeld){
-
-            nextFilter();
-
-            colorGestureHeld = true;
+            openMenu();
 
         }
 
     }
     else{
 
-        colorGestureHeld = false;
+        if(lastGesture){
+
+            cancelGestureLoading();
+
+        }
+
+        lastGesture = false;
 
     }
 
@@ -2278,9 +1319,12 @@ function processHands(
    MEDIAPIPE RESULTS
 ===================================================== */
 
-function onResults(
-    results
-){
+function onResults(results){
+
+    /*
+        Canvas được clear liên tục.
+        Không vẽ skeleton.
+    */
 
     ctx.clearRect(
         0,
@@ -2289,33 +1333,21 @@ function onResults(
         H
     );
 
+
     const detected =
         results.multiHandLandmarks
         || [];
 
-    const handedness =
-        results.multiHandedness
-        || [];
 
     processHands(
-        detected,
-        handedness
+        detected
     );
-
-    drawWindow();
-
 }
 
 
 /* =====================================================
-   MEDIAPIPE
+   START MEDIAPIPE
 ===================================================== */
-
-let hands = null;
-
-let tracking = false;
-
-let lastSend = 0;
 
 async function startTracking(){
 
@@ -2332,15 +1364,15 @@ async function startTracking(){
         new Hands({
 
             locateFile:
-                function(file){
+            function(file){
 
-                    return (
-                        "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
-                        +
-                        file
-                    );
+                return (
+                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
+                    +
+                    file
+                );
 
-                }
+            }
 
         });
 
@@ -2351,9 +1383,9 @@ async function startTracking(){
 
         modelComplexity:1,
 
-        minDetectionConfidence:.60,
+        minDetectionConfidence:.5,
 
-        minTrackingConfidence:.65
+        minTrackingConfidence:.55
 
     });
 
@@ -2365,10 +1397,10 @@ async function startTracking(){
 
     tracking = true;
 
+
     requestAnimationFrame(
         trackingLoop
     );
-
 }
 
 
@@ -2381,20 +1413,18 @@ async function trackingLoop(){
     if(!tracking)
         return;
 
+
     const now =
         performance.now();
 
-    /*
-        Khoảng 30 FPS.
-    */
 
     if(
-        now-lastSend >= 30 &&
+        now - lastSend >= 30 &&
         video.readyState >= 2
     ){
 
-        lastSend =
-            now;
+        lastSend = now;
+
 
         try{
 
@@ -2414,10 +1444,10 @@ async function trackingLoop(){
 
     }
 
+
     requestAnimationFrame(
         trackingLoop
     );
-
 }
 
 
@@ -2433,16 +1463,18 @@ async function startCamera(){
     errorBox.textContent =
         "";
 
-    if(!window.isSecureContext){
+
+    if(
+        !window.isSecureContext
+    ){
 
         errorBox.textContent =
-            "Hãy mở website bằng HTTPS hoặc GitHub Pages.";
+            "Hãy mở bằng HTTPS hoặc GitHub Pages.";
 
         startButton.disabled =
             false;
 
         return;
-
     }
 
 
@@ -2462,33 +1494,33 @@ async function startCamera(){
 
         const stream =
             await navigator
-                .mediaDevices
-                .getUserMedia({
+            .mediaDevices
+            .getUserMedia({
 
-                    audio:false,
+                audio:false,
 
-                    video:{
+                video:{
 
-                        facingMode:{
-                            ideal:"user"
-                        },
+                    facingMode:{
+                        ideal:"user"
+                    },
 
-                        width:{
-                            ideal:1280
-                        },
+                    width:{
+                        ideal:1280
+                    },
 
-                        height:{
-                            ideal:720
-                        },
+                    height:{
+                        ideal:720
+                    },
 
-                        frameRate:{
-                            ideal:30,
-                            max:30
-                        }
-
+                    frameRate:{
+                        ideal:30,
+                        max:30
                     }
 
-                });
+                }
+
+            });
 
 
         video.srcObject =
@@ -2510,9 +1542,8 @@ async function startCamera(){
     }
     catch(error){
 
-        console.error(
-            error
-        );
+        console.error(error);
+
 
         errorBox.textContent =
             "Không mở được camera: "
@@ -2521,6 +1552,7 @@ async function startCamera(){
                 error.message ||
                 "Unknown error"
             );
+
 
         startButton.disabled =
             false;
@@ -2531,17 +1563,7 @@ async function startCamera(){
 
 
 /* =====================================================
-   START
-===================================================== */
-
-startButton.addEventListener(
-    "click",
-    startCamera
-);
-
-
-/* =====================================================
-   HOME
+   HOME BUTTON
 ===================================================== */
 
 homeButton.addEventListener(
@@ -2555,6 +1577,16 @@ homeButton.addEventListener(
 
 
 /* =====================================================
+   START
+===================================================== */
+
+startButton.addEventListener(
+    "click",
+    startCamera
+);
+
+
+/* =====================================================
    CLEANUP
 ===================================================== */
 
@@ -2564,14 +1596,14 @@ window.addEventListener(
 
         tracking = false;
 
+
         if(video.srcObject){
 
             video.srcObject
                 .getTracks()
                 .forEach(
-                    track=>{
-                        track.stop();
-                    }
+                    track =>
+                        track.stop()
                 );
 
         }
