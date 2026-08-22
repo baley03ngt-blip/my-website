@@ -1,7 +1,9 @@
 ```html
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -13,6 +15,11 @@
 <title>HANDLIGHT</title>
 
 <style>
+
+/* =========================================
+   RESET
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -39,12 +46,15 @@ body {
     background: #000;
 }
 
-/* ================================
+
+/* =========================================
    CAMERA
-================================ */
+========================================= */
 
 #video {
+
     position: absolute;
+
     inset: 0;
 
     width: 100%;
@@ -63,12 +73,14 @@ body {
 }
 
 
-/* ================================
-   EFFECT CANVAS
-================================ */
+/* =========================================
+   CANVAS
+========================================= */
 
 #canvas {
+
     position: absolute;
+
     inset: 0;
 
     width: 100%;
@@ -80,18 +92,22 @@ body {
 }
 
 
-/* ================================
+/* =========================================
    START SCREEN
-================================ */
+========================================= */
 
 #startScreen {
+
     position: absolute;
+
     inset: 0;
 
     z-index: 100;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     background:
@@ -108,32 +124,43 @@ body {
 }
 
 .startBox {
+
     width: min(88vw, 420px);
+
 }
 
 .startBox h1 {
+
     font-size: 44px;
+
     font-weight: 800;
 
     letter-spacing: -.06em;
 
     margin-bottom: 18px;
+
 }
 
 .startBox p {
-    color: rgba(255,255,255,.65);
+
+    color:
+        rgba(255,255,255,.65);
 
     font-size: 14px;
 
     line-height: 1.7;
+
 }
 
 #startButton {
+
     margin-top: 28px;
 
-    padding: 16px 30px;
+    padding:
+        16px 30px;
 
     border: 0;
+
     border-radius: 8px;
 
     background: white;
@@ -141,6 +168,7 @@ body {
     color: #02040a;
 
     font-size: 11px;
+
     font-weight: 800;
 
     letter-spacing: .16em;
@@ -150,25 +178,37 @@ body {
     transition:
         transform .18s ease,
         box-shadow .18s ease;
+
 }
 
 #startButton:hover {
-    transform: scale(1.05);
+
+    transform:
+        scale(1.05);
 
     box-shadow:
-        0 0 30px rgba(255,255,255,.25);
+        0 0 30px
+        rgba(255,255,255,.25);
+
 }
 
 #startButton:active {
-    transform: scale(.96);
+
+    transform:
+        scale(.96);
+
 }
 
 #startButton:disabled {
+
     opacity: .55;
+
     cursor: wait;
+
 }
 
 #error {
+
     margin-top: 15px;
 
     color: #ff6677;
@@ -176,146 +216,209 @@ body {
     font-size: 12px;
 
     line-height: 1.5;
+
 }
 
 
-/* ================================
+/* =========================================
    MOBILE
-================================ */
+========================================= */
 
-@media (max-width: 600px) {
+@media (max-width:600px) {
 
     .startBox h1 {
+
         font-size: 36px;
+
     }
 
     .startBox p {
+
         font-size: 13px;
+
     }
 
     #startButton {
-        padding: 15px 25px;
+
+        padding:
+            15px 25px;
+
     }
+
 }
+
 </style>
+
 </head>
 
 
 <body>
 
+
 <div id="app">
 
-    <!-- CAMERA -->
-    <video
-        id="video"
-        autoplay
-        muted
-        playsinline>
-    </video>
+
+<!-- ======================================
+     CAMERA
+====================================== -->
+
+<video
+    id="video"
+    autoplay
+    muted
+    playsinline>
+</video>
 
 
-    <!-- ONLY EFFECTS ARE DRAWN HERE -->
-    <canvas id="canvas"></canvas>
+<!-- ======================================
+     EFFECT CANVAS
+====================================== -->
+
+<canvas id="canvas"></canvas>
 
 
-    <!-- START -->
-    <div id="startScreen">
+<!-- ======================================
+     START SCREEN
+====================================== -->
 
-        <div class="startBox">
+<div id="startScreen">
 
-            <h1>HANDLIGHT</h1>
+    <div class="startBox">
 
-            <p>
-                Đưa hai bàn tay vào camera.
-                <br><br>
+        <h1>
+            HANDLIGHT
+        </h1>
 
-                Chạm ngón trỏ và ngón cái
-                ở cả hai tay để mở khung.
-                <br><br>
+        <p>
 
-                Chạm ngón út và ngón cái
-                ở cả hai tay để đổi màu.
-            </p>
+            Đưa hai bàn tay vào camera.
 
-            <button id="startButton">
-                BẬT CAMERA
-            </button>
+            <br><br>
 
-            <div id="error"></div>
+            Chạm ngón trỏ và ngón cái
+            ở cả hai tay để mở khung.
 
-        </div>
+            <br><br>
+
+            Chạm ngón út và ngón cái
+            ở cả hai tay để đổi màu.
+
+        </p>
+
+
+        <button id="startButton">
+
+            BẬT CAMERA
+
+        </button>
+
+
+        <div id="error"></div>
 
     </div>
 
 </div>
 
 
-<!-- ==================================
-     MEDIAPIPE HANDS
-================================== -->
+</div>
+
+
+<!-- ======================================
+     MEDIAPIPE
+====================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
 
 
 <script>
+
 "use strict";
 
 
-/* ==================================
+/* =========================================
    ELEMENTS
-================================== */
+========================================= */
 
 const video =
-    document.getElementById("video");
+    document.getElementById(
+        "video"
+    );
 
 const canvas =
-    document.getElementById("canvas");
+    document.getElementById(
+        "canvas"
+    );
 
 const ctx =
-    canvas.getContext("2d", {
-        alpha: true
-    });
+    canvas.getContext(
+        "2d",
+        {
+            alpha: true
+        }
+    );
 
 const startScreen =
-    document.getElementById("startScreen");
+    document.getElementById(
+        "startScreen"
+    );
 
 const startButton =
-    document.getElementById("startButton");
+    document.getElementById(
+        "startButton"
+    );
 
 const errorBox =
-    document.getElementById("error");
+    document.getElementById(
+        "error"
+    );
 
 
-/* ==================================
-   CANVAS SIZE
-================================== */
+/* =========================================
+   SIZE
+========================================= */
 
 let W = 0;
+
 let H = 0;
+
 let DPR = 1;
 
 
 function resize() {
 
-    W = window.innerWidth;
-    H = window.innerHeight;
+    W =
+        window.innerWidth;
 
-    DPR = Math.min(
-        window.devicePixelRatio || 1,
-        2
-    );
+    H =
+        window.innerHeight;
+
+
+    DPR =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
 
     canvas.width =
-        Math.round(W * DPR);
+        Math.round(
+            W * DPR
+        );
+
 
     canvas.height =
-        Math.round(H * DPR);
+        Math.round(
+            H * DPR
+        );
+
 
     canvas.style.width =
         W + "px";
 
+
     canvas.style.height =
         H + "px";
+
 
     ctx.setTransform(
         DPR,
@@ -325,6 +428,7 @@ function resize() {
         0,
         0
     );
+
 }
 
 
@@ -337,19 +441,22 @@ window.addEventListener(
 );
 
 
-/* ==================================
-   LANDMARK INDEX
-================================== */
+/* =========================================
+   MEDIAPIPE LANDMARK INDEX
+========================================= */
 
 const THUMB = 4;
+
 const INDEX = 8;
+
 const PINKY = 20;
+
 const PALM = 9;
 
 
-/* ==================================
+/* =========================================
    COLOR FILTERS
-================================== */
+========================================= */
 
 const FILTERS = [
 
@@ -422,92 +529,208 @@ const FILTERS = [
 let filterIndex = 0;
 
 
-/* ==================================
-   WINDOW STATE
-================================== */
+/* =========================================
+   WINDOW
+========================================= */
 
 let windowOpen = false;
 
 
-/*
-    Điểm hiện tại của khung
-*/
+/* =========================================
+   CURRENT POSITION
+========================================= */
 
 const current = {
 
-    tl: { x: 0, y: 0 },
-    tr: { x: 0, y: 0 },
-    br: { x: 0, y: 0 },
-    bl: { x: 0, y: 0 }
+    tl: {
+        x: 0,
+        y: 0
+    },
+
+    tr: {
+        x: 0,
+        y: 0
+    },
+
+    br: {
+        x: 0,
+        y: 0
+    },
+
+    bl: {
+        x: 0,
+        y: 0
+    }
 
 };
 
 
-/*
-    Điểm mục tiêu
-*/
+/* =========================================
+   TARGET POSITION
+========================================= */
 
 const target = {
 
-    tl: { x: 0, y: 0 },
-    tr: { x: 0, y: 0 },
-    br: { x: 0, y: 0 },
-    bl: { x: 0, y: 0 }
+    tl: {
+        x: 0,
+        y: 0
+    },
+
+    tr: {
+        x: 0,
+        y: 0
+    },
+
+    br: {
+        x: 0,
+        y: 0
+    },
+
+    bl: {
+        x: 0,
+        y: 0
+    }
 
 };
 
 
-/* ==================================
-   TRACKING SMOOTHING
-================================== */
+/* =========================================
+   ULTRA SMOOTH SYSTEM
 
-const SMOOTHING = 0.22;
+   SMOOTH_MIN:
+   chống rung khi tay đứng yên.
 
-let trackingConfidence = 0;
+   SMOOTH_MAX:
+   tăng tốc khi tay di chuyển nhanh.
 
-let lastValidHands = 0;
+   DEAD_ZONE:
+   bỏ qua những rung động cực nhỏ.
 
-const LOST_HAND_DELAY = 350;
+   VELOCITY_FACTOR:
+   dự đoán nhẹ hướng di chuyển
+   để giảm cảm giác trễ.
+========================================= */
+
+const SMOOTH_MIN = 0.16;
+
+const SMOOTH_MAX = 0.52;
+
+const DEAD_ZONE = 0.30;
+
+const VELOCITY_FACTOR = 0.10;
 
 
-/* ==================================
+/* =========================================
+   VELOCITY
+========================================= */
+
+const velocity = {
+
+    tl: {
+        x: 0,
+        y: 0
+    },
+
+    tr: {
+        x: 0,
+        y: 0
+    },
+
+    br: {
+        x: 0,
+        y: 0
+    },
+
+    bl: {
+        x: 0,
+        y: 0
+    }
+
+};
+
+
+/* =========================================
+   LAST TARGET
+========================================= */
+
+const lastTarget = {
+
+    tl: {
+        x: 0,
+        y: 0
+    },
+
+    tr: {
+        x: 0,
+        y: 0
+    },
+
+    br: {
+        x: 0,
+        y: 0
+    },
+
+    bl: {
+        x: 0,
+        y: 0
+    }
+
+};
+
+
+/* =========================================
    DISTANCE
-================================== */
+========================================= */
 
-function distance(a, b) {
+function distance(
+    a,
+    b
+) {
 
     return Math.hypot(
+
         a.x - b.x,
+
         a.y - b.y
+
     );
 
 }
 
 
-/* ==================================
+/* =========================================
    SCREEN POINT
-================================== */
 
-function screenPoint(point) {
+   Vì camera mirror:
+   X phải đảo lại.
+========================================= */
+
+function screenPoint(
+    point
+) {
 
     return {
 
         x:
-            (1 - point.x) * W,
+            (1 - point.x) *
+            W,
 
         y:
-            point.y * H
+            point.y *
+            H
 
     };
 
 }
 
 
-/* ==================================
+/* =========================================
    HAND SIZE
-================================== */
+========================================= */
 
-function handSize(hand) {
+function handSize(
+    hand
+) {
 
     return Math.max(
 
@@ -523,11 +746,13 @@ function handSize(hand) {
 }
 
 
-/* ==================================
+/* =========================================
    INDEX + THUMB
-================================== */
+========================================= */
 
-function indexThumbRatio(hand) {
+function indexThumbRatio(
+    hand
+) {
 
     return (
 
@@ -545,20 +770,28 @@ function indexThumbRatio(hand) {
 }
 
 
-function indexThumbTouch(hand) {
+function indexThumbTouch(
+    hand
+) {
 
     return (
-        indexThumbRatio(hand) < 0.78
+
+        indexThumbRatio(hand)
+
+        < 0.78
+
     );
 
 }
 
 
-/* ==================================
+/* =========================================
    PINKY + THUMB
-================================== */
+========================================= */
 
-function pinkyThumbRatio(hand) {
+function pinkyThumbRatio(
+    hand
+) {
 
     return (
 
@@ -576,35 +809,67 @@ function pinkyThumbRatio(hand) {
 }
 
 
-function pinkyThumbTouch(hand) {
+function pinkyThumbTouch(
+    hand
+) {
 
     return (
-        pinkyThumbRatio(hand) < 1.02
+
+        pinkyThumbRatio(hand)
+
+        < 1.02
+
     );
 
 }
 
 
-/* ==================================
-   SET WINDOW TARGET
-================================== */
+/* =========================================
+   SET TARGETS
+========================================= */
 
-function setTargets(left, right) {
+function setTargets(
+    left,
+    right
+) {
+
+    /*
+        Trỏ trái
+        → góc trên trái
+    */
 
     target.tl =
         screenPoint(
             left[INDEX]
         );
 
+
+    /*
+        Trỏ phải
+        → góc trên phải
+    */
+
     target.tr =
         screenPoint(
             right[INDEX]
         );
 
+
+    /*
+        Cái phải
+        → góc dưới phải
+    */
+
     target.br =
         screenPoint(
             right[THUMB]
         );
+
+
+    /*
+        Cái trái
+        → góc dưới trái
+    */
 
     target.bl =
         screenPoint(
@@ -614,11 +879,14 @@ function setTargets(left, right) {
 }
 
 
-/* ==================================
+/* =========================================
    CREATE WINDOW
-================================== */
+========================================= */
 
-function createWindow(left, right) {
+function createWindow(
+    left,
+    right
+) {
 
     setTargets(
         left,
@@ -627,16 +895,79 @@ function createWindow(left, right) {
 
 
     current.tl =
-        { ...target.tl };
+        {
+            ...target.tl
+        };
+
 
     current.tr =
-        { ...target.tr };
+        {
+            ...target.tr
+        };
+
 
     current.br =
-        { ...target.br };
+        {
+            ...target.br
+        };
+
 
     current.bl =
-        { ...target.bl };
+        {
+            ...target.bl
+        };
+
+
+    lastTarget.tl =
+        {
+            ...target.tl
+        };
+
+
+    lastTarget.tr =
+        {
+            ...target.tr
+        };
+
+
+    lastTarget.br =
+        {
+            ...target.br
+        };
+
+
+    lastTarget.bl =
+        {
+            ...target.bl
+        };
+
+
+    velocity.tl =
+        {
+            x: 0,
+            y: 0
+        };
+
+
+    velocity.tr =
+        {
+            x: 0,
+            y: 0
+        };
+
+
+    velocity.br =
+        {
+            x: 0,
+            y: 0
+        };
+
+
+    velocity.bl =
+        {
+            x: 0,
+            y: 0
+        };
 
 
     windowOpen = true;
@@ -644,11 +975,14 @@ function createWindow(left, right) {
 }
 
 
-/* ==================================
-   SMOOTH WINDOW
-================================== */
+/* =========================================
+   ULTRA SMOOTH WINDOW UPDATE
+========================================= */
 
-function updateWindow(left, right) {
+function updateWindow(
+    left,
+    right
+) {
 
     setTargets(
         left,
@@ -664,36 +998,175 @@ function updateWindow(left, right) {
     ];
 
 
-    for (const key of keys) {
+    for (
+        const key of keys
+    ) {
 
-        current[key].x +=
+        const t =
+            target[key];
+
+        const c =
+            current[key];
+
+        const last =
+            lastTarget[key];
+
+        const v =
+            velocity[key];
+
+
+        /* ================================
+           RAW MOVEMENT
+        ================================= */
+
+        const dx =
+            t.x -
+            last.x;
+
+
+        const dy =
+            t.y -
+            last.y;
+
+
+        /* ================================
+           SMOOTH VELOCITY
+        ================================= */
+
+        v.x =
+            v.x * 0.72 +
+            dx * 0.28;
+
+
+        v.y =
+            v.y * 0.72 +
+            dy * 0.28;
+
+
+        /* ================================
+           PREDICTION
+
+           Dự đoán rất nhẹ.
+        ================================= */
+
+        const predictedX =
+            t.x +
+            v.x *
+            VELOCITY_FACTOR;
+
+
+        const predictedY =
+            t.y +
+            v.y *
+            VELOCITY_FACTOR;
+
+
+        /* ================================
+           DISTANCE
+        ================================= */
+
+        const distanceToTarget =
+            Math.hypot(
+
+                predictedX -
+                c.x,
+
+                predictedY -
+                c.y
+
+            );
+
+
+        /* ================================
+           SPEED
+
+           0 = đứng yên
+           1 = di chuyển nhanh
+        ================================= */
+
+        const speed =
+            Math.min(
+
+                distanceToTarget /
+                80,
+
+                1
+
+            );
+
+
+        /* ================================
+           ADAPTIVE SMOOTH
+        ================================= */
+
+        const smooth =
+            SMOOTH_MIN +
+
             (
-                target[key].x -
-                current[key].x
-            ) * SMOOTHING;
+                SMOOTH_MAX -
+                SMOOTH_MIN
+            ) *
+
+            speed;
 
 
-        current[key].y +=
-            (
-                target[key].y -
-                current[key].y
-            ) * SMOOTHING;
+        /* ================================
+           DEAD ZONE
+
+           Loại rung rất nhỏ.
+        ================================= */
+
+        if (
+            distanceToTarget >
+            DEAD_ZONE
+        ) {
+
+            c.x +=
+                (
+                    predictedX -
+                    c.x
+                ) *
+
+                smooth;
+
+
+            c.y +=
+                (
+                    predictedY -
+                    c.y
+                ) *
+
+                smooth;
+
+        }
+
+
+        /* ================================
+           SAVE
+        ================================= */
+
+        last.x =
+            t.x;
+
+        last.y =
+            t.y;
 
     }
 
 }
 
 
-/* ==================================
-   COLOR GRADIENT
-================================== */
+/* =========================================
+   GRADIENT
+========================================= */
 
 function createGradient() {
 
-    const p = current;
+    const p =
+        current;
 
 
-    const cx =
+    const centerX =
         (
             p.tl.x +
             p.tr.x +
@@ -702,7 +1175,7 @@ function createGradient() {
         ) / 4;
 
 
-    const cy =
+    const centerY =
         (
             p.tl.y +
             p.tr.y +
@@ -714,17 +1187,25 @@ function createGradient() {
     const gradient =
         ctx.createLinearGradient(
 
-            cx - W * .7,
-            cy - H * .7,
+            centerX -
+            W * .7,
 
-            cx + W * .7,
-            cy + H * .7
+            centerY -
+            H * .7,
+
+            centerX +
+            W * .7,
+
+            centerY +
+            H * .7
 
         );
 
 
     const colors =
-        FILTERS[filterIndex];
+        FILTERS[
+            filterIndex
+        ];
 
 
     for (
@@ -735,7 +1216,11 @@ function createGradient() {
 
         gradient.addColorStop(
 
-            i / (colors.length - 1),
+            i /
+            (
+                colors.length -
+                1
+            ),
 
             colors[i]
 
@@ -749,23 +1234,28 @@ function createGradient() {
 }
 
 
-/* ==================================
+/* =========================================
    DRAW WINDOW
-================================== */
+========================================= */
 
 function drawWindow() {
 
-    if (!windowOpen) {
+    if (
+        !windowOpen
+    ) {
+
         return;
+
     }
 
 
-    const p = current;
+    const p =
+        current;
 
 
-    /* =================================
-       CLIP WINDOW
-    ================================= */
+    /* ======================================
+       WINDOW CLIP
+    ====================================== */
 
     ctx.save();
 
@@ -803,14 +1293,17 @@ function drawWindow() {
     ctx.clip();
 
 
-    /* =================================
-       MAIN COLOR
-    ================================= */
+    /* ======================================
+       COLOR
+    ====================================== */
 
     ctx.globalCompositeOperation =
         "screen";
 
-    ctx.globalAlpha = .22;
+
+    ctx.globalAlpha =
+        0.23;
+
 
     ctx.fillStyle =
         createGradient();
@@ -824,16 +1317,16 @@ function drawWindow() {
     );
 
 
-    /* =================================
+    /* ======================================
        MOVING LIGHT
-    ================================= */
+    ====================================== */
 
     const time =
         performance.now() *
         0.00025;
 
 
-    const cx =
+    const centerX =
         (
             p.tl.x +
             p.tr.x +
@@ -842,7 +1335,7 @@ function drawWindow() {
         ) / 4;
 
 
-    const cy =
+    const centerY =
         (
             p.tl.y +
             p.tr.y +
@@ -852,15 +1345,22 @@ function drawWindow() {
 
 
     const lightX =
-        cx +
+        centerX +
+
         Math.cos(time) *
-        W * .35;
+        W *
+        .35;
 
 
     const lightY =
-        cy +
-        Math.sin(time * 1.3) *
-        H * .35;
+        centerY +
+
+        Math.sin(
+            time * 1.3
+        ) *
+
+        H *
+        .35;
 
 
     const glow =
@@ -870,9 +1370,13 @@ function drawWindow() {
             lightY,
             0,
 
-            cx,
-            cy,
-            Math.max(W, H) * .75
+            centerX,
+            centerY,
+
+            Math.max(
+                W,
+                H
+            ) * .75
 
         );
 
@@ -897,7 +1401,9 @@ function drawWindow() {
 
     ctx.globalAlpha = 1;
 
-    ctx.fillStyle = glow;
+
+    ctx.fillStyle =
+        glow;
 
 
     ctx.fillRect(
@@ -911,9 +1417,9 @@ function drawWindow() {
     ctx.restore();
 
 
-    /* =================================
+    /* ======================================
        NEON BORDER
-    ================================= */
+    ====================================== */
 
     ctx.save();
 
@@ -954,8 +1460,14 @@ function drawWindow() {
 
     ctx.lineWidth =
         Math.max(
+
             3,
-            Math.min(W, H) * .004
+
+            Math.min(
+                W,
+                H
+            ) * .004
+
         );
 
 
@@ -967,15 +1479,16 @@ function drawWindow() {
         "#00eaff";
 
 
-    ctx.shadowBlur = 18;
+    ctx.shadowBlur =
+        18;
 
 
     ctx.stroke();
 
 
-    /* =================================
-       INNER LIGHT
-    ================================= */
+    /* ======================================
+       WHITE INNER LINE
+    ====================================== */
 
     ctx.shadowBlur = 5;
 
@@ -984,7 +1497,8 @@ function drawWindow() {
         "rgba(255,255,255,.85)";
 
 
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth =
+        1.2;
 
 
     ctx.stroke();
@@ -995,9 +1509,9 @@ function drawWindow() {
 }
 
 
-/* ==================================
-   CHANGE COLOR
-================================== */
+/* =========================================
+   COLOR GESTURE
+========================================= */
 
 let colorHeld = false;
 
@@ -1013,7 +1527,9 @@ function changeColor() {
 
 
     if (
-        now - lastColorChange <
+        now -
+        lastColorChange
+        <
         COLOR_DELAY
     ) {
 
@@ -1022,13 +1538,16 @@ function changeColor() {
     }
 
 
-    lastColorChange = now;
+    lastColorChange =
+        now;
 
 
     filterIndex++;
 
+
     if (
-        filterIndex >= FILTERS.length
+        filterIndex >=
+        FILTERS.length
     ) {
 
         filterIndex = 0;
@@ -1038,17 +1557,21 @@ function changeColor() {
 }
 
 
-/* ==================================
+/* =========================================
    PROCESS HANDS
-================================== */
+========================================= */
 
-function processHands(hands) {
+function processHands(
+    detected
+) {
 
     /*
-        Phải có đủ 2 tay.
+        Cần 2 tay.
     */
 
-    if (hands.length < 2) {
+    if (
+        detected.length < 2
+    ) {
 
         return;
 
@@ -1056,15 +1579,15 @@ function processHands(hands) {
 
 
     const handA =
-        hands[0];
+        detected[0];
 
     const handB =
-        hands[1];
+        detected[1];
 
 
-    /*
-        Xác định trái / phải
-    */
+    /* ======================================
+       LEFT / RIGHT
+    ====================================== */
 
     const xA =
         screenPoint(
@@ -1079,39 +1602,56 @@ function processHands(hands) {
 
 
     let left;
+
     let right;
 
 
-    if (xA < xB) {
+    if (
+        xA < xB
+    ) {
 
-        left = handA;
-        right = handB;
+        left =
+            handA;
 
-    } else {
+        right =
+            handB;
 
-        left = handB;
-        right = handA;
+    }
+
+    else {
+
+        left =
+            handB;
+
+        right =
+            handA;
 
     }
 
 
-    /*
-        Gesture mở khung
-    */
+    /* ======================================
+       INDEX + THUMB
+    ====================================== */
 
     const leftIndex =
-        indexThumbTouch(left);
+        indexThumbTouch(
+            left
+        );
 
 
     const rightIndex =
-        indexThumbTouch(right);
+        indexThumbTouch(
+            right
+        );
 
 
-    /*
-        Nếu chưa mở khung
-    */
+    /* ======================================
+       OPEN WINDOW
+    ====================================== */
 
-    if (!windowOpen) {
+    if (
+        !windowOpen
+    ) {
 
         if (
             leftIndex &&
@@ -1130,9 +1670,9 @@ function processHands(hands) {
     }
 
 
-    /*
-        Khung đã mở
-    */
+    /* ======================================
+       UPDATE
+    ====================================== */
 
     updateWindow(
         left,
@@ -1140,16 +1680,20 @@ function processHands(hands) {
     );
 
 
-    /*
-        Gesture đổi màu
-    */
+    /* ======================================
+       PINKY + THUMB
+    ====================================== */
 
     const leftPinky =
-        pinkyThumbTouch(left);
+        pinkyThumbTouch(
+            left
+        );
 
 
     const rightPinky =
-        pinkyThumbTouch(right);
+        pinkyThumbTouch(
+            right
+        );
 
 
     const bothPinky =
@@ -1157,38 +1701,43 @@ function processHands(hands) {
         rightPinky;
 
 
-    if (bothPinky) {
+    if (
+        bothPinky
+    ) {
 
-        if (!colorHeld) {
+        if (
+            !colorHeld
+        ) {
 
             changeColor();
 
-            colorHeld = true;
+            colorHeld =
+                true;
 
         }
 
-    } else {
+    }
 
-        colorHeld = false;
+    else {
+
+        colorHeld =
+            false;
 
     }
 
 }
 
 
-/* ==================================
-   MEDIAPIPE RESULTS
-================================== */
+/* =========================================
+   MEDIAPIPE RESULT
+========================================= */
 
-function onResults(results) {
+function onResults(
+    results
+) {
 
     /*
-        Xóa canvas.
-
-        QUAN TRỌNG:
-        Không có drawSkeleton().
-        Không có drawLandmarks().
-        Không có debug.
+        Xóa frame trước.
     */
 
     ctx.clearRect(
@@ -1199,48 +1748,31 @@ function onResults(results) {
     );
 
 
+    /*
+        MediaPipe vẫn trả về
+        toàn bộ 21 landmark.
+    */
+
     const detected =
-        results.multiHandLandmarks || [];
-
-
-    if (detected.length >= 2) {
-
-        lastValidHands =
-            performance.now();
-
-        trackingConfidence = 1;
-
-        processHands(
-            detected
-        );
-
-    } else {
-
-        /*
-            Không đóng khung ngay.
-            Giúp chống nhấp nháy.
-        */
-
-        const elapsed =
-            performance.now() -
-            lastValidHands;
-
-
-        if (
-            elapsed >
-            LOST_HAND_DELAY
-        ) {
-
-            trackingConfidence =
-                0;
-
-        }
-
-    }
+        results.multiHandLandmarks ||
+        [];
 
 
     /*
-        Chỉ render cửa sổ.
+        Chỉ xử lý logic.
+        
+        KHÔNG vẽ skeleton.
+        KHÔNG vẽ landmark.
+        KHÔNG vẽ debug.
+    */
+
+    processHands(
+        detected
+    );
+
+
+    /*
+        Chỉ vẽ cửa sổ.
     */
 
     drawWindow();
@@ -1248,20 +1780,29 @@ function onResults(results) {
 }
 
 
-/* ==================================
-   MEDIAPIPE INITIALIZATION
-================================== */
+/* =========================================
+   MEDIAPIPE
+========================================= */
 
-let handsModel = null;
+let handsModel =
+    null;
 
-let tracking = false;
+let tracking =
+    false;
 
-let lastSend = 0;
+let lastSend =
+    0;
 
+
+/* =========================================
+   START TRACKING
+========================================= */
 
 async function startTracking() {
 
-    if (!window.Hands) {
+    if (
+        !window.Hands
+    ) {
 
         throw new Error(
             "Không tải được MediaPipe Hands."
@@ -1273,27 +1814,34 @@ async function startTracking() {
     handsModel =
         new Hands({
 
-            locateFile: function(file) {
+            locateFile:
+                function(file) {
 
-                return (
-                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands/" +
-                    file
-                );
+                    return (
 
-            }
+                        "https://cdn.jsdelivr.net/npm/@mediapipe/hands/" +
+                        file
+
+                    );
+
+                }
 
         });
 
 
     handsModel.setOptions({
 
-        maxNumHands: 2,
+        maxNumHands:
+            2,
 
-        modelComplexity: 1,
+        modelComplexity:
+            1,
 
-        minDetectionConfidence: .55,
+        minDetectionConfidence:
+            .55,
 
-        minTrackingConfidence: .55
+        minTrackingConfidence:
+            .55
 
     });
 
@@ -1303,7 +1851,8 @@ async function startTracking() {
     );
 
 
-    tracking = true;
+    tracking =
+        true;
 
 
     requestAnimationFrame(
@@ -1313,14 +1862,18 @@ async function startTracking() {
 }
 
 
-/* ==================================
+/* =========================================
    TRACKING LOOP
-================================== */
+========================================= */
 
 async function trackingLoop() {
 
-    if (!tracking) {
+    if (
+        !tracking
+    ) {
+
         return;
+
     }
 
 
@@ -1329,21 +1882,35 @@ async function trackingLoop() {
 
 
     /*
-        30 FPS tracking.
+        30 FPS ổn định.
     */
 
     if (
-        now - lastSend >= 33 &&
-        video.readyState >= 2
+
+        now -
+        lastSend
+        >=
+        33
+
+        &&
+
+        video.readyState
+        >=
+        2
+
     ) {
 
-        lastSend = now;
+        lastSend =
+            now;
 
 
         try {
 
             await handsModel.send({
-                image: video
+
+                image:
+                    video
+
             });
 
         }
@@ -1367,23 +1934,36 @@ async function trackingLoop() {
 }
 
 
-/* ==================================
+/* =========================================
    CAMERA
-================================== */
+========================================= */
 
 async function startCamera() {
 
-    startButton.disabled = true;
+    startButton.disabled =
+        true;
 
-    errorBox.textContent = "";
+
+    errorBox.textContent =
+        "";
 
 
-    if (!window.isSecureContext) {
+    /*
+        HTTPS bắt buộc
+        trên điện thoại.
+    */
+
+    if (
+        !window.isSecureContext
+    ) {
 
         errorBox.textContent =
             "Hãy mở website bằng HTTPS hoặc GitHub Pages.";
 
-        startButton.disabled = false;
+
+        startButton.disabled =
+            false;
+
 
         return;
 
@@ -1393,8 +1973,13 @@ async function startCamera() {
     try {
 
         if (
+
             !navigator.mediaDevices ||
-            !navigator.mediaDevices.getUserMedia
+
+            !navigator
+                .mediaDevices
+                .getUserMedia
+
         ) {
 
             throw new Error(
@@ -1409,25 +1994,40 @@ async function startCamera() {
                 .mediaDevices
                 .getUserMedia({
 
-                    audio: false,
+                    audio:
+                        false,
 
                     video: {
 
                         facingMode: {
-                            ideal: "user"
+
+                            ideal:
+                                "user"
+
                         },
 
                         width: {
-                            ideal: 1280
+
+                            ideal:
+                                1280
+
                         },
 
                         height: {
-                            ideal: 720
+
+                            ideal:
+                                720
+
                         },
 
                         frameRate: {
-                            ideal: 30,
-                            max: 30
+
+                            ideal:
+                                30,
+
+                            max:
+                                30
+
                         }
 
                     }
@@ -1455,11 +2055,15 @@ async function startCamera() {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
 
         errorBox.textContent =
+
             "Không mở được camera: " +
+
             (
                 error.message ||
                 "Lỗi không xác định."
@@ -1474,42 +2078,58 @@ async function startCamera() {
 }
 
 
-/* ==================================
-   START
-================================== */
+/* =========================================
+   START BUTTON
+========================================= */
 
 startButton.addEventListener(
+
     "click",
+
     startCamera
+
 );
 
 
-/* ==================================
+/* =========================================
    CLEANUP
-================================== */
+========================================= */
 
 window.addEventListener(
+
     "beforeunload",
-    () => {
 
-        tracking = false;
+    function() {
+
+        tracking =
+            false;
 
 
-        if (video.srcObject) {
+        if (
+            video.srcObject
+        ) {
 
             video.srcObject
                 .getTracks()
                 .forEach(
-                    track => track.stop()
+
+                    function(track) {
+
+                        track.stop();
+
+                    }
+
                 );
 
         }
 
     }
+
 );
 
 </script>
 
 </body>
+
 </html>
 ```
