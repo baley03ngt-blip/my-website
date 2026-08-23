@@ -1,2902 +1,883 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1,
-      viewport-fit=cover,
-      user-scalable=no">
-
-<title>HANDLIGHT</title>
-
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#02040a;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    touch-action:none;
-}
-
-#app{
-    position:relative;
-    width:100vw;
-    height:100svh;
-    overflow:hidden;
-    background:#02040a;
-}
-
-/* =====================================================
-   CAMERA
-===================================================== */
-
-#video{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transform:scaleX(-1);
-    z-index:1;
-
-    filter:
-        brightness(.82)
-        contrast(1.06)
-        saturate(1.08);
-}
-
-/* =====================================================
-   CANVAS
-===================================================== */
-
-#canvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:5;
-    pointer-events:none;
-}
-
-/* =====================================================
-   START SCREEN
-===================================================== */
-
-#startScreen{
-    position:absolute;
-    inset:0;
-    z-index:100;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#02040a;
-    color:white;
-    text-align:center;
-}
-
-.startBox{
-    width:min(88vw,420px);
-}
-
-.startBox h1{
-    font-size:42px;
-    letter-spacing:-.05em;
-    margin-bottom:15px;
-}
-
-.startBox p{
-    color:rgba(255,255,255,.6);
-    font-size:14px;
-    line-height:1.65;
-}
-
-#startButton{
-    margin-top:25px;
-
-    padding:16px 28px;
-
-    border:0;
-    border-radius:10px;
-
-    background:white;
-    color:#02040a;
-
-    font-weight:800;
-    font-size:11px;
-    letter-spacing:.15em;
-
-    cursor:pointer;
-}
-
-#startButton:active{
-    transform:scale(.96);
-}
-
-#error{
-    margin-top:14px;
-    color:#ff6578;
-    font-size:12px;
-    line-height:1.5;
-}
-
-/* =====================================================
-   INSTRUCTION
-===================================================== */
-
-#instruction{
-    position:absolute;
-
-    left:0;
-    right:0;
-    bottom:20px;
-
-    z-index:30;
-
-    text-align:center;
-
-    color:white;
-
-    font-size:12px;
-
-    text-shadow:
-        0 2px 12px #000;
-
-    pointer-events:none;
-
-    transition:opacity .2s;
-}
-
-/* =====================================================
-   FILTER NAME
-===================================================== */
-
-#filterName{
-    position:absolute;
-
-    left:50%;
-    bottom:55px;
-
-    transform:translateX(-50%);
-
-    z-index:30;
-
-    padding:8px 15px;
-
-    border-radius:20px;
-
-    background:
-        rgba(0,0,0,.50);
-
-    border:
-        1px solid
-        rgba(255,255,255,.18);
-
-    color:white;
-
-    font:
-        10px
-        Consolas,
-        monospace;
-
-    letter-spacing:.15em;
-
-    opacity:0;
-
-    transition:opacity .25s;
-
-    pointer-events:none;
-}
-
-/* =====================================================
-   NEW DARK MENU
-===================================================== */
-
-#socialMenu{
-    position:absolute;
-
-    inset:0;
-
-    z-index:80;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-        rgba(0,0,0,.46);
-
-    backdrop-filter:blur(4px);
-    -webkit-backdrop-filter:blur(4px);
-}
-
-#socialPanel{
-    width:min(88vw,440px);
-
-    padding:32px 24px 24px;
-
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(20,24,35,.92),
-            rgba(2,4,10,.94)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.13);
-
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.6),
-
-        inset 0 1px 0
-        rgba(255,255,255,.07);
-
-    text-align:center;
-
-    transform:scale(.92);
-    opacity:0;
-
-    transition:
-        transform .28s ease,
-        opacity .28s ease;
-}
-
-#socialMenu.open #socialPanel{
-    transform:scale(1);
-    opacity:1;
-}
-
-#socialTitle{
-    color:white;
-    font-size:23px;
-    font-weight:800;
-}
-
-#socialSub{
-    margin-top:7px;
-
-    color:
-        rgba(255,255,255,.48);
-
-    font-size:11px;
-}
-
-.socialGrid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:12px;
-
-    margin-top:30px;
-}
-
-.socialButton{
-    height:105px;
-
-    border-radius:20px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    background:
-        rgba(255,255,255,.055);
-
-    color:white;
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    transition:
-        transform .13s ease,
-        background .13s ease,
-        box-shadow .13s ease;
-}
-
-.socialButton.selected{
-    transform:scale(1.08);
-
-    background:
-        rgba(255,255,255,.15);
-
-    box-shadow:
-        0 0 35px
-        rgba(255,255,255,.13);
-}
-
-.socialIcon{
-    width:46px;
-    height:46px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:13px;
-
-    background:
-        rgba(255,255,255,.10);
-
-    color:white;
-
-    font-size:25px;
-    font-weight:900;
-}
-
-.socialName{
-    margin-top:9px;
-
-    font-size:9px;
-
-    color:
-        rgba(255,255,255,.72);
-}
-
-#homeButton{
-    width:100%;
-    height:45px;
-
-    margin-top:22px;
-
-    border-radius:13px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    background:
-        rgba(255,255,255,.055);
-
-    color:white;
-
-    font-size:10px;
-    font-weight:700;
-
-    letter-spacing:.1em;
-}
-
-/* =====================================================
-   FINGER POINTER
-===================================================== */
-
-#fingerPointer{
-    position:absolute;
-
-    z-index:90;
-
-    width:23px;
-    height:23px;
-
-    margin-left:-11.5px;
-    margin-top:-11.5px;
-
-    border-radius:50%;
-
-    border:
-        2px solid white;
-
-    box-shadow:
-        0 0 9px white,
-        0 0 25px #00eaff;
-
-    pointer-events:none;
-
-    opacity:0;
-
-    transition:
-        opacity .12s,
-        transform .12s;
-}
-
-#fingerPointer.visible{
-    opacity:1;
-}
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-#gestureLoading{
-    position:absolute;
-
-    inset:0;
-
-    z-index:70;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-        rgba(0,0,0,.10);
-
-    pointer-events:none;
-}
-
-.loadingCircle{
-    width:76px;
-    height:76px;
-
-    border-radius:50%;
-
-    border:
-        3px solid
-        rgba(255,255,255,.15);
-
-    border-top-color:white;
-
-    animation:
-        rotateLoading .75s linear infinite;
-
-    box-shadow:
-        0 0 25px
-        rgba(255,255,255,.15);
-}
-
-@keyframes rotateLoading{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:600px){
-
-    .startBox h1{
-        font-size:36px;
-    }
-
-    #socialPanel{
-        width:90vw;
-    }
-
-    .socialButton{
-        height:95px;
-    }
-
-    .socialGrid{
-        gap:9px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Hologram Hand Tracking</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%; width: 100%; overflow: hidden;
+            background: #0a0a0f;
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ===== APP CONTAINER ===== */
+        #app {
+            position: relative;
+            width: 100vw; height: 100vh;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(ellipse at center, #14141f 0%, #0a0a0f 100%);
+        }
+
+        /* Background scanline effect */
+        #app::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg,
+                transparent 0px, transparent 2px,
+                rgba(0, 240, 255, 0.015) 2px, rgba(0, 240, 255, 0.015) 4px);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* Subtle grid */
+        #app::after {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ===== CAMERA CONTAINER (mirror) ===== */
+        #camera-container {
+            position: relative;
+            width: min(95vw, calc(100vh * 4 / 3));
+            max-width: 720px;
+            aspect-ratio: 4 / 3;
+            border-radius: 24px;
+            overflow: hidden;
+            transform: scaleX(-1);
+            z-index: 1;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow:
+                0 0 40px rgba(0, 240, 255, 0.08),
+                inset 0 0 40px rgba(0, 240, 255, 0.03);
+        }
+
+        #camera-container video,
+        #camera-container canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #camera-container video {
+            z-index: 1;
+        }
+        #camera-container canvas {
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Camera overlay glow ring */
+        #camera-container::after {
+            content: '';
+            position: absolute; inset: -1px;
+            border-radius: 24px;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), transparent 40%, transparent 60%, rgba(255, 0, 170, 0.15)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none; z-index: 3;
+        }
+
+        /* ===== CAMERA BUTTON ===== */
+        #cameraBtn {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            padding: 20px 48px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #00f0ff;
+            background: rgba(0, 240, 255, 0.06);
+            border: 1.5px solid rgba(0, 240, 255, 0.4);
+            border-radius: 60px;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.35s ease;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+            white-space: nowrap;
+        }
+        #cameraBtn:hover {
+            background: rgba(0, 240, 255, 0.14);
+            border-color: rgba(0, 240, 255, 0.7);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            transform: translate(-50%, -50%) scale(1.04);
+        }
+        #cameraBtn:active {
+            transform: translate(-50%, -50%) scale(0.96);
+        }
+        #cameraBtn::before {
+            content: '◉ ';
+            font-size: 1.2rem;
+        }
+        #cameraBtn.hidden { display: none; }
+
+        /* ===== INFO PANEL ===== */
+        #info-panel {
+            position: absolute;
+            top: 18px; left: 18px;
+            z-index: 5;
+            padding: 12px 20px 14px 20px;
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.12);
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            pointer-events: none;
+            min-width: 150px;
+        }
+        #info-panel .title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #00f0ff;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            margin-bottom: 6px;
+        }
+        #info-panel .row {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            line-height: 1.5;
+        }
+        #info-panel .row .value {
+            color: #fff;
+            font-weight: 600;
+        }
+        #info-panel .row .value.cyan { color: #00f0ff; }
+        #info-panel .row .value.magenta { color: #ff00aa; }
+        #info-panel .row .value.green { color: #00ff88; }
+        #info-panel .row .value.amber { color: #ffaa00; }
+
+        /* ===== GESTURE LABEL (center bottom) ===== */
+        #gesture-label {
+            position: absolute;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.25);
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        #gesture-label.active {
+            color: #00f0ff;
+            text-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+        }
+
+        /* ===== ERROR MESSAGE ===== */
+        #error-msg {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            padding: 24px 36px;
+            background: rgba(255, 0, 50, 0.12);
+            border: 1px solid rgba(255, 0, 50, 0.35);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ff3355;
+            text-align: center;
+            max-width: 80vw;
+            pointer-events: none;
+        }
+        #error-msg.hidden { display: none; }
+
+        /* ===== LOADING OVERLAY ===== */
+        #loading-overlay {
+            position: absolute; inset: 0;
+            z-index: 9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 20, 0.85);
+            backdrop-filter: blur(8px);
+            transition: opacity 0.6s ease;
+        }
+        #loading-overlay.done {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #loading-overlay .spinner {
+            width: 48px; height: 48px;
+            border: 2.5px solid rgba(0, 240, 255, 0.15);
+            border-top-color: #00f0ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+        }
+        #loading-overlay .load-text {
+            margin-top: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+        }
+        #loading-overlay .load-text .dots::after {
+            content: '';
+            animation: dots 1.8s steps(4, end) infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            #camera-container {
+                width: 100vw; max-width: none;
+                aspect-ratio: 4 / 3;
+                border-radius: 0;
+                border: none;
+            }
+            #camera-container::after { display: none; }
+            #cameraBtn {
+                padding: 16px 32px;
+                font-size: 1.1rem;
+                letter-spacing: 2px;
+            }
+            #info-panel {
+                top: 10px; left: 10px;
+                padding: 8px 14px 10px 14px;
+                min-width: 120px;
+            }
+            #info-panel .title { font-size: 0.85rem; }
+            #info-panel .row { font-size: 0.75rem; gap: 10px; }
+            #gesture-label {
+                bottom: 18px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (orientation: portrait) and (max-width: 480px) {
+            #camera-container {
+                aspect-ratio: 3 / 4;
+                width: 100vh; /* fallback */
+                max-height: 100vw;
+            }
+        }
+
+        /* Video hidden until loaded */
+        #camera-container video:not([src]) { opacity: 0; }
+    </style>
 </head>
-
 <body>
 
-<div id="app">
-
-<!-- ===================================================
-     CAMERA
-=================================================== -->
-
-<video
-    id="video"
-    autoplay
-    muted
-    playsinline>
-</video>
-
-
-<!-- ===================================================
-     TRACKING CANVAS
-=================================================== -->
-
-<canvas id="canvas"></canvas>
-
-
-<!-- ===================================================
-     POINTER
-=================================================== -->
-
-<div id="fingerPointer"></div>
-
-
-<!-- ===================================================
-     FILTER NAME
-=================================================== -->
-
-<div id="filterName">
-    RAINBOW
-</div>
-
-
-<!-- ===================================================
-     INSTRUCTION
-=================================================== -->
-
-<div id="instruction">
-    ĐƯA HAI BÀN TAY VÀO CAMERA
-</div>
-
-
-<!-- ===================================================
-     LOADING
-=================================================== -->
-
-<div id="gestureLoading">
-
-    <div class="loadingCircle"></div>
-
-</div>
-
-
-<!-- ===================================================
-     SOCIAL MENU
-=================================================== -->
-
-<div id="socialMenu">
-
-    <div id="socialPanel">
-
-        <div id="socialTitle">
-            HANDLIGHT
+    <div id="app">
+        <!-- Loading -->
+        <div id="loading-overlay">
+            <div class="spinner"></div>
+            <div class="load-text">INITIALIZING<span class="dots"></span></div>
         </div>
 
-        <div id="socialSub">
-            Di chuyển ngón trỏ để chọn
+        <!-- Camera area -->
+        <div id="camera-container">
+            <video id="webcam" playsinline muted autoplay></video>
+            <canvas id="overlay"></canvas>
         </div>
 
-
-        <div class="socialGrid">
-
-            <div
-                class="socialButton"
-                data-url="https://www.facebook.com">
-
-                <div class="socialIcon">
-                    f
-                </div>
-
-                <div class="socialName">
-                    FACEBOOK
-                </div>
-
-            </div>
-
-
-            <div
-                class="socialButton"
-                data-url="https://www.tiktok.com">
-
-                <div class="socialIcon">
-                    ♪
-                </div>
-
-                <div class="socialName">
-                    TIKTOK
-                </div>
-
-            </div>
-
-
-            <div
-                class="socialButton"
-                data-url="https://www.instagram.com">
-
-                <div class="socialIcon">
-                    ◎
-                </div>
-
-                <div class="socialName">
-                    INSTAGRAM
-                </div>
-
-            </div>
-
+        <!-- UI overlay -->
+        <div id="info-panel">
+            <div class="title">⟐ HAND TRACKING</div>
+            <div class="row"><span>HANDS</span><span class="value" id="handCount">0</span></div>
+            <div class="row"><span>FPS</span><span class="value" id="fpsDisplay">0</span></div>
+            <div class="row"><span>GESTURE</span><span class="value" id="gestureDisplay">—</span></div>
         </div>
 
+        <div id="gesture-label">⟡</div>
 
-        <button id="homeButton">
-            ← HOME
-        </button>
+        <button id="cameraBtn">BẬT CAMERA</button>
 
+        <div id="error-msg" class="hidden"></div>
     </div>
 
-</div>
-
-
-<!-- ===================================================
-     START SCREEN
-=================================================== -->
-
-<div id="startScreen">
-
-    <div class="startBox">
-
-        <h1>
-            HANDLIGHT
-        </h1>
-
-        <p>
-            Đưa hai bàn tay vào camera.<br><br>
-
-            Chạm ngón trỏ + ngón cái
-            ở cả hai tay để mở khung.<br><br>
-
-            Út + cái ở cả hai tay
-            để đổi màu.<br><br>
-
-            Giơ ngón trỏ lên để mở menu.
-        </p>
-
-        <button id="startButton">
-            BẬT CAMERA
-        </button>
-
-        <div id="error"></div>
-
-    </div>
-
-</div>
-
-</div>
-
-
-<!-- ===================================================
-     MEDIAPIPE
-=================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-
-
-<script>
-"use strict";
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const video =
-    document.getElementById("video");
-
-const canvas =
-    document.getElementById("canvas");
-
-const ctx =
-    canvas.getContext("2d");
-
-const startScreen =
-    document.getElementById("startScreen");
-
-const startButton =
-    document.getElementById("startButton");
-
-const errorBox =
-    document.getElementById("error");
-
-const instruction =
-    document.getElementById("instruction");
-
-const filterName =
-    document.getElementById("filterName");
-
-const socialMenu =
-    document.getElementById("socialMenu");
-
-const homeButton =
-    document.getElementById("homeButton");
-
-const gestureLoading =
-    document.getElementById("gestureLoading");
-
-const fingerPointer =
-    document.getElementById("fingerPointer");
-
-const socialButtons =
-    [
-        ...document.querySelectorAll(
-            ".socialButton"
-        )
-    ];
-
-
-/* =====================================================
-   SIZE
-===================================================== */
-
-let W = 0;
-let H = 0;
-let DPR = 1;
-
-function resize(){
-
-    W =
-        window.innerWidth;
-
-    H =
-        window.innerHeight;
-
-    DPR =
-        Math.min(
-            window.devicePixelRatio || 1,
-            2
-        );
-
-    canvas.width =
-        Math.round(
-            W * DPR
-        );
-
-    canvas.height =
-        Math.round(
-            H * DPR
-        );
-
-    canvas.style.width =
-        W + "px";
-
-    canvas.style.height =
-        H + "px";
-
-    ctx.setTransform(
-        DPR,
-        0,
-        0,
-        DPR,
-        0,
-        0
-    );
-}
-
-resize();
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-
-/* =====================================================
-   BONES
-
-   Vẫn tồn tại để MediaPipe
-   tracking đủ 21 điểm.
-
-   KHÔNG VẼ RA MÀN HÌNH.
-===================================================== */
-
-const BONES = [
-
-    [0,1],
-    [1,2],
-    [2,3],
-    [3,4],
-
-    [0,5],
-    [5,6],
-    [6,7],
-    [7,8],
-
-    [0,9],
-    [9,10],
-    [10,11],
-    [11,12],
-
-    [0,13],
-    [13,14],
-    [14,15],
-    [15,16],
-
-    [0,17],
-    [17,18],
-    [18,19],
-    [19,20],
-
-    [5,9],
-    [9,13],
-    [13,17]
-
-];
-
-
-/* =====================================================
-   FILTERS
-===================================================== */
-
-const FILTERS = [
-
-    {
-        name:"RAINBOW",
-
-        colors:[
-            "#ff006e",
-            "#ff4d00",
-            "#ffe600",
-            "#00ff88",
-            "#00eaff",
-            "#3867ff",
-            "#b000ff"
-        ]
-    },
-
-    {
-        name:"AURORA",
-
-        colors:[
-            "#00fff0",
-            "#00ff9d",
-            "#70ff00",
-            "#00aaff",
-            "#7b00ff",
-            "#ff00d4"
-        ]
-    },
-
-    {
-        name:"NEON DREAM",
-
-        colors:[
-            "#ff0080",
-            "#ff00ff",
-            "#8a00ff",
-            "#0055ff",
-            "#00eaff"
-        ]
-    },
-
-    {
-        name:"COSMIC",
-
-        colors:[
-            "#1600ff",
-            "#5c00ff",
-            "#b900ff",
-            "#ff00aa",
-            "#ff0055",
-            "#00cfff"
-        ]
-    },
-
-    {
-        name:"SUNSET",
-
-        colors:[
-            "#ff003c",
-            "#ff4800",
-            "#ff9700",
-            "#ffe000",
-            "#ff00a8",
-            "#7200ff"
-        ]
-    },
-
-    {
-        name:"OCEAN",
-
-        colors:[
-            "#001eff",
-            "#006eff",
-            "#00c8ff",
-            "#00fff0",
-            "#00ff9d",
-            "#64ff00"
-        ]
-    },
-
-    {
-        name:"CRYSTAL",
-
-        colors:[
-            "#ffffff",
-            "#9fffff",
-            "#789dff",
-            "#c78cff",
-            "#ff9edb",
-            "#ffffff"
-        ]
-    }
-
-];
-
-let filterIndex = 0;
-
-
-/* =====================================================
-   FILTER GESTURE
-===================================================== */
-
-let colorGestureHeld =
-    false;
-
-let lastFilterChange =
-    0;
-
-const COLOR_COOLDOWN =
-    800;
-
-
-/* =====================================================
-   WINDOW
-===================================================== */
-
-let windowOpen =
-    false;
-
-const windowPoints = {
-
-    tl:{x:0,y:0},
-    tr:{x:0,y:0},
-    br:{x:0,y:0},
-    bl:{x:0,y:0}
-
-};
-
-const targetPoints = {
-
-    tl:{x:0,y:0},
-    tr:{x:0,y:0},
-    br:{x:0,y:0},
-    bl:{x:0,y:0}
-
-};
-
-
-/* =====================================================
-   CAMERA POINT
-===================================================== */
-
-function screenPoint(p){
-
-    return {
-
-        x:
-            (1 - p.x) * W,
-
-        y:
-            p.y * H
-
-    };
-
-}
-
-
-/* =====================================================
-   DISTANCE
-===================================================== */
-
-function distance(a,b){
-
-    return Math.hypot(
-
-        a.x - b.x,
-
-        a.y - b.y
-
-    );
-
-}
-
-
-/* =====================================================
-   HAND SIZE
-===================================================== */
-
-function getHandSize(hand){
-
-    return Math.max(
-
-        distance(
-            hand[0],
-            hand[9]
-        ),
-
-        0.0001
-
-    );
-
-}
-
-
-/* =====================================================
-   INDEX + THUMB
-===================================================== */
-
-function getIndexThumbRatio(hand){
-
-    return (
-
-        distance(
-            hand[4],
-            hand[8]
-        )
-
-        /
-
-        getHandSize(hand)
-
-    );
-
-}
-
-function indexThumbTouch(hand){
-
-    return (
-
-        getIndexThumbRatio(hand)
-
-        <
-
-        0.82
-
-    );
-
-}
-
-
-/* =====================================================
-   PINKY + THUMB
-===================================================== */
-
-function getPinkyThumbRatio(hand){
-
-    return (
-
-        distance(
-            hand[4],
-            hand[20]
-        )
-
-        /
-
-        getHandSize(hand)
-
-    );
-
-}
-
-function pinkyThumbTouch(hand){
-
-    return (
-
-        getPinkyThumbRatio(hand)
-
-        <
-
-        1.05
-
-    );
-
-}
-
-
-/* =====================================================
-   INDEX UP
-
-   Gesture mới:
-   NGÓN TRỎ CHỈ LÊN
-===================================================== */
-
-function indexPointingUp(hand){
-
-    const tip =
-        hand[8];
-
-    const pip =
-        hand[6];
-
-    const mcp =
-        hand[5];
-
-    const wrist =
-        hand[0];
-
-
-    const indexExtended =
-        tip.y <
-        pip.y &&
-        pip.y <
-        mcp.y;
-
-
-    const clearlyUp =
-        tip.y <
-        wrist.y - .06;
-
-
-    /*
-       Những ngón còn lại
-       tương đối cụp vào.
-    */
-
-    const middleFolded =
-        hand[12].y >
-        hand[10].y;
-
-    const ringFolded =
-        hand[16].y >
-        hand[14].y;
-
-    const pinkyFolded =
-        hand[20].y >
-        hand[18].y;
-
-
-    /*
-       Điều kiện chính.
-    */
-
-    return (
-
-        indexExtended &&
-
-        clearlyUp &&
-
-        middleFolded &&
-
-        ringFolded &&
-
-        pinkyFolded
-
-    );
-
-}
-
-
-/* =====================================================
-   SKELETON KHÔNG VẼ
-===================================================== */
-
-/*
-   MediaPipe vẫn trả về toàn bộ
-   21 landmark.
-
-   Không gọi drawSkeleton().
-*/
-
-
-/* =====================================================
-   WINDOW TARGETS
-===================================================== */
-
-function setWindowTargets(
-    left,
-    right
-){
-
-    targetPoints.tl =
-        screenPoint(
-            left[8]
-        );
-
-    targetPoints.tr =
-        screenPoint(
-            right[8]
-        );
-
-    targetPoints.br =
-        screenPoint(
-            right[4]
-        );
-
-    targetPoints.bl =
-        screenPoint(
-            left[4]
-        );
-
-}
-
-
-/* =====================================================
-   CREATE WINDOW
-===================================================== */
-
-function createWindow(
-    left,
-    right
-){
-
-    setWindowTargets(
-        left,
-        right
-    );
-
-
-    windowPoints.tl =
-        {...targetPoints.tl};
-
-    windowPoints.tr =
-        {...targetPoints.tr};
-
-    windowPoints.br =
-        {...targetPoints.br};
-
-    windowPoints.bl =
-        {...targetPoints.bl};
-
-
-    windowOpen =
-        true;
-
-
-    filterName.textContent =
-        FILTERS[
-            filterIndex
-        ].name;
-
-    filterName.style.opacity =
-        "1";
-
-
-    instruction.textContent =
-        "DI CHUYỂN 4 NGÓN ĐỂ ĐIỀU KHIỂN KHUNG";
-
-}
-
-
-/* =====================================================
-   UPDATE WINDOW
-
-   Smoothing chống rung.
-===================================================== */
-
-function updateWindow(
-    left,
-    right
-){
-
-    setWindowTargets(
-        left,
-        right
-    );
-
-
-    const smooth =
-        0.48;
-
-
-    const keys = [
-        "tl",
-        "tr",
-        "br",
-        "bl"
-    ];
-
-
-    for(
-        const key of keys
-    ){
-
-        windowPoints[key].x +=
-
-            (
-
-                targetPoints[key].x
-                -
-                windowPoints[key].x
-
-            )
-
-            *
-
-            smooth;
-
-
-        windowPoints[key].y +=
-
-            (
-
-                targetPoints[key].y
-                -
-                windowPoints[key].y
-
-            )
-
-            *
-
-            smooth;
-
-    }
-
-}
-
-
-/* =====================================================
-   GRADIENT
-===================================================== */
-
-function rainbowGradient(){
-
-    const p =
-        windowPoints;
-
-
-    const centerX = (
-
-        p.tl.x +
-        p.tr.x +
-        p.br.x +
-        p.bl.x
-
-    ) / 4;
-
-
-    const centerY = (
-
-        p.tl.y +
-        p.tr.y +
-        p.br.y +
-        p.bl.y
-
-    ) / 4;
-
-
-    const gradient =
-        ctx.createRadialGradient(
-
-            centerX - W*.20,
-
-            centerY - H*.20,
-
-            0,
-
-            centerX,
-
-            centerY,
-
-            Math.max(W,H)*.75
-
-        );
-
-
-    const colors =
-        FILTERS[
-            filterIndex
-        ].colors;
-
-
-    for(
-        let i=0;
-        i<colors.length;
-        i++
-    ){
-
-        gradient.addColorStop(
-
-            i /
-            (colors.length - 1),
-
-            colors[i]
-
-        );
-
-    }
-
-
-    return gradient;
-
-}
-
-
-/* =====================================================
-   MOVING GRADIENT
-===================================================== */
-
-function movingGradient(){
-
-    const p =
-        windowPoints;
-
-
-    const centerX = (
-
-        p.tl.x +
-        p.tr.x +
-        p.br.x +
-        p.bl.x
-
-    ) / 4;
-
-
-    const centerY = (
-
-        p.tl.y +
-        p.tr.y +
-        p.br.y +
-        p.bl.y
-
-    ) / 4;
-
-
-    const t =
-        performance.now()
-        * .00035;
-
-
-    const moveX =
-        Math.cos(t)
-        * W
-        * .35;
-
-
-    const moveY =
-        Math.sin(t * 1.25)
-        * H
-        * .35;
-
-
-    const g =
-        ctx.createLinearGradient(
-
-            centerX -
-            W*.70 +
-            moveX,
-
-            centerY -
-            H*.70 +
-            moveY,
-
-            centerX +
-            W*.70 -
-            moveX,
-
-            centerY +
-            H*.70 -
-            moveY
-
-        );
-
-
-    const colors =
-        FILTERS[
-            filterIndex
-        ].colors;
-
-
-    for(
-        let i=0;
-        i<colors.length;
-        i++
-    ){
-
-        g.addColorStop(
-
-            i /
-            (colors.length - 1),
-
-            colors[i]
-
-        );
-
-    }
-
-
-    return g;
-
-}
-
-
-/* =====================================================
-   DRAW WINDOW
-===================================================== */
-
-function drawWindow(){
-
-    if(!windowOpen)
-        return;
-
-
-    const p =
-        windowPoints;
-
-
-    /*
-       CLIP KHUNG
-    */
-
-    ctx.save();
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        p.tl.x,
-        p.tl.y
-    );
-
-    ctx.lineTo(
-        p.tr.x,
-        p.tr.y
-    );
-
-    ctx.lineTo(
-        p.br.x,
-        p.br.y
-    );
-
-    ctx.lineTo(
-        p.bl.x,
-        p.bl.y
-    );
-
-    ctx.closePath();
-
-    ctx.clip();
-
-
-    /*
-       RAINBOW
-    */
-
-    ctx.globalCompositeOperation =
-        "screen";
-
-    ctx.globalAlpha =
-        .25;
-
-    ctx.fillStyle =
-        rainbowGradient();
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    /*
-       MOVING COLOR
-    */
-
-    ctx.globalAlpha =
-        .20;
-
-    ctx.fillStyle =
-        movingGradient();
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    /*
-       GLASS
-    */
-
-    const centerX = (
-
-        p.tl.x +
-        p.tr.x +
-        p.br.x +
-        p.bl.x
-
-    ) / 4;
-
-
-    const centerY = (
-
-        p.tl.y +
-        p.tr.y +
-        p.br.y +
-        p.bl.y
-
-    ) / 4;
-
-
-    const glass =
-        ctx.createRadialGradient(
-
-            centerX,
-            centerY,
-            0,
-
-            centerX,
-            centerY,
-            Math.max(W,H)*.65
-
-        );
-
-
-    glass.addColorStop(
-        0,
-        "rgba(255,255,255,.10)"
-    );
-
-    glass.addColorStop(
-        .45,
-        "rgba(255,255,255,.035)"
-    );
-
-    glass.addColorStop(
-        1,
-        "rgba(255,255,255,0)"
-    );
-
-
-    ctx.globalAlpha =
-        1;
-
-    ctx.fillStyle =
-        glass;
-
-    ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    ctx.restore();
-
-
-    /*
-       NEON BORDER
-    */
-
-    ctx.save();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        p.tl.x,
-        p.tl.y
-    );
-
-    ctx.lineTo(
-        p.tr.x,
-        p.tr.y
-    );
-
-    ctx.lineTo(
-        p.br.x,
-        p.br.y
-    );
-
-    ctx.lineTo(
-        p.bl.x,
-        p.bl.y
-    );
-
-    ctx.closePath();
-
-
-    ctx.strokeStyle =
-        rainbowGradient();
-
-    ctx.lineWidth =
-        5;
-
-    ctx.lineJoin =
-        "round";
-
-    ctx.shadowColor =
-        "#00eaff";
-
-    ctx.shadowBlur =
-        18;
-
-    ctx.stroke();
-
-
-    /*
-       INNER WHITE BORDER
-    */
-
-    ctx.shadowBlur =
-        6;
-
-    ctx.strokeStyle =
-        "rgba(255,255,255,.9)";
-
-    ctx.lineWidth =
-        1.3;
-
-    ctx.stroke();
-
-
-    ctx.restore();
-
-
-    /*
-       CORNER DOTS
-    */
-
-    drawWindowPoint(
-        p.tl
-    );
-
-    drawWindowPoint(
-        p.tr
-    );
-
-    drawWindowPoint(
-        p.br
-    );
-
-    drawWindowPoint(
-        p.bl
-    );
-
-}
-
-
-/* =====================================================
-   WINDOW POINT
-===================================================== */
-
-function drawWindowPoint(p){
-
-    ctx.save();
-
-
-    ctx.beginPath();
-
-    ctx.arc(
-        p.x,
-        p.y,
-        4.5,
-        0,
-        Math.PI*2
-    );
-
-
-    ctx.fillStyle =
-        "#ffffff";
-
-    ctx.shadowColor =
-        "#00eaff";
-
-    ctx.shadowBlur =
-        13;
-
-    ctx.fill();
-
-
-    ctx.restore();
-
-}
-
-
-/* =====================================================
-   CHANGE FILTER
-===================================================== */
-
-function nextFilter(){
-
-    const now =
-        performance.now();
-
-
-    if(
-        now -
-        lastFilterChange
-        <
-        COLOR_COOLDOWN
-    ){
-
-        return;
-
-    }
-
-
-    lastFilterChange =
-        now;
-
-
-    filterIndex++;
-
-
-    if(
-        filterIndex >=
-        FILTERS.length
-    ){
-
-        filterIndex = 0;
-
-    }
-
-
-    filterName.textContent =
-        FILTERS[
-            filterIndex
-        ].name;
-
-
-    filterName.style.opacity =
-        "1";
-
-
-    clearTimeout(
-        nextFilter.timer
-    );
-
-
-    nextFilter.timer =
-        setTimeout(
-            function(){
-
-                filterName.style.opacity =
-                    "0";
-
-            },
-            1200
-        );
-
-}
-
-
-/* =====================================================
-   OPEN SOCIAL MENU
-===================================================== */
-
-let socialMenuOpen =
-    false;
-
-let menuGestureStart =
-    0;
-
-let menuGestureActive =
-    false;
-
-const MENU_HOLD =
-    700;
-
-
-/* =====================================================
-   OPEN MENU
-===================================================== */
-
-function openSocialMenu(){
-
-    if(socialMenuOpen)
-        return;
-
-
-    socialMenuOpen =
-        true;
-
-
-    gestureLoading.style.display =
-        "none";
-
-
-    socialMenu.style.display =
-        "flex";
-
-
-    requestAnimationFrame(
-        function(){
-
-            socialMenu.classList.add(
-                "open"
-            );
-
+    <!-- ===== MEDIAPIPE CDN ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
+
+    <script>
+        'use strict';
+
+        // ============================================================
+        //  DOM REFS
+        // ============================================================
+        const video        = document.getElementById('webcam');
+        const canvas       = document.getElementById('overlay');
+        const ctx          = canvas.getContext('2d');
+        const cameraBtn    = document.getElementById('cameraBtn');
+        const loading      = document.getElementById('loading-overlay');
+        const errorMsg     = document.getElementById('error-msg');
+        const handCountEl  = document.getElementById('handCount');
+        const fpsDisplayEl = document.getElementById('fpsDisplay');
+        const gestureDisp  = document.getElementById('gestureDisplay');
+        const gestureLabel = document.getElementById('gesture-label');
+
+        // ============================================================
+        //  CONFIG
+        // ============================================================
+        const COLORS = {
+            left:  { primary: '#00f0ff', glow: 'rgba(0,240,255,' },
+            right: { primary: '#ff00aa', glow: 'rgba(255,0,170,' },
+            beam:  '#ffcc00',
+            tri:   'rgba(0,240,255,0.08)',
+            quad:  'rgba(255,0,170,0.06)',
+        };
+
+        // Gesture thresholds (normalised 0-1)
+        const THRESH = {
+            indexBeam:  0.06,   // distance between index tips of two hands
+            pinch:      0.04,   // distance thumb→index on same hand
+            triangle:   0.12,   // max edge length for triangle gesture
+        };
+
+        let streaming = false;
+        let lastTime  = 0;
+        let frameCount = 0;
+        let fpsValue  = 0;
+        let gestureStr = '—';
+
+        // MediaPipe
+        let hands = null;
+        let cameraInstance = null;
+
+        // ============================================================
+        //  HAND CONNECTIONS (21 landmarks)
+        // ============================================================
+        const HAND_CONNECTIONS = [
+            [0,1],[1,2],[2,3],[3,4],           // Thumb
+            [0,5],[5,6],[6,7],[7,8],           // Index
+            [0,9],[9,10],[10,11],[11,12],      // Middle
+            [0,13],[13,14],[14,15],[15,16],    // Ring
+            [0,17],[17,18],[18,19],[19,20],    // Pinky
+            [5,9],[9,13],[13,17]               // Palm
+        ];
+
+        // Landmark labels for fingertip indices
+        const FINGERTIPS = [4, 8, 12, 16, 20];
+        const TIP_NAMES  = ['THUMB','INDEX','MIDDLE','RING','PINKY'];
+
+        // ============================================================
+        //  FPS CALC
+        // ============================================================
+        function updateFPS(now) {
+            frameCount++;
+            if (now - lastTime >= 1000) {
+                fpsValue = Math.round(frameCount * 1000 / (now - lastTime));
+                frameCount = 0;
+                lastTime = now;
+                fpsDisplayEl.textContent = fpsValue;
+            }
         }
-    );
 
-
-    instruction.textContent =
-        "ĐƯA NGÓN TRỎ ĐẾN NÚT BẠN MUỐN CHỌN";
-
-
-    fingerPointer.classList.add(
-        "visible"
-    );
-
-}
-
-
-/* =====================================================
-   CLOSE MENU
-===================================================== */
-
-function closeSocialMenu(){
-
-    socialMenuOpen =
-        false;
-
-
-    socialMenu.classList.remove(
-        "open"
-    );
-
-
-    socialButtons.forEach(
-        function(button){
-
-            button.classList.remove(
-                "selected"
-            );
-
+        // ============================================================
+        //  CANVAS SIZING
+        // ============================================================
+        function resizeCanvas() {
+            const rect = document.getElementById('camera-container').getBoundingClientRect();
+            canvas.width  = rect.width;
+            canvas.height = rect.height;
         }
-    );
 
+        window.addEventListener('resize', resizeCanvas);
 
-    setTimeout(
-        function(){
+        // ============================================================
+        //  DRAWING HELPERS
+        // ============================================================
+        function getPoint(lm, w, h) {
+            // landmarks are [0..1]; apply mirror transform (x mirrored)
+            return { x: (1 - lm.x) * w, y: lm.y * h };
+        }
 
-            if(!socialMenuOpen){
+        function drawLandmark(ctx, x, y, color, radius, glowIntensity) {
+            // Outer glow
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, radius * 4);
+            grad.addColorStop(0, color);
+            grad.addColorStop(0.3, color.replace(')', ',0.4)').replace('rgb', 'rgba'));
+            grad.addColorStop(1, 'transparent');
+            ctx.beginPath();
+            ctx.arc(x, y, radius * 4, 0, 2 * Math.PI);
+            ctx.fillStyle = grad;
+            ctx.fill();
 
-                socialMenu.style.display =
-                    "none";
+            // Core bright dot
+            ctx.shadowColor = color;
+            ctx.shadowBlur  = glowIntensity;
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
 
+        function drawConnection(ctx, x1, y1, x2, y2, color, width, glow) {
+            ctx.shadowColor = color;
+            ctx.shadowBlur  = glow;
+            ctx.strokeStyle = color;
+            ctx.lineWidth   = width;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        function drawGlowLine(ctx, x1, y1, x2, y2, color, width, glow) {
+            // Outer glow
+            ctx.shadowColor = color;
+            ctx.shadowBlur  = glow * 2;
+            ctx.strokeStyle = color.replace(')', ',0.15)').replace('rgb', 'rgba');
+            ctx.lineWidth   = width + 4;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            // Main line
+            ctx.shadowBlur  = glow;
+            ctx.strokeStyle = color;
+            ctx.lineWidth   = width;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+        }
+
+        // ============================================================
+        //  GESTURE DETECTION
+        // ============================================================
+        function detectGestures(landmarksList, handednessList, w, h) {
+            let gesture = '—';
+
+            if (!landmarksList || landmarksList.length === 0) {
+                return gesture;
             }
 
-        },
-        300
-    );
-
-
-    fingerPointer.classList.remove(
-        "visible"
-    );
-
-
-    instruction.textContent =
-        windowOpen
-
-        ?
-
-        "DI CHUYỂN 4 NGÓN ĐỂ ĐIỀU KHIỂN KHUNG"
-
-        :
-
-        "ĐƯA HAI BÀN TAY VÀO CAMERA";
-
-}
-
-
-/* =====================================================
-   INDEX POINTER
-===================================================== */
-
-let pointerX = 0;
-let pointerY = 0;
-
-let pointerTargetX = 0;
-let pointerTargetY = 0;
-
-
-/*
-   Smooth nhưng bám rất nhanh.
-*/
-
-const POINTER_SMOOTH =
-    .58;
-
-
-function updatePointer(hand){
-
-    const point =
-        screenPoint(
-            hand[8]
-        );
-
-
-    pointerTargetX =
-        point.x;
-
-    pointerTargetY =
-        point.y;
-
-
-    pointerX +=
-        (
-            pointerTargetX -
-            pointerX
-        )
-        *
-        POINTER_SMOOTH;
-
-
-    pointerY +=
-        (
-            pointerTargetY -
-            pointerY
-        )
-        *
-        POINTER_SMOOTH;
-
-
-    fingerPointer.style.left =
-        pointerX + "px";
-
-    fingerPointer.style.top =
-        pointerY + "px";
-
-}
-
-
-/* =====================================================
-   BUTTON POINTER
-===================================================== */
-
-let selectedButton =
-    null;
-
-let buttonEnterTime =
-    0;
-
-const BUTTON_HOLD =
-    250;
-
-
-function updateSocialButtons(){
-
-    if(!socialMenuOpen)
-        return;
-
-
-    let found =
-        null;
-
-
-    for(
-        const button
-        of socialButtons
-    ){
-
-        const rect =
-            button.getBoundingClientRect();
-
-
-        const padding =
-            25;
-
-
-        if(
-
-            pointerX >
-            rect.left -
-            padding
-
-            &&
-
-            pointerX <
-            rect.right +
-            padding
-
-            &&
-
-            pointerY >
-            rect.top -
-            padding
-
-            &&
-
-            pointerY <
-            rect.bottom +
-            padding
-
-        ){
-
-            found =
-                button;
-
-            break;
-
-        }
-
-    }
-
-
-    socialButtons.forEach(
-        function(button){
-
-            button.classList.toggle(
-                "selected",
-                button === found
-            );
-
-        }
-    );
-
-
-    if(
-        found !==
-        selectedButton
-    ){
-
-        selectedButton =
-            found;
-
-        buttonEnterTime =
-            performance.now();
-
-        return;
-
-    }
-
-
-    if(found){
-
-        if(
-
-            performance.now() -
-            buttonEnterTime
-            >=
-            BUTTON_HOLD
-
-        ){
-
-            const url =
-                found.dataset.url;
-
-
-            /*
-               Mở trang trong tab mới.
-            */
-
-            window.open(
-                url,
-                "_blank"
-            );
-
-
-            buttonEnterTime =
-                performance.now()
-                + 100000;
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   PROCESS HANDS
-===================================================== */
-
-function processHands(
-    detected
-){
-
-    /*
-       KHÔNG CÓ TAY
-    */
-
-    if(
-        detected.length === 0
-    ){
-
-        if(
-            !socialMenuOpen
-        ){
-
-            gestureLoading.style.display =
-                "none";
-
-            menuGestureActive =
-                false;
-
-            menuGestureStart =
-                0;
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       XÁC ĐỊNH TAY TRÁI / PHẢI
-    */
-
-    let handA =
-        detected[0];
-
-    let handB =
-        detected.length > 1
-        ?
-        detected[1]
-        :
-        null;
-
-
-    /*
-       MENU ĐANG MỞ
-    */
-
-    if(
-        socialMenuOpen
-    ){
-
-        /*
-           Chọn bàn tay lớn hơn.
-        */
-
-        let pointerHand =
-            handA;
-
-
-        if(handB){
-
-            if(
-                getHandSize(handB)
-                >
-                getHandSize(handA)
-            ){
-
-                pointerHand =
-                    handB;
-
-            }
-
-        }
-
-
-        updatePointer(
-            pointerHand
-        );
-
-
-        updateSocialButtons();
-
-        return;
-
-    }
-
-
-    /*
-       Nếu chỉ có 1 tay
-       thì vẫn kiểm tra gesture menu.
-    */
-
-    if(
-        detected.length === 1
-    ){
-
-        if(
-            indexPointingUp(
-                handA
-            )
-        ){
-
-            if(
-                !menuGestureActive
-            ){
-
-                menuGestureActive =
-                    true;
-
-                menuGestureStart =
-                    performance.now();
-
-                gestureLoading.style.display =
-                    "flex";
-
-            }
-
-
-            if(
-                performance.now() -
-                menuGestureStart
-                >=
-                MENU_HOLD
-            ){
-
-                openSocialMenu();
-
-                menuGestureActive =
-                    false;
-
-            }
-
-        }
-        else{
-
-            gestureLoading.style.display =
-                "none";
-
-            menuGestureActive =
-                false;
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       2 TAY
-    */
-
-    const xA =
-        screenPoint(
-            handA[9]
-        ).x;
-
-
-    const xB =
-        screenPoint(
-            handB[9]
-        ).x;
-
-
-    let left;
-    let right;
-
-
-    if(
-        xA < xB
-    ){
-
-        left =
-            handA;
-
-        right =
-            handB;
-
-    }
-    else{
-
-        left =
-            handB;
-
-        right =
-            handA;
-
-    }
-
-
-    /*
-       INDEX + THUMB
-    */
-
-    const leftIndex =
-        indexThumbTouch(
-            left
-        );
-
-    const rightIndex =
-        indexThumbTouch(
-            right
-        );
-
-
-    /*
-       PINKY + THUMB
-    */
-
-    const leftPinky =
-        pinkyThumbTouch(
-            left
-        );
-
-    const rightPinky =
-        pinkyThumbTouch(
-            right
-        );
-
-
-    /*
-       GESTURE MỞ MENU
-       Nếu cả hai ngón trỏ
-       cùng chỉ lên.
-    */
-
-    const bothPointing =
-        indexPointingUp(left)
-        &&
-        indexPointingUp(right);
-
-
-    if(
-        bothPointing
-    ){
-
-        if(
-            !menuGestureActive
-        ){
-
-            menuGestureActive =
-                true;
-
-            menuGestureStart =
-                performance.now();
-
-            gestureLoading.style.display =
-                "flex";
-
-        }
-
-
-        if(
-            performance.now() -
-            menuGestureStart
-            >=
-            MENU_HOLD
-        ){
-
-            openSocialMenu();
-
-            menuGestureActive =
-                false;
-
-        }
-
-    }
-    else{
-
-        /*
-           Nếu đang tạo khung
-           thì không để gesture menu
-           làm ảnh hưởng.
-        */
-
-        if(
-            !windowOpen
-            ||
-            !(leftIndex && rightIndex)
-        ){
-
-            gestureLoading.style.display =
-                "none";
-
-            menuGestureActive =
-                false;
-
-        }
-
-    }
-
-
-    /*
-       KHUNG CỬA SỔ CŨ
-    */
-
-    if(
-        !windowOpen
-    ){
-
-        if(
-            leftIndex &&
-            rightIndex
-        ){
-
-            createWindow(
-                left,
-                right
-            );
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       UPDATE KHUNG
-    */
-
-    updateWindow(
-        left,
-        right
-    );
-
-
-    /*
-       ĐỔI MÀU
-    */
-
-    const bothPinky =
-        leftPinky &&
-        rightPinky;
-
-
-    if(
-        bothPinky
-    ){
-
-        if(
-            !colorGestureHeld
-        ){
-
-            nextFilter();
-
-            colorGestureHeld =
-                true;
-
-        }
-
-    }
-    else{
-
-        colorGestureHeld =
-            false;
-
-    }
-
-}
-
-
-/* =====================================================
-   MEDIAPIPE RESULT
-===================================================== */
-
-function onResults(
-    results
-){
-
-    /*
-       Clear canvas.
-       KHÔNG vẽ skeleton.
-    */
-
-    ctx.clearRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-
-    const detected =
-        results.multiHandLandmarks
-        ||
-        [];
-
-
-    processHands(
-        detected
-    );
-
-
-    /*
-       KHUNG CỬA SỔ
-       vẫn được vẽ.
-    */
-
-    drawWindow();
-
-}
-
-
-/* =====================================================
-   MEDIAPIPE
-===================================================== */
-
-let hands =
-    null;
-
-let tracking =
-    false;
-
-let lastSend =
-    0;
-
-
-async function startTracking(){
-
-    if(
-        !window.Hands
-    ){
-
-        throw new Error(
-            "Không tải được MediaPipe Hands."
-        );
-
-    }
-
-
-    hands =
-        new Hands({
-
-            locateFile:
-            function(file){
-
-                return (
-
-                    "https://cdn.jsdelivr.net/npm/@mediapipe/hands/"
-                    +
-                    file
-
-                );
-
-            }
-
-        });
-
-
-    hands.setOptions({
-
-        maxNumHands:2,
-
-        modelComplexity:1,
-
-        minDetectionConfidence:.55,
-
-        minTrackingConfidence:.55
-
-    });
-
-
-    hands.onResults(
-        onResults
-    );
-
-
-    tracking =
-        true;
-
-
-    requestAnimationFrame(
-        trackingLoop
-    );
-
-}
-
-
-/* =====================================================
-   TRACKING LOOP
-===================================================== */
-
-async function trackingLoop(){
-
-    if(
-        !tracking
-    ){
-
-        return;
-
-    }
-
-
-    const now =
-        performance.now();
-
-
-    if(
-
-        now -
-        lastSend
-        >=
-        30
-
-        &&
-
-        video.readyState
-        >=
-        2
-
-    ){
-
-        lastSend =
-            now;
-
-
-        try{
-
-            await hands.send({
-
-                image:
-                    video
-
+            // Build point arrays
+            const hands = landmarksList.map((lm, i) => {
+                const pts = lm.map(l => getPoint(l, w, h));
+                const hand = handednessList && handednessList[i] && handednessList[i][0] &&
+                    handednessList[i][0].categoryName === 'Left' ? 'left' : 'right';
+                return { pts, hand, idx: i };
             });
 
-        }
-        catch(error){
+            // ---- Check per-hand pinch ----
+            let pinched = false;
+            for (const h of hands) {
+                const thumbTip = h.pts[4];
+                const indexTip = h.pts[8];
+                const dist = distance(thumbTip, indexTip);
+                if (dist < THRESH.pinch * w) {
+                    pinched = true;
+                }
+            }
+            if (pinched) gesture = 'PINCH';
 
-            console.error(
-                "MediaPipe:",
-                error
-            );
+            // ---- Check index beam (both hands) ----
+            if (hands.length >= 2) {
+                const h0 = hands[0];
+                const h1 = hands[1];
+                const i0 = h0.pts[8];
+                const i1 = h1.pts[8];
+                const d = distance(i0, i1);
+                if (d < THRESH.indexBeam * w) {
+                    gesture = 'INDEX BEAM';
+                }
+            }
 
-        }
+            // ---- Triangle gesture (thumb + index + middle close) ----
+            for (const h of hands) {
+                const t = h.pts[4];  // thumb tip
+                const i = h.pts[8];  // index tip
+                const m = h.pts[12]; // middle tip
+                const d1 = distance(t, i);
+                const d2 = distance(i, m);
+                const d3 = distance(t, m);
+                const maxEdge = Math.max(d1, d2, d3);
+                if (maxEdge < THRESH.triangle * w * 1.2) {
+                    gesture = 'TRIANGLE';
+                    break;
+                }
+            }
 
-    }
-
-
-    requestAnimationFrame(
-        trackingLoop
-    );
-
-}
-
-
-/* =====================================================
-   CAMERA
-===================================================== */
-
-async function startCamera(){
-
-    startButton.disabled =
-        true;
-
-
-    errorBox.textContent =
-        "";
-
-
-    if(
-        !window.isSecureContext
-    ){
-
-        errorBox.textContent =
-            "Hãy mở website bằng HTTPS hoặc GitHub Pages.";
-
-        startButton.disabled =
-            false;
-
-        return;
-
-    }
-
-
-    try{
-
-        if(
-
-            !navigator.mediaDevices
-
-            ||
-
-            !navigator.mediaDevices
-                .getUserMedia
-
-        ){
-
-            throw new Error(
-                "Trình duyệt không hỗ trợ Camera."
-            );
-
-        }
-
-
-        const stream =
-            await navigator
-                .mediaDevices
-                .getUserMedia({
-
-                    audio:false,
-
-                    video:{
-
-                        facingMode:{
-                            ideal:"user"
-                        },
-
-                        width:{
-                            ideal:1280
-                        },
-
-                        height:{
-                            ideal:720
-                        },
-
-                        frameRate:{
-                            ideal:30,
-                            max:30
-                        }
-
+            // ---- Quad gesture (all four finger tips spread wide - detected as open hand) ----
+            if (!pinched && hands.length >= 1) {
+                for (const h of hands) {
+                    const i = h.pts[8];
+                    const m = h.pts[12];
+                    const r = h.pts[16];
+                    const p = h.pts[20];
+                    const d_im = distance(i, m);
+                    const d_mr = distance(m, r);
+                    const d_rp = distance(r, p);
+                    if (d_im > 0.04 * w && d_mr > 0.04 * w && d_rp > 0.04 * w) {
+                        // open hand — could form quadrilateral
+                        if (gesture === '—') gesture = 'OPEN HAND';
                     }
+                }
+            }
 
+            // If nothing specific, just tracking
+            if (gesture === '—' && hands.length > 0) gesture = 'TRACKING';
+
+            return { gesture, hands };
+        }
+
+        function distance(a, b) {
+            return Math.hypot(a.x - b.x, a.y - b.y);
+        }
+
+        // ============================================================
+        //  RENDER
+        // ============================================================
+        function render(results) {
+            const w = canvas.width;
+            const h = canvas.height;
+            if (w === 0 || h === 0) return;
+
+            // Clear
+            ctx.clearRect(0, 0, w, h);
+
+            const landmarksList  = results.multiHandLandmarks;
+            const handednessList = results.multiHandedness;
+
+            // Update hand count
+            const count = landmarksList ? landmarksList.length : 0;
+            handCountEl.textContent = count;
+
+            if (count === 0) {
+                gestureDisp.textContent = '—';
+                gestureDisp.className = 'value';
+                gestureLabel.textContent = '⟡';
+                gestureLabel.className = '';
+                return;
+            }
+
+            // Detect gestures
+            const gestResult = detectGestures(landmarksList, handednessList, w, h);
+            const gesture = gestResult.gesture;
+            const hands   = gestResult.hands;
+
+            gestureStr = gesture;
+            gestureDisp.textContent = gesture;
+            gestureDisp.className = 'value';
+
+            // Update gesture label
+            if (gesture !== '—' && gesture !== 'TRACKING') {
+                gestureLabel.textContent = gesture;
+                gestureLabel.className = 'active';
+            } else {
+                gestureLabel.textContent = '⟡';
+                gestureLabel.className = '';
+            }
+
+            // ---- Draw each hand ----
+            for (let i = 0; i < landmarksList.length; i++) {
+                const lm = landmarksList[i];
+                const isLeft = handednessList && handednessList[i] &&
+                    handednessList[i][0] && handednessList[i][0].categoryName === 'Left';
+                const color  = isLeft ? COLORS.left.primary : COLORS.right.primary;
+                const glow   = isLeft ? 18 : 18;
+
+                // Convert to canvas coords (mirrored)
+                const pts = lm.map(l => getPoint(l, w, h));
+
+                // ---- Draw skeleton connections ----
+                for (const [a, b] of HAND_CONNECTIONS) {
+                    drawGlowLine(ctx, pts[a].x, pts[a].y, pts[b].x, pts[b].y,
+                        color, 2.0, glow);
+                }
+
+                // ---- Draw palm nodes slightly larger ----
+                const palmNodes = [0, 5, 9, 13, 17];
+                for (const idx of palmNodes) {
+                    drawLandmark(ctx, pts[idx].x, pts[idx].y, color, 3.0, 16);
+                }
+
+                // ---- Draw finger landmarks with pulse ----
+                const pulse = Math.sin(Date.now() / 180 + i * 1.5) * 1.2 + 3.2;
+                for (let j = 0; j < lm.length; j++) {
+                    const radius = palmNodes.includes(j) ? 2.8 : (j % 4 === 0 ? 4.0 : 2.2);
+                    const r = j % 4 === 0 ? radius + pulse * 0.15 : radius;
+                    drawLandmark(ctx, pts[j].x, pts[j].y, color, r, j % 4 === 0 ? 22 : 14);
+                }
+
+                // ---- Highlight fingertip labels ----
+                for (let t = 0; t < FINGERTIPS.length; t++) {
+                    const idx = FINGERTIPS[t];
+                    const p = pts[idx];
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.font = '8px Rajdhani, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(TIP_NAMES[t], p.x, p.y - 10);
+                }
+            }
+
+            // ---- Geometric shapes ----
+            if (hands && hands.length >= 1) {
+                // Triangle: thumb → index → middle (per hand)
+                for (const h of hands) {
+                    const t = h.pts[4];
+                    const i = h.pts[8];
+                    const m = h.pts[12];
+                    const d1 = distance(t, i);
+                    const d2 = distance(i, m);
+                    const d3 = distance(t, m);
+                    const maxEdge = Math.max(d1, d2, d3);
+                    if (maxEdge < THRESH.triangle * w * 1.2) {
+                        ctx.beginPath();
+                        ctx.moveTo(t.x, t.y);
+                        ctx.lineTo(i.x, i.y);
+                        ctx.lineTo(m.x, m.y);
+                        ctx.closePath();
+                        ctx.fillStyle = COLORS.tri;
+                        ctx.shadowColor = COLORS.left.primary;
+                        ctx.shadowBlur = 30;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.strokeStyle = COLORS.left.primary;
+                        ctx.lineWidth = 1.2;
+                        ctx.setLineDash([4, 4]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+
+                // Quadrilateral: index → middle → ring → pinky tips (if hand is open)
+                for (const h of hands) {
+                    const i = h.pts[8];
+                    const m = h.pts[12];
+                    const r = h.pts[16];
+                    const p = h.pts[20];
+                    const d_im = distance(i, m);
+                    const d_mr = distance(m, r);
+                    const d_rp = distance(r, p);
+                    if (d_im > 0.04 * w && d_mr > 0.04 * w && d_rp > 0.04 * w) {
+                        ctx.beginPath();
+                        ctx.moveTo(i.x, i.y);
+                        ctx.lineTo(m.x, m.y);
+                        ctx.lineTo(r.x, r.y);
+                        ctx.lineTo(p.x, p.y);
+                        ctx.closePath();
+                        ctx.fillStyle = COLORS.quad;
+                        ctx.shadowColor = COLORS.right.primary;
+                        ctx.shadowBlur = 25;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.strokeStyle = 'rgba(255,0,170,0.25)';
+                        ctx.lineWidth = 0.8;
+                        ctx.setLineDash([3, 5]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+
+                // Index beam between two hands
+                if (hands.length >= 2) {
+                    const h0 = hands[0];
+                    const h1 = hands[1];
+                    const i0 = h0.pts[8];
+                    const i1 = h1.pts[8];
+                    const d = distance(i0, i1);
+                    if (d < THRESH.indexBeam * w) {
+                        // Glowing beam
+                        const grad = ctx.createLinearGradient(i0.x, i0.y, i1.x, i1.y);
+                        grad.addColorStop(0, COLORS.left.primary);
+                        grad.addColorStop(0.5, COLORS.beam);
+                        grad.addColorStop(1, COLORS.right.primary);
+                        ctx.shadowColor = 'rgba(255,204,0,0.6)';
+                        ctx.shadowBlur = 40;
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(i0.x, i0.y);
+                        ctx.lineTo(i1.x, i1.y);
+                        ctx.stroke();
+                        ctx.shadowBlur = 0;
+
+                        // Extra bright core
+                        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(i0.x, i0.y);
+                        ctx.lineTo(i1.x, i1.y);
+                        ctx.stroke();
+
+                        // Pulse effect on beam
+                        const beamPulse = Math.sin(Date.now() / 300) * 0.3 + 0.7;
+                        ctx.shadowColor = 'rgba(255,204,0,0.3)';
+                        ctx.shadowBlur = 20 * beamPulse;
+                        ctx.strokeStyle = `rgba(255,204,0,${0.15 * beamPulse})`;
+                        ctx.lineWidth = 12;
+                        ctx.beginPath();
+                        ctx.moveTo(i0.x, i0.y);
+                        ctx.lineTo(i1.x, i1.y);
+                        ctx.stroke();
+                        ctx.shadowBlur = 0;
+                    }
+                }
+            }
+        }
+
+        // ============================================================
+        //  MEDIAPIPE SETUP
+        // ============================================================
+        function initMediaPipe() {
+            hands = new Hands({
+                locateFile: (file) => {
+                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${file}`;
+                }
+            });
+
+            hands.setOptions({
+                maxNumHands: 2,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.6,
+                minTrackingConfidence: 0.5
+            });
+
+            hands.onResults((results) => {
+                const now = performance.now();
+                updateFPS(now);
+                render(results);
+            });
+
+            loading.classList.add('done');
+        }
+
+        // ============================================================
+        //  CAMERA
+        // ============================================================
+        async function startCamera() {
+            try {
+                const constraints = {
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                };
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                streaming = true;
+
+                await video.play();
+
+                // Wait for video to be ready
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        resolve();
+                    };
+                    // fallback if already loaded
+                    if (video.readyState >= 2) resolve();
                 });
 
+                resizeCanvas();
 
-        video.srcObject =
-            stream;
+                // MediaPipe Camera utility
+                cameraInstance = new Camera(video, {
+                    onFrame: async () => {
+                        if (hands && streaming) {
+                            try {
+                                await hands.send({ image: video });
+                            } catch (e) {
+                                // silently fail on frame errors
+                            }
+                        }
+                    },
+                    width: 640,
+                    height: 480
+                });
 
+                cameraInstance.start().catch((e) => {
+                    showError('Không thể khởi động MediaPipe Camera: ' + e.message);
+                });
 
-        await video.play();
+                cameraBtn.classList.add('hidden');
 
-
-        startScreen.style.display =
-            "none";
-
-
-        resize();
-
-
-        await startTracking();
-
-    }
-    catch(error){
-
-        console.error(
-            error
-        );
-
-
-        errorBox.textContent =
-            "Không mở được camera: "
-            +
-            (
-                error.message
-                ||
-                "Unknown error"
-            );
-
-
-        startButton.disabled =
-            false;
-
-    }
-
-}
-
-
-/* =====================================================
-   HOME
-===================================================== */
-
-homeButton.addEventListener(
-    "click",
-    function(){
-
-        closeSocialMenu();
-
-    }
-);
-
-
-/* =====================================================
-   START BUTTON
-===================================================== */
-
-startButton.addEventListener(
-    "click",
-    startCamera
-);
-
-
-/* =====================================================
-   CLEANUP
-===================================================== */
-
-window.addEventListener(
-    "beforeunload",
-    function(){
-
-        tracking =
-            false;
-
-
-        if(
-            video.srcObject
-        ){
-
-            video.srcObject
-                .getTracks()
-                .forEach(
-                    function(track){
-
-                        track.stop();
-
-                    }
-                );
-
+            } catch (e) {
+                if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+                    showError('⚠️ Quyền camera bị từ chối. Vui lòng cho phép camera trong trình duyệt.');
+                } else if (e.name === 'NotFoundError') {
+                    showError('⚠️ Không tìm thấy camera. Kiểm tra kết nối thiết bị.');
+                } else if (e.name === 'NotReadableError') {
+                    showError('⚠️ Camera đang được ứng dụng khác sử dụng.');
+                } else {
+                    showError('⚠️ Lỗi camera: ' + e.message);
+                }
+            }
         }
 
-    }
-);
+        function stopCamera() {
+            if (cameraInstance) {
+                try { cameraInstance.stop(); } catch(e) {}
+                cameraInstance = null;
+            }
+            if (video.srcObject) {
+                const tracks = video.srcObject.getTracks();
+                tracks.forEach(t => t.stop());
+                video.srcObject = null;
+            }
+            streaming = false;
+        }
 
-</script>
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.remove('hidden');
+        }
 
+        // ============================================================
+        //  EVENT LISTENERS
+        // ============================================================
+        cameraBtn.addEventListener('click', () => {
+            startCamera();
+        });
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        initMediaPipe();
+        resizeCanvas();
+    </script>
 </body>
 </html>
