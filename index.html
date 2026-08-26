@@ -1,16 +1,25 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
       content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
+      initial-scale=1,
+      maximum-scale=1,
+      user-scalable=no">
 
-<title>SpeedCam Mobile</title>
+<title>AI SpeedCam</title>
+
+<!-- TensorFlow.js -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+
+<!-- COCO-SSD -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -22,57 +31,64 @@ html,body{
     height:100%;
     overflow:hidden;
     background:#05070a;
-    font-family:Arial,Helvetica,sans-serif;
-    color:white;
+    color:#fff;
+    font-family:Arial,sans-serif;
 }
 
 #app{
     position:relative;
     width:100%;
     height:100%;
-    background:#05070a;
+    overflow:hidden;
 }
 
-#camera{
+#video{
     position:absolute;
+    inset:0;
+
     width:100%;
     height:100%;
+
     object-fit:cover;
-    transform:scaleX(-1);
+
     background:#000;
 }
 
-#canvas{
+#overlay{
     position:absolute;
     inset:0;
+
     width:100%;
     height:100%;
+
     pointer-events:none;
 }
 
-#top{
+/* TOP */
+
+.top{
     position:absolute;
     top:0;
     left:0;
     right:0;
+
     padding:
         calc(14px + env(safe-area-inset-top))
-        15px
-        15px;
+        15px 18px;
 
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
+    align-items:center;
 
     background:linear-gradient(
-        rgba(0,0,0,.7),
-        rgba(0,0,0,0)
+        rgba(0,0,0,.75),
+        transparent
     );
 }
 
 .logo{
-    font-size:18px;
-    font-weight:800;
+    font-size:19px;
+    font-weight:900;
     letter-spacing:2px;
 }
 
@@ -80,102 +96,135 @@ html,body{
     display:flex;
     align-items:center;
     gap:7px;
-    font-size:12px;
-    opacity:.9;
+
+    font-size:11px;
 }
 
-.dot{
+.statusDot{
     width:9px;
     height:9px;
     border-radius:50%;
+
     background:#777;
 }
 
-.dot.on{
-    background:#00ff91;
-    box-shadow:0 0 12px #00ff91;
+.statusDot.ready{
+    background:#00ff95;
+    box-shadow:0 0 12px #00ff95;
 }
 
-#speedBox{
+/* SPEED */
+
+.speedPanel{
     position:absolute;
-    top:85px;
+
+    top:75px;
     left:50%;
+
     transform:translateX(-50%);
+
+    min-width:205px;
+
+    padding:13px 20px;
+
     text-align:center;
 
-    padding:12px 22px;
-    min-width:190px;
+    border-radius:20px;
 
-    background:rgba(0,0,0,.52);
-    border:1px solid rgba(255,255,255,.16);
-    border-radius:18px;
+    background:rgba(0,0,0,.55);
+
+    border:1px solid
+    rgba(255,255,255,.15);
 
     backdrop-filter:blur(12px);
 }
 
-#speed{
-    font-size:46px;
+.speed{
+    font-size:44px;
     font-weight:900;
     line-height:1;
 }
 
-.unit{
+.speedUnit{
     margin-top:5px;
-    font-size:13px;
-    letter-spacing:2px;
+
+    font-size:11px;
+    letter-spacing:3px;
+
     opacity:.65;
 }
 
-#info{
-    position:absolute;
-    left:15px;
-    right:15px;
-    bottom:145px;
+/* INFO */
 
-    padding:13px;
+.info{
+    position:absolute;
+
+    left:12px;
+    right:12px;
+
+    bottom:
+        calc(125px + env(safe-area-inset-bottom));
+
+    padding:12px;
+
+    border-radius:17px;
 
     background:rgba(0,0,0,.6);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:16px;
+
+    border:1px solid
+    rgba(255,255,255,.13);
 
     backdrop-filter:blur(12px);
 }
 
-.row{
+.infoRow{
     display:flex;
     justify-content:space-between;
+
     margin:5px 0;
-    font-size:14px;
+
+    font-size:13px;
 }
 
 .value{
     font-weight:bold;
 }
 
-#controls{
+/* CONTROLS */
+
+.controls{
     position:absolute;
-    left:15px;
-    right:15px;
+
+    left:12px;
+    right:12px;
+
     bottom:
-        calc(18px + env(safe-area-inset-bottom));
+        calc(15px + env(safe-area-inset-bottom));
 
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:8px;
 }
 
 button{
-    border:0;
-    border-radius:14px;
-    padding:14px 10px;
+    border:none;
 
-    color:white;
-    background:rgba(20,25,32,.9);
+    padding:14px 8px;
 
-    border:1px solid rgba(255,255,255,.13);
+    border-radius:13px;
 
-    font-size:13px;
-    font-weight:700;
+    background:#151b23;
+
+    color:#fff;
+
+    font-weight:800;
+    font-size:12px;
+
+    border:1px solid
+    rgba(255,255,255,.12);
 }
 
 button:active{
@@ -183,12 +232,14 @@ button:active{
 }
 
 .primary{
-    background:#1677ff;
+    background:#1478ff;
 }
 
-.danger{
-    background:#d71938;
+.stop{
+    background:#c71838;
 }
+
+/* START */
 
 #startScreen{
     position:absolute;
@@ -197,130 +248,196 @@ button:active{
     z-index:20;
 
     display:flex;
-    flex-direction:column;
+
     align-items:center;
     justify-content:center;
+
+    flex-direction:column;
+
+    padding:25px;
 
     text-align:center;
 
     background:
         radial-gradient(
             circle at center,
-            #172235 0%,
-            #05070a 60%
+            #172438,
+            #05070a 65%
         );
-
-    padding:25px;
 }
 
 #startScreen h1{
-    font-size:32px;
+    font-size:34px;
+
     letter-spacing:3px;
+
     margin-bottom:12px;
 }
 
 #startScreen p{
-    max-width:330px;
+    max-width:340px;
+
     line-height:1.6;
+
     opacity:.65;
-    margin-bottom:28px;
+
+    margin-bottom:25px;
 }
 
-#startBtn{
+.startButton{
     width:230px;
-    padding:17px;
-    background:#1677ff;
-    border-radius:16px;
-    font-size:15px;
-    box-shadow:0 0 30px rgba(22,119,255,.35);
+
+    background:#1478ff;
+
+    box-shadow:
+        0 0 30px
+        rgba(20,120,255,.35);
 }
 
-#setup{
+/* LOADING */
+
+#loading{
     position:absolute;
     inset:0;
-    z-index:15;
+
+    z-index:30;
 
     display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:rgba(0,0,0,.85);
+}
+
+.spinner{
+    width:45px;
+    height:45px;
+
+    border:4px solid
+    rgba(255,255,255,.15);
+
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+    margin-bottom:15px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* SETTINGS */
+
+#settings{
+    position:absolute;
+    inset:0;
+
+    z-index:40;
+
+    display:none;
+
     align-items:center;
     justify-content:center;
 
     padding:20px;
 
     background:rgba(0,0,0,.75);
+
     backdrop-filter:blur(10px);
 }
 
-.panel{
+.card{
     width:100%;
     max-width:360px;
 
     padding:22px;
 
-    background:#10151c;
-    border:1px solid rgba(255,255,255,.12);
     border-radius:20px;
+
+    background:#10151c;
+
+    border:1px solid
+    rgba(255,255,255,.13);
 }
 
-.panel h2{
+.card h2{
     margin-bottom:18px;
 }
 
 label{
     display:block;
-    margin-top:14px;
-    margin-bottom:7px;
-    font-size:13px;
-    opacity:.7;
+
+    margin:
+        14px 0 7px;
+
+    font-size:12px;
+
+    opacity:.65;
 }
 
 input{
     width:100%;
-    padding:14px;
 
-    border-radius:12px;
-    border:1px solid #303944;
+    padding:13px;
+
+    border-radius:11px;
+
+    border:1px solid #303844;
 
     background:#070a0e;
-    color:white;
+
+    color:#fff;
+
+    font-size:16px;
 
     outline:none;
-    font-size:16px;
 }
 
-.panelButtons{
+.cardButtons{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-top:20px;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:8px;
+
+    margin-top:18px;
 }
 
-#warning{
+.warning{
     position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
 
     z-index:10;
 
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
     display:none;
 
-    padding:14px 24px;
+    padding:13px 23px;
 
     border-radius:50px;
 
-    background:#e50032;
-    box-shadow:0 0 35px rgba(229,0,50,.55);
+    background:#df1538;
 
-    font-size:20px;
     font-weight:900;
+
+    box-shadow:
+        0 0 35px
+        rgba(223,21,56,.5);
 }
 
-.small{
-    font-size:11px;
-    opacity:.5;
-    text-align:center;
-    margin-top:12px;
-}
 </style>
 </head>
 
@@ -328,111 +445,170 @@ input{
 
 <div id="app">
 
-    <video id="camera"
+    <video id="video"
            autoplay
            playsinline
            muted></video>
 
-    <canvas id="canvas"></canvas>
+    <canvas id="overlay"></canvas>
 
-    <div id="top">
+    <div class="top">
 
         <div class="logo">
-            SPEEDCAM
+            AI SPEEDCAM
         </div>
 
         <div class="status">
-            <span id="dot" class="dot"></span>
-            <span id="statusText">CAMERA OFF</span>
+
+            <span
+                id="statusDot"
+                class="statusDot">
+            </span>
+
+            <span id="statusText">
+                CAMERA OFF
+            </span>
+
         </div>
 
     </div>
 
-    <div id="speedBox">
 
-        <div id="speed">0</div>
+    <div class="speedPanel">
 
-        <div class="unit">
+        <div
+            id="speed"
+            class="speed">
+            0.0
+        </div>
+
+        <div class="speedUnit">
             KM/H
         </div>
 
     </div>
 
-    <div id="warning">
-        SPEED LIMIT
+
+    <div
+        id="warning"
+        class="warning">
+
+        ⚠ VƯỢT GIỚI HẠN
+
     </div>
 
-    <div id="info">
 
-        <div class="row">
+    <div class="info">
+
+        <div class="infoRow">
+            <span>AI</span>
+            <span
+                id="aiStatus"
+                class="value">
+                Chưa tải
+            </span>
+        </div>
+
+        <div class="infoRow">
+            <span>Xe đang theo dõi</span>
+            <span
+                id="vehicleCount"
+                class="value">
+                0
+            </span>
+        </div>
+
+        <div class="infoRow">
             <span>Khoảng cách</span>
-            <span class="value">
-                <span id="distanceDisplay">10</span> m
+            <span
+                id="distanceText"
+                class="value">
+                10 m
             </span>
         </div>
 
-        <div class="row">
-            <span>Giới hạn</span>
-            <span class="value">
-                <span id="limitDisplay">50</span> km/h
-            </span>
-        </div>
-
-        <div class="row">
+        <div class="infoRow">
             <span>Trạng thái</span>
-            <span class="value" id="measurementStatus">
-                Đang chờ
+            <span
+                id="measureStatus"
+                class="value">
+                Chờ
             </span>
         </div>
 
     </div>
 
-    <div id="controls">
 
-        <button class="primary" id="measureBtn">
-            BẮT ĐẦU ĐO
+    <div class="controls">
+
+        <button
+            id="measureBtn"
+            class="primary">
+
+            ▶ BẮT ĐẦU ĐO
+
         </button>
 
         <button id="settingsBtn">
-            CÀI ĐẶT
-        </button>
 
-        <button id="line1Btn">
-            ĐẶT VẠCH 1
-        </button>
+            ⚙ CÀI ĐẶT
 
-        <button id="line2Btn">
-            ĐẶT VẠCH 2
         </button>
 
     </div>
 
+
+    <!-- START -->
 
     <div id="startScreen">
 
-        <h1>SPEEDCAM</h1>
+        <h1>
+            AI SPEEDCAM
+        </h1>
 
         <p>
-            Camera sẽ được sử dụng để phát hiện
-            chuyển động và ước tính tốc độ của
-            vật thể đi qua hai vạch đo.
+            AI sẽ nhận diện và theo dõi
+            ô tô, xe máy, xe buýt và xe tải
+            trong camera.
         </p>
 
-        <button id="startBtn">
+        <button
+            id="startBtn"
+            class="startButton">
+
             📷 BẬT CAMERA
+
         </button>
 
     </div>
 
 
-    <div id="setup">
+    <!-- LOADING -->
 
-        <div class="panel">
+    <div id="loading">
 
-            <h2>⚙ Cài đặt</h2>
+        <div class="spinner"></div>
+
+        <div id="loadingText">
+            Đang tải AI...
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div id="settings">
+
+        <div class="card">
+
+            <h2>
+                ⚙ Cài đặt đo
+            </h2>
 
             <label>
-                Khoảng cách giữa 2 vạch (m)
+                Khoảng cách thực giữa
+                2 vạch (m)
             </label>
 
             <input
@@ -450,25 +626,25 @@ input{
                 id="limitInput"
                 type="number"
                 min="1"
-                step="1"
                 value="50">
 
-            <div class="panelButtons">
+            <div class="cardButtons">
 
-                <button id="cancelSettings">
+                <button
+                    id="cancelSettings">
+
                     HỦY
+
                 </button>
 
-                <button class="primary"
-                        id="saveSettings">
+                <button
+                    id="saveSettings"
+                    class="primary">
+
                     LƯU
+
                 </button>
 
-            </div>
-
-            <div class="small">
-                Khoảng cách càng chính xác,
-                kết quả càng đáng tin cậy.
             </div>
 
         </div>
@@ -480,61 +656,67 @@ input{
 
 <script>
 
+/* ==========================================
+   ELEMENTS
+========================================== */
+
 const video =
-    document.getElementById("camera");
+    document.getElementById("video");
 
 const canvas =
-    document.getElementById("canvas");
+    document.getElementById("overlay");
 
 const ctx =
-    canvas.getContext("2d", {
-        willReadFrequently:true
-    });
+    canvas.getContext("2d");
 
 const startScreen =
-    document.getElementById("startScreen");
+    document.getElementById(
+        "startScreen"
+    );
 
-const startBtn =
-    document.getElementById("startBtn");
+const loading =
+    document.getElementById(
+        "loading"
+    );
 
-const dot =
-    document.getElementById("dot");
+const loadingText =
+    document.getElementById(
+        "loadingText"
+    );
+
+const statusDot =
+    document.getElementById(
+        "statusDot"
+    );
 
 const statusText =
-    document.getElementById("statusText");
+    document.getElementById(
+        "statusText"
+    );
+
+const aiStatus =
+    document.getElementById(
+        "aiStatus"
+    );
+
+const vehicleCount =
+    document.getElementById(
+        "vehicleCount"
+    );
+
+const measureStatus =
+    document.getElementById(
+        "measureStatus"
+    );
 
 const speedElement =
-    document.getElementById("speed");
-
-const measurementStatus =
     document.getElementById(
-        "measurementStatus"
+        "speed"
     );
 
 const warning =
-    document.getElementById("warning");
-
-const setup =
-    document.getElementById("setup");
-
-const distanceInput =
     document.getElementById(
-        "distanceInput"
-    );
-
-const limitInput =
-    document.getElementById(
-        "limitInput"
-    );
-
-const distanceDisplay =
-    document.getElementById(
-        "distanceDisplay"
-    );
-
-const limitDisplay =
-    document.getElementById(
-        "limitDisplay"
+        "warning"
     );
 
 const measureBtn =
@@ -542,21 +724,17 @@ const measureBtn =
         "measureBtn"
     );
 
-const settingsBtn =
+const settingsPanel =
     document.getElementById(
-        "settingsBtn"
+        "settings"
     );
 
-const line1Btn =
-    document.getElementById(
-        "line1Btn"
-    );
 
-const line2Btn =
-    document.getElementById(
-        "line2Btn"
-    );
+/* ==========================================
+   VARIABLES
+========================================== */
 
+let model = null;
 
 let stream = null;
 
@@ -564,42 +742,87 @@ let running = false;
 
 let measuring = false;
 
-let line1 = 0.38;
 
-let line2 = 0.62;
+/*
+   Hai vạch trong tọa độ tương đối
+   của camera.
+*/
+
+const LINE_1 = 0.38;
+
+const LINE_2 = 0.62;
+
+
+/*
+   Khoảng cách thật giữa hai vạch.
+*/
 
 let distanceMeters = 10;
 
 let speedLimit = 50;
 
-let previousFrame = null;
 
-let lastMotion = 0;
+/*
+   Tracking.
+*/
 
-let crossingState = 0;
+let tracks = [];
 
-let firstCrossTime = 0;
-
-let secondCrossTime = 0;
-
-let currentSpeed = 0;
-
-let motionHistory = [];
+let nextTrackId = 1;
 
 
-/* =========================
+/*
+   Chỉ những class này mới được
+   xem là phương tiện.
+*/
+
+const VEHICLE_CLASSES = [
+
+    "car",
+
+    "motorcycle",
+
+    "bus",
+
+    "truck"
+
+];
+
+
+/*
+   Tần suất AI.
+   Không chạy quá nhanh để điện thoại
+   đỡ nóng.
+*/
+
+const DETECTION_INTERVAL = 180;
+
+let lastDetection = 0;
+
+let detecting = false;
+
+
+/* ==========================================
    CAMERA
-========================= */
+========================================== */
 
 async function startCamera(){
 
     try{
+
+        loading.style.display =
+            "flex";
+
+        loadingText.textContent =
+            "Đang mở camera...";
+
 
         stream =
             await navigator.mediaDevices
             .getUserMedia({
 
                 video:{
+
                     facingMode:{
                         ideal:"environment"
                     },
@@ -611,38 +834,78 @@ async function startCamera(){
                     height:{
                         ideal:720
                     }
+
                 },
 
                 audio:false
 
             });
 
-        video.srcObject = stream;
+
+        video.srcObject =
+            stream;
+
 
         await video.play();
+
+
+        loadingText.textContent =
+            "Đang tải AI...";
+
+
+        /*
+           MobileNet Lite:
+           nhẹ hơn và phù hợp hơn
+           cho trình duyệt điện thoại.
+        */
+
+        model =
+            await cocoSsd.load({
+                base:
+                    "lite_mobilenet_v2"
+            });
+
+
+        loading.style.display =
+            "none";
 
         startScreen.style.display =
             "none";
 
-        dot.classList.add("on");
+
+        statusDot.classList.add(
+            "ready"
+        );
 
         statusText.textContent =
-            "CAMERA ON";
+            "CAMERA + AI ON";
+
+        aiStatus.textContent =
+            "READY";
+
 
         running = true;
 
+
         resizeCanvas();
 
-        requestAnimationFrame(loop);
+        requestAnimationFrame(
+            renderLoop
+        );
+
 
     }catch(error){
 
         console.error(error);
 
+        loading.style.display =
+            "none";
+
+
         alert(
-            "Không thể mở camera.\n\n" +
-            "Hãy cho phép trình duyệt sử dụng camera " +
-            "và mở website bằng HTTPS hoặc localhost."
+            "Không thể khởi động AI Camera.\n\n" +
+            "Hãy cho phép camera và mở website " +
+            "bằng HTTPS hoặc localhost."
         );
 
     }
@@ -650,219 +913,469 @@ async function startCamera(){
 }
 
 
-startBtn.addEventListener(
-    "click",
-    startCamera
-);
-
-
-/* =========================
-   CANVAS
-========================= */
+/* ==========================================
+   RESIZE
+========================================== */
 
 function resizeCanvas(){
 
-    canvas.width =
-        video.videoWidth ||
-        window.innerWidth;
-
-    canvas.height =
-        video.videoHeight ||
-        window.innerHeight;
-
-}
-
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
-
-
-/* =========================
-   DRAW MEASUREMENT LINES
-========================= */
-
-function drawLines(){
-
-    if(!canvas.width || !canvas.height)
-        return;
-
-    const y1 =
-        canvas.height * line1;
-
-    const y2 =
-        canvas.height * line2;
-
-    ctx.save();
-
-    ctx.lineWidth = 4;
-
-    ctx.setLineDash([14,10]);
-
-    ctx.strokeStyle =
-        "rgba(0,255,150,.9)";
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,
-        y1
-    );
-
-    ctx.lineTo(
-        canvas.width,
-        y1
-    );
-
-    ctx.stroke();
-
-
-    ctx.strokeStyle =
-        "rgba(255,80,90,.9)";
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,
-        y2
-    );
-
-    ctx.lineTo(
-        canvas.width,
-        y2
-    );
-
-    ctx.stroke();
-
-    ctx.setLineDash([]);
-
-    ctx.font =
-        "bold 15px Arial";
-
-    ctx.fillStyle =
-        "white";
-
-    ctx.fillText(
-        "VẠCH 1",
-        15,
-        y1 - 10
-    );
-
-    ctx.fillText(
-        "VẠCH 2",
-        15,
-        y2 - 10
-    );
-
-    ctx.restore();
-
-}
-
-
-/* =========================
-   MOTION DETECTION
-========================= */
-
-function detectMotion(){
-
     if(
-        video.readyState <
-        HTMLMediaElement.HAVE_CURRENT_DATA
+        !video.videoWidth ||
+        !video.videoHeight
     )
         return;
 
-    const w = 160;
-    const h = 120;
 
-    const temp =
-        document.createElement("canvas");
+    canvas.width =
+        video.videoWidth;
 
-    temp.width = w;
-    temp.height = h;
+    canvas.height =
+        video.videoHeight;
 
-    const tctx =
-        temp.getContext("2d", {
-            willReadFrequently:true
-        });
+}
 
-    tctx.drawImage(
-        video,
-        0,
-        0,
-        w,
-        h
-    );
 
-    const frame =
-        tctx.getImageData(
-            0,
-            0,
-            w,
-            h
+/* ==========================================
+   AI DETECTION
+========================================== */
+
+async function detectVehicles(){
+
+    if(
+        !model ||
+        !video.videoWidth ||
+        detecting
+    )
+        return;
+
+
+    detecting = true;
+
+
+    try{
+
+        const predictions =
+            await model.detect(
+                video,
+                15,
+                0.55
+            );
+
+
+        const vehicles =
+            predictions.filter(
+                p =>
+                    VEHICLE_CLASSES
+                    .includes(p.class)
+            );
+
+
+        updateTracking(
+            vehicles
         );
 
-    if(!previousFrame){
 
-        previousFrame =
-            frame.data.slice();
+        vehicleCount.textContent =
+            tracks.length;
 
-        return;
+
+    }catch(error){
+
+        console.error(error);
 
     }
 
 
-    let totalDifference = 0;
+    detecting = false;
 
-    let changedPixels = 0;
+}
+
+
+/* ==========================================
+   TRACKING
+========================================== */
+
+function updateTracking(
+    detections
+){
+
+    const now =
+        performance.now();
+
+
+    const usedTracks =
+        new Set();
 
 
     /*
-       Chỉ kiểm tra vùng giữa màn hình.
-       Điều này giúp giảm nhiễu.
+       Tạo danh sách detection
+       với tâm của bounding box.
+    */
+
+    const objects =
+        detections.map(
+            d => {
+
+                const [
+                    x,
+                    y,
+                    w,
+                    h
+                ] = d.bbox;
+
+
+                return {
+
+                    x,
+                    y,
+                    w,
+                    h,
+
+                    cx:
+                        x + w / 2,
+
+                    cy:
+                        y + h / 2,
+
+                    class:
+                        d.class,
+
+                    score:
+                        d.score
+
+                };
+
+            }
+        );
+
+
+    /*
+       Ghép detection hiện tại
+       với track gần nhất.
     */
 
     for(
-        let y = 10;
-        y < h - 10;
-        y += 3
+        const object of objects
     ){
 
+        let bestTrack = null;
+
+        let bestDistance =
+            Infinity;
+
+
         for(
-            let x = 10;
-            x < w - 10;
-            x += 3
+            const track of tracks
         ){
 
-            const i =
-                (y * w + x) * 4;
+            if(
+                usedTracks.has(
+                    track.id
+                )
+            )
+                continue;
 
-            const r =
-                Math.abs(
-                    frame.data[i] -
-                    previousFrame[i]
+
+            const dx =
+                object.cx -
+                track.cx;
+
+            const dy =
+                object.cy -
+                track.cy;
+
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
                 );
 
-            const g =
-                Math.abs(
-                    frame.data[i+1] -
-                    previousFrame[i+1]
+
+            /*
+               Ngưỡng ghép.
+               Dựa một phần vào kích thước
+               của vật thể.
+            */
+
+            const threshold =
+                Math.max(
+                    70,
+                    track.w * 0.8
                 );
 
-            const b =
-                Math.abs(
-                    frame.data[i+2] -
-                    previousFrame[i+2]
-                );
 
-            const diff =
-                (r + g + b) / 3;
+            if(
+                distance <
+                threshold &&
+                distance <
+                bestDistance
+            ){
 
-            if(diff > 35){
+                bestDistance =
+                    distance;
 
-                totalDifference +=
-                    diff;
+                bestTrack =
+                    track;
 
-                changedPixels++;
+            }
+
+        }
+
+
+        if(bestTrack){
+
+            updateTrack(
+                bestTrack,
+                object,
+                now
+            );
+
+            usedTracks.add(
+                bestTrack.id
+            );
+
+        }else{
+
+            /*
+               Tạo ID mới.
+            */
+
+            tracks.push({
+
+                id:
+                    nextTrackId++,
+
+                cx:
+                    object.cx,
+
+                cy:
+                    object.cy,
+
+                previousCy:
+                    object.cy,
+
+                x:
+                    object.x,
+
+                y:
+                    object.y,
+
+                w:
+                    object.w,
+
+                h:
+                    object.h,
+
+                class:
+                    object.class,
+
+                score:
+                    object.score,
+
+                lastSeen:
+                    now,
+
+                crossed1:
+                    false,
+
+                crossed2:
+                    false,
+
+                firstTime:
+                    0,
+
+                speed:
+                    null
+
+            });
+
+        }
+
+    }
+
+
+    /*
+       Xóa track biến mất quá lâu.
+    */
+
+    tracks =
+        tracks.filter(
+            track =>
+                now -
+                track.lastSeen
+                < 700
+        );
+
+}
+
+
+/* ==========================================
+   UPDATE TRACK
+========================================== */
+
+function updateTrack(
+    track,
+    object,
+    now
+){
+
+    track.previousCy =
+        track.cy;
+
+
+    /*
+       Làm mượt vị trí.
+    */
+
+    track.cx =
+        track.cx * 0.35 +
+        object.cx * 0.65;
+
+
+    track.cy =
+        track.cy * 0.35 +
+        object.cy * 0.65;
+
+
+    track.x =
+        object.x;
+
+    track.y =
+        object.y;
+
+    track.w =
+        object.w;
+
+    track.h =
+        object.h;
+
+    track.class =
+        object.class;
+
+    track.score =
+        object.score;
+
+    track.lastSeen =
+        now;
+
+
+    /*
+       Chuyển sang tọa độ tương đối.
+    */
+
+    const normalizedY =
+        track.cy /
+        canvas.height;
+
+
+    const previousNormalizedY =
+        track.previousCy /
+        canvas.height;
+
+
+    /*
+       Xác định hướng chuyển động.
+    */
+
+    const movingDown =
+        normalizedY >
+        previousNormalizedY;
+
+
+    /*
+       Xe đi xuống và cắt Vạch 1.
+    */
+
+    if(
+        !track.crossed1 &&
+        movingDown &&
+        normalizedY >= LINE_1
+    ){
+
+        track.crossed1 =
+            true;
+
+        track.firstTime =
+            now;
+
+        measureStatus.textContent =
+            "Xe #" +
+            track.id +
+            " qua Vạch 1";
+
+    }
+
+
+    /*
+       Sau khi qua Vạch 1,
+       xe tiếp tục cắt Vạch 2.
+    */
+
+    if(
+        track.crossed1 &&
+        !track.crossed2 &&
+        movingDown &&
+        normalizedY >= LINE_2
+    ){
+
+        track.crossed2 =
+            true;
+
+
+        const elapsed =
+            (
+                now -
+                track.firstTime
+            ) / 1000;
+
+
+        if(
+            elapsed > 0.1 &&
+            elapsed < 30
+        ){
+
+            const metersPerSecond =
+                distanceMeters /
+                elapsed;
+
+
+            const kmh =
+                metersPerSecond *
+                3.6;
+
+
+            track.speed =
+                kmh;
+
+
+            /*
+               Hiển thị tốc độ của
+               chiếc xe vừa đo.
+            */
+
+            speedElement.textContent =
+                kmh.toFixed(1);
+
+
+            measureStatus.textContent =
+                "Xe #" +
+                track.id +
+                " — " +
+                kmh.toFixed(1) +
+                " km/h";
+
+
+            /*
+               Cảnh báo nếu vượt giới hạn.
+            */
+
+            if(
+                kmh >
+                speedLimit
+            ){
+
+                showWarning();
 
             }
 
@@ -870,208 +1383,14 @@ function detectMotion(){
 
     }
 
-
-    previousFrame =
-        frame.data.slice();
-
-
-    const motion =
-        changedPixels > 0
-        ? totalDifference / changedPixels
-        : 0;
-
-
-    motionHistory.push(motion);
-
-    if(motionHistory.length > 8)
-        motionHistory.shift();
-
-
-    const average =
-        motionHistory.reduce(
-            (a,b)=>a+b,
-            0
-        ) /
-        motionHistory.length;
-
-
-    /*
-       Tạo tín hiệu chuyển động
-    */
-
-    if(
-        average > 42 &&
-        Date.now() - lastMotion > 180
-    ){
-
-        lastMotion =
-            Date.now();
-
-        registerCrossing();
-
-    }
-
 }
 
 
-/* =========================
-   SPEED MEASUREMENT
-========================= */
+/* ==========================================
+   DRAW
+========================================== */
 
-function registerCrossing(){
-
-    if(!measuring)
-        return;
-
-
-    const now =
-        performance.now();
-
-
-    /*
-       Lần đầu:
-       vật thể bắt đầu đi qua vùng đo
-    */
-
-    if(crossingState === 0){
-
-        crossingState = 1;
-
-        firstCrossTime = now;
-
-        measurementStatus.textContent =
-            "Đã qua vạch 1";
-
-        return;
-
-    }
-
-
-    /*
-       Lần thứ hai
-    */
-
-    if(crossingState === 1){
-
-        /*
-           Chống nhận nhầm nhiều frame
-        */
-
-        if(
-            now - firstCrossTime <
-            250
-        ){
-
-            return;
-
-        }
-
-
-        secondCrossTime = now;
-
-
-        const seconds =
-            (
-                secondCrossTime -
-                firstCrossTime
-            ) / 1000;
-
-
-        if(
-            seconds <= 0 ||
-            seconds > 30
-        ){
-
-            resetMeasurement();
-
-            return;
-
-        }
-
-
-        /*
-           m/s
-        */
-
-        const metersPerSecond =
-            distanceMeters /
-            seconds;
-
-
-        /*
-           km/h
-        */
-
-        currentSpeed =
-            metersPerSecond *
-            3.6;
-
-
-        speedElement.textContent =
-            currentSpeed.toFixed(1);
-
-
-        measurementStatus.textContent =
-            "Đã đo xong";
-
-
-        if(
-            currentSpeed >
-            speedLimit
-        ){
-
-            warning.style.display =
-                "block";
-
-            setTimeout(
-                ()=>{
-                    warning.style.display =
-                        "none";
-                },
-                1500
-            );
-
-        }
-
-
-        crossingState = 2;
-
-
-        setTimeout(
-            resetMeasurement,
-            1500
-        );
-
-    }
-
-}
-
-
-function resetMeasurement(){
-
-    crossingState = 0;
-
-    firstCrossTime = 0;
-
-    secondCrossTime = 0;
-
-    measurementStatus.textContent =
-        measuring
-        ? "Đang chờ vật thể"
-        : "Đang chờ";
-
-}
-
-
-/* =========================
-   MAIN LOOP
-========================= */
-
-function loop(){
-
-    if(!running)
-        return;
-
+function draw(){
 
     ctx.clearRect(
         0,
@@ -1081,24 +1400,303 @@ function loop(){
     );
 
 
-    drawLines();
+    drawMeasurementLines();
 
 
-    if(measuring){
+    for(
+        const track of tracks
+    ){
 
-        detectMotion();
+        drawTrack(
+            track
+        );
 
     }
-
-
-    requestAnimationFrame(loop);
 
 }
 
 
-/* =========================
-   START / STOP
-========================= */
+/* ==========================================
+   DRAW LINES
+========================================== */
+
+function drawMeasurementLines(){
+
+    const y1 =
+        canvas.height *
+        LINE_1;
+
+    const y2 =
+        canvas.height *
+        LINE_2;
+
+
+    ctx.save();
+
+    ctx.lineWidth = 4;
+
+    ctx.setLineDash([
+        16,
+        10
+    ]);
+
+
+    /*
+       Vạch 1
+    */
+
+    ctx.strokeStyle =
+        "#00ff95";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        y1
+    );
+
+    ctx.lineTo(
+        canvas.width,
+        y1
+    );
+
+    ctx.stroke();
+
+
+    /*
+       Vạch 2
+    */
+
+    ctx.strokeStyle =
+        "#ff3154";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        y2
+    );
+
+    ctx.lineTo(
+        canvas.width,
+        y2
+    );
+
+    ctx.stroke();
+
+
+    ctx.setLineDash([]);
+
+
+    ctx.font =
+        "bold 15px Arial";
+
+    ctx.fillStyle =
+        "#fff";
+
+
+    ctx.fillText(
+        "VẠCH 1",
+        15,
+        y1 - 10
+    );
+
+
+    ctx.fillText(
+        "VẠCH 2",
+        15,
+        y2 - 10
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================================
+   DRAW TRACK
+========================================== */
+
+function drawTrack(
+    track
+){
+
+    const x =
+        track.x;
+
+    const y =
+        track.y;
+
+    const w =
+        track.w;
+
+    const h =
+        track.h;
+
+
+    /*
+       Bounding box.
+    */
+
+    ctx.save();
+
+    ctx.lineWidth = 3;
+
+    ctx.strokeStyle =
+        track.speed !== null
+        ? "#00ff95"
+        : "#00aaff";
+
+
+    ctx.strokeRect(
+        x,
+        y,
+        w,
+        h
+    );
+
+
+    /*
+       ID.
+    */
+
+    const label =
+        " #" +
+        track.id +
+        " " +
+        track.class;
+
+
+    ctx.font =
+        "bold 14px Arial";
+
+
+    const labelWidth =
+        ctx.measureText(
+            label
+        ).width + 14;
+
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.75)";
+
+
+    ctx.fillRect(
+        x,
+        y - 25,
+        labelWidth,
+        25
+    );
+
+
+    ctx.fillStyle =
+        "#fff";
+
+
+    ctx.fillText(
+        label,
+        x + 7,
+        y - 8
+    );
+
+
+    /*
+       Điểm tâm tracking.
+    */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        track.cx,
+        track.cy,
+        5,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "#fff";
+
+    ctx.fill();
+
+
+    /*
+       Hiện tốc độ trên xe
+       nếu đã đo.
+    */
+
+    if(
+        track.speed !== null
+    ){
+
+        const text =
+            track.speed.toFixed(1) +
+            " km/h";
+
+
+        ctx.font =
+            "bold 16px Arial";
+
+
+        ctx.fillStyle =
+            "#00ff95";
+
+
+        ctx.fillText(
+            text,
+            x,
+            y + h + 20
+        );
+
+    }
+
+
+    ctx.restore();
+
+}
+
+
+/* ==========================================
+   RENDER LOOP
+========================================== */
+
+function renderLoop(
+    timestamp
+){
+
+    if(!running)
+        return;
+
+
+    if(
+        timestamp -
+        lastDetection >
+        DETECTION_INTERVAL
+    ){
+
+        lastDetection =
+            timestamp;
+
+
+        detectVehicles();
+
+    }
+
+
+    draw();
+
+
+    requestAnimationFrame(
+        renderLoop
+    );
+
+}
+
+
+/* ==========================================
+   MEASUREMENT BUTTON
+========================================== */
 
 measureBtn.addEventListener(
     "click",
@@ -1107,22 +1705,42 @@ measureBtn.addEventListener(
         measuring =
             !measuring;
 
+
         if(measuring){
 
             measureBtn.textContent =
-                "⏹ DỪNG ĐO";
+                "■ DỪNG ĐO";
 
-            measurementStatus.textContent =
-                "Đang chờ vật thể";
+            measureBtn.classList.add(
+                "stop"
+            );
 
-            resetMeasurement();
+            measureStatus.textContent =
+                "Đang theo dõi xe";
+
+            speedElement.textContent =
+                "0.0";
+
+
+            /*
+               Reset tracking để bắt đầu
+               phiên đo mới.
+            */
+
+            tracks = [];
+
+            nextTrackId = 1;
 
         }else{
 
             measureBtn.textContent =
                 "▶ BẮT ĐẦU ĐO";
 
-            measurementStatus.textContent =
+            measureBtn.classList.remove(
+                "stop"
+            );
+
+            measureStatus.textContent =
                 "Đã dừng";
 
         }
@@ -1131,54 +1749,79 @@ measureBtn.addEventListener(
 );
 
 
-/* =========================
+/* ==========================================
    SETTINGS
-========================= */
+========================================== */
 
-settingsBtn.addEventListener(
+document
+.getElementById("settingsBtn")
+.addEventListener(
     "click",
     ()=>{
 
-        distanceInput.value =
+        document
+        .getElementById(
+            "distanceInput"
+        )
+        .value =
             distanceMeters;
 
-        limitInput.value =
+
+        document
+        .getElementById(
+            "limitInput"
+        )
+        .value =
             speedLimit;
 
-        setup.style.display =
+
+        settingsPanel.style.display =
             "flex";
 
     }
 );
 
 
-document.getElementById(
+document
+.getElementById(
     "cancelSettings"
-).addEventListener(
+)
+.addEventListener(
     "click",
     ()=>{
 
-        setup.style.display =
+        settingsPanel.style.display =
             "none";
 
     }
 );
 
 
-document.getElementById(
+document
+.getElementById(
     "saveSettings"
-).addEventListener(
+)
+.addEventListener(
     "click",
     ()=>{
 
         const d =
             parseFloat(
-                distanceInput.value
+                document
+                .getElementById(
+                    "distanceInput"
+                )
+                .value
             );
+
 
         const l =
             parseFloat(
-                limitInput.value
+                document
+                .getElementById(
+                    "limitInput"
+                )
+                .value
             );
 
 
@@ -1210,75 +1853,62 @@ document.getElementById(
         }
 
 
-        distanceMeters = d;
+        distanceMeters =
+            d;
 
-        speedLimit = l;
-
-
-        distanceDisplay.textContent =
-            distanceMeters;
-
-        limitDisplay.textContent =
-            speedLimit;
+        speedLimit =
+            l;
 
 
-        setup.style.display =
+        document
+        .getElementById(
+            "distanceText"
+        )
+        .textContent =
+            d + " m";
+
+
+        settingsPanel.style.display =
             "none";
 
     }
 );
 
 
-/* =========================
-   SET MEASUREMENT LINES
-========================= */
+/* ==========================================
+   WARNING
+========================================== */
 
-line1Btn.addEventListener(
+function showWarning(){
+
+    warning.style.display =
+        "block";
+
+
+    setTimeout(
+        ()=>{
+            warning.style.display =
+                "none";
+        },
+        1400
+    );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+document
+.getElementById("startBtn")
+.addEventListener(
     "click",
-    ()=>{
-
-        /*
-           Đặt vạch 1 tại vị trí
-           tương đối trong camera.
-        */
-
-        line1 = 0.40;
-
-        alert(
-            "Đã đặt VẠCH 1.\n\n" +
-            "Vạch xanh = điểm bắt đầu."
-        );
-
-    }
+    startCamera
 );
-
-
-line2Btn.addEventListener(
-    "click",
-    ()=>{
-
-        line2 = 0.60;
-
-        alert(
-            "Đã đặt VẠCH 2.\n\n" +
-            "Vạch đỏ = điểm kết thúc."
-        );
-
-    }
-);
-
-
-/* =========================
-   INITIAL DISPLAY
-========================= */
-
-distanceDisplay.textContent =
-    distanceMeters;
-
-limitDisplay.textContent =
-    speedLimit;
 
 </script>
 
 </body>
 </html>
+```
