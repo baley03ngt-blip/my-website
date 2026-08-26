@@ -1,235 +1,1284 @@
-import cv2
-import mediapipe as mp
-import time
-import math
-import numpy as np
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
 
-BaseOptions = mp.tasks.BaseOptions
-HandLandmarker = mp.tasks.vision.HandLandmarker
-HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
-VisionRunningMode = mp.tasks.vision.RunningMode
+<title>SpeedCam Mobile</title>
 
-options = HandLandmarkerOptions(
-    base_options=BaseOptions(model_asset_path='hand_landmarker.task'),
-    running_mode=VisionRunningMode.VIDEO,
-    num_hands=2,
-    min_hand_detection_confidence=0.7,
-    min_hand_presence_confidence=0.7,
-    min_tracking_confidence=0.7
-)
-landmarker = HandLandmarker.create_from_options(options)
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-segmenter = None
-try:
-    ImageSegmenter = mp.tasks.vision.ImageSegmenter
-    ImageSegmenterOptions = mp.tasks.vision.ImageSegmenterOptions
-    seg_options = ImageSegmenterOptions(
-        base_options=BaseOptions(model_asset_path='selfie_segmenter.tflite'),
-        running_mode=VisionRunningMode.VIDEO,
-        output_category_mask=True
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#05070a;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+}
+
+#app{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:#05070a;
+}
+
+#camera{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scaleX(-1);
+    background:#000;
+}
+
+#canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+#top{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    padding:
+        calc(14px + env(safe-area-inset-top))
+        15px
+        15px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    background:linear-gradient(
+        rgba(0,0,0,.7),
+        rgba(0,0,0,0)
+    );
+}
+
+.logo{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:12px;
+    opacity:.9;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#777;
+}
+
+.dot.on{
+    background:#00ff91;
+    box-shadow:0 0 12px #00ff91;
+}
+
+#speedBox{
+    position:absolute;
+    top:85px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+
+    padding:12px 22px;
+    min-width:190px;
+
+    background:rgba(0,0,0,.52);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:18px;
+
+    backdrop-filter:blur(12px);
+}
+
+#speed{
+    font-size:46px;
+    font-weight:900;
+    line-height:1;
+}
+
+.unit{
+    margin-top:5px;
+    font-size:13px;
+    letter-spacing:2px;
+    opacity:.65;
+}
+
+#info{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:145px;
+
+    padding:13px;
+
+    background:rgba(0,0,0,.6);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:16px;
+
+    backdrop-filter:blur(12px);
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:5px 0;
+    font-size:14px;
+}
+
+.value{
+    font-weight:bold;
+}
+
+#controls{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:
+        calc(18px + env(safe-area-inset-bottom));
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+button{
+    border:0;
+    border-radius:14px;
+    padding:14px 10px;
+
+    color:white;
+    background:rgba(20,25,32,.9);
+
+    border:1px solid rgba(255,255,255,.13);
+
+    font-size:13px;
+    font-weight:700;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+.primary{
+    background:#1677ff;
+}
+
+.danger{
+    background:#d71938;
+}
+
+#startScreen{
+    position:absolute;
+    inset:0;
+
+    z-index:20;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #172235 0%,
+            #05070a 60%
+        );
+
+    padding:25px;
+}
+
+#startScreen h1{
+    font-size:32px;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+#startScreen p{
+    max-width:330px;
+    line-height:1.6;
+    opacity:.65;
+    margin-bottom:28px;
+}
+
+#startBtn{
+    width:230px;
+    padding:17px;
+    background:#1677ff;
+    border-radius:16px;
+    font-size:15px;
+    box-shadow:0 0 30px rgba(22,119,255,.35);
+}
+
+#setup{
+    position:absolute;
+    inset:0;
+    z-index:15;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(10px);
+}
+
+.panel{
+    width:100%;
+    max-width:360px;
+
+    padding:22px;
+
+    background:#10151c;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:20px;
+}
+
+.panel h2{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-top:14px;
+    margin-bottom:7px;
+    font-size:13px;
+    opacity:.7;
+}
+
+input{
+    width:100%;
+    padding:14px;
+
+    border-radius:12px;
+    border:1px solid #303944;
+
+    background:#070a0e;
+    color:white;
+
+    outline:none;
+    font-size:16px;
+}
+
+.panelButtons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:20px;
+}
+
+#warning{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    z-index:10;
+
+    display:none;
+
+    padding:14px 24px;
+
+    border-radius:50px;
+
+    background:#e50032;
+    box-shadow:0 0 35px rgba(229,0,50,.55);
+
+    font-size:20px;
+    font-weight:900;
+}
+
+.small{
+    font-size:11px;
+    opacity:.5;
+    text-align:center;
+    margin-top:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+    <video id="camera"
+           autoplay
+           playsinline
+           muted></video>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="top">
+
+        <div class="logo">
+            SPEEDCAM
+        </div>
+
+        <div class="status">
+            <span id="dot" class="dot"></span>
+            <span id="statusText">CAMERA OFF</span>
+        </div>
+
+    </div>
+
+    <div id="speedBox">
+
+        <div id="speed">0</div>
+
+        <div class="unit">
+            KM/H
+        </div>
+
+    </div>
+
+    <div id="warning">
+        SPEED LIMIT
+    </div>
+
+    <div id="info">
+
+        <div class="row">
+            <span>Khoảng cách</span>
+            <span class="value">
+                <span id="distanceDisplay">10</span> m
+            </span>
+        </div>
+
+        <div class="row">
+            <span>Giới hạn</span>
+            <span class="value">
+                <span id="limitDisplay">50</span> km/h
+            </span>
+        </div>
+
+        <div class="row">
+            <span>Trạng thái</span>
+            <span class="value" id="measurementStatus">
+                Đang chờ
+            </span>
+        </div>
+
+    </div>
+
+    <div id="controls">
+
+        <button class="primary" id="measureBtn">
+            BẮT ĐẦU ĐO
+        </button>
+
+        <button id="settingsBtn">
+            CÀI ĐẶT
+        </button>
+
+        <button id="line1Btn">
+            ĐẶT VẠCH 1
+        </button>
+
+        <button id="line2Btn">
+            ĐẶT VẠCH 2
+        </button>
+
+    </div>
+
+
+    <div id="startScreen">
+
+        <h1>SPEEDCAM</h1>
+
+        <p>
+            Camera sẽ được sử dụng để phát hiện
+            chuyển động và ước tính tốc độ của
+            vật thể đi qua hai vạch đo.
+        </p>
+
+        <button id="startBtn">
+            📷 BẬT CAMERA
+        </button>
+
+    </div>
+
+
+    <div id="setup">
+
+        <div class="panel">
+
+            <h2>⚙ Cài đặt</h2>
+
+            <label>
+                Khoảng cách giữa 2 vạch (m)
+            </label>
+
+            <input
+                id="distanceInput"
+                type="number"
+                min="0.1"
+                step="0.1"
+                value="10">
+
+            <label>
+                Giới hạn tốc độ (km/h)
+            </label>
+
+            <input
+                id="limitInput"
+                type="number"
+                min="1"
+                step="1"
+                value="50">
+
+            <div class="panelButtons">
+
+                <button id="cancelSettings">
+                    HỦY
+                </button>
+
+                <button class="primary"
+                        id="saveSettings">
+                    LƯU
+                </button>
+
+            </div>
+
+            <div class="small">
+                Khoảng cách càng chính xác,
+                kết quả càng đáng tin cậy.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const video =
+    document.getElementById("camera");
+
+const canvas =
+    document.getElementById("canvas");
+
+const ctx =
+    canvas.getContext("2d", {
+        willReadFrequently:true
+    });
+
+const startScreen =
+    document.getElementById("startScreen");
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const dot =
+    document.getElementById("dot");
+
+const statusText =
+    document.getElementById("statusText");
+
+const speedElement =
+    document.getElementById("speed");
+
+const measurementStatus =
+    document.getElementById(
+        "measurementStatus"
+    );
+
+const warning =
+    document.getElementById("warning");
+
+const setup =
+    document.getElementById("setup");
+
+const distanceInput =
+    document.getElementById(
+        "distanceInput"
+    );
+
+const limitInput =
+    document.getElementById(
+        "limitInput"
+    );
+
+const distanceDisplay =
+    document.getElementById(
+        "distanceDisplay"
+    );
+
+const limitDisplay =
+    document.getElementById(
+        "limitDisplay"
+    );
+
+const measureBtn =
+    document.getElementById(
+        "measureBtn"
+    );
+
+const settingsBtn =
+    document.getElementById(
+        "settingsBtn"
+    );
+
+const line1Btn =
+    document.getElementById(
+        "line1Btn"
+    );
+
+const line2Btn =
+    document.getElementById(
+        "line2Btn"
+    );
+
+
+let stream = null;
+
+let running = false;
+
+let measuring = false;
+
+let line1 = 0.38;
+
+let line2 = 0.62;
+
+let distanceMeters = 10;
+
+let speedLimit = 50;
+
+let previousFrame = null;
+
+let lastMotion = 0;
+
+let crossingState = 0;
+
+let firstCrossTime = 0;
+
+let secondCrossTime = 0;
+
+let currentSpeed = 0;
+
+let motionHistory = [];
+
+
+/* =========================
+   CAMERA
+========================= */
+
+async function startCamera(){
+
+    try{
+
+        stream =
+            await navigator.mediaDevices
+            .getUserMedia({
+
+                video:{
+                    facingMode:{
+                        ideal:"environment"
+                    },
+
+                    width:{
+                        ideal:1280
+                    },
+
+                    height:{
+                        ideal:720
+                    }
+                },
+
+                audio:false
+
+            });
+
+        video.srcObject = stream;
+
+        await video.play();
+
+        startScreen.style.display =
+            "none";
+
+        dot.classList.add("on");
+
+        statusText.textContent =
+            "CAMERA ON";
+
+        running = true;
+
+        resizeCanvas();
+
+        requestAnimationFrame(loop);
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Không thể mở camera.\n\n" +
+            "Hãy cho phép trình duyệt sử dụng camera " +
+            "và mở website bằng HTTPS hoặc localhost."
+        );
+
+    }
+
+}
+
+
+startBtn.addEventListener(
+    "click",
+    startCamera
+);
+
+
+/* =========================
+   CANVAS
+========================= */
+
+function resizeCanvas(){
+
+    canvas.width =
+        video.videoWidth ||
+        window.innerWidth;
+
+    canvas.height =
+        video.videoHeight ||
+        window.innerHeight;
+
+}
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+/* =========================
+   DRAW MEASUREMENT LINES
+========================= */
+
+function drawLines(){
+
+    if(!canvas.width || !canvas.height)
+        return;
+
+    const y1 =
+        canvas.height * line1;
+
+    const y2 =
+        canvas.height * line2;
+
+    ctx.save();
+
+    ctx.lineWidth = 4;
+
+    ctx.setLineDash([14,10]);
+
+    ctx.strokeStyle =
+        "rgba(0,255,150,.9)";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        y1
+    );
+
+    ctx.lineTo(
+        canvas.width,
+        y1
+    );
+
+    ctx.stroke();
+
+
+    ctx.strokeStyle =
+        "rgba(255,80,90,.9)";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        y2
+    );
+
+    ctx.lineTo(
+        canvas.width,
+        y2
+    );
+
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    ctx.font =
+        "bold 15px Arial";
+
+    ctx.fillStyle =
+        "white";
+
+    ctx.fillText(
+        "VẠCH 1",
+        15,
+        y1 - 10
+    );
+
+    ctx.fillText(
+        "VẠCH 2",
+        15,
+        y2 - 10
+    );
+
+    ctx.restore();
+
+}
+
+
+/* =========================
+   MOTION DETECTION
+========================= */
+
+function detectMotion(){
+
+    if(
+        video.readyState <
+        HTMLMediaElement.HAVE_CURRENT_DATA
     )
-    segmenter = ImageSegmenter.create_from_options(seg_options)
-except Exception as e:
-    print("Segmenter tidak tersedia (pastikan file selfie_segmenter.tflite ada)", e)
+        return;
 
-cap = cv2.VideoCapture(0)
+    const w = 160;
+    const h = 120;
 
-# Generate Galaxy Background
-galaxy_bg = np.zeros((1080, 1920, 3), dtype=np.uint8) 
-galaxy_bg[:] = (30, 10, 40) # Space purple
-for _ in range(800):
-    sx = np.random.randint(0, 1920)
-    sy = np.random.randint(0, 1080)
-    galaxy_bg[sy, sx] = (255, 255, 255)
-for _ in range(100):
-    sx = np.random.randint(0, 1920)
-    sy = np.random.randint(0, 1080)
-    cv2.circle(galaxy_bg, (sx, sy), np.random.randint(2, 6), (np.random.randint(150, 255), np.random.randint(100, 255), 255), -1)
+    const temp =
+        document.createElement("canvas");
 
-print("Membuka Kamera... Tekan tombol 'q' di keyboard untuk keluar.")
+    temp.width = w;
+    temp.height = h;
 
-filters = ["MONO", "DUAL-TONE", "PIXELATE", "INVERT", "SEPIA", "BLUR", "THERMAL", "SKETCH", "GLITCH", "NEON", "GALAXY"]
-current_filter = 0
-gesture_triggered = False
+    const tctx =
+        temp.getContext("2d", {
+            willReadFrequently:true
+        });
 
-def apply_filter(roi, filter_name, x=0, y=0, mask_person=None, frame_galaxy=None):
-    if filter_name == "MONO":
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        return cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-    elif filter_name == "INVERT":
-        return cv2.bitwise_not(roi)
-    elif filter_name == "BLUR":
-        return cv2.GaussianBlur(roi, (25, 25), 0)
-    elif filter_name == "SEPIA":
-        kernel = np.array([[0.272, 0.534, 0.131],
-                           [0.349, 0.686, 0.168],
-                           [0.393, 0.769, 0.189]])
-        filtered = cv2.transform(roi, kernel)
-        return np.clip(filtered, 0, 255).astype(np.uint8)
-    elif filter_name == "DUAL-TONE":
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        _, mask_c = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
-        filtered = np.zeros_like(roi)
-        filtered[mask_c == 255] = [0, 165, 255] # Orange
-        filtered[mask_c == 0] = [147, 20, 255]  # Pink
-        return filtered
-    elif filter_name == "PIXELATE":
-        h_r, w_r = roi.shape[:2]
-        if h_r > 10 and w_r > 10:
-            small = cv2.resize(roi, (w_r//10, h_r//10), interpolation=cv2.INTER_LINEAR)
-            return cv2.resize(small, (w_r, h_r), interpolation=cv2.INTER_NEAREST)
-    elif filter_name == "THERMAL":
-        return cv2.applyColorMap(roi, cv2.COLORMAP_JET)
-    elif filter_name == "SKETCH":
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        inv = cv2.bitwise_not(gray)
-        blur = cv2.GaussianBlur(inv, (21, 21), 0)
-        sketch = cv2.divide(gray, 255 - blur, scale=256)
-        return cv2.cvtColor(sketch, cv2.COLOR_GRAY2BGR)
-    elif filter_name == "GLITCH":
-        h_r, w_r = roi.shape[:2]
-        shift = max(5, w_r // 20)
-        glitch_roi = roi.copy()
-        if w_r > shift:
-            glitch_roi[:, :-shift, 2] = roi[:, shift:, 2]
-            glitch_roi[:, shift:, 0] = roi[:, :-shift, 0]
-        return glitch_roi
-    elif filter_name == "NEON":
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        blur = cv2.GaussianBlur(gray, (5, 5), 0)
-        edges = cv2.Canny(blur, 50, 150)
-        edges_bgr = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
-        edges_bgr[np.where((edges_bgr == [255, 255, 255]).all(axis=2))] = [255, 255, 0]
-        kernel = np.ones((3,3), np.uint8)
-        return cv2.dilate(edges_bgr, kernel, iterations=1)
-    elif filter_name == "GALAXY" and mask_person is not None and frame_galaxy is not None:
-        bh, bw = roi.shape[:2]
-        roi_mask = mask_person[y:y+bh, x:x+bw]
-        roi_galaxy = frame_galaxy[y:y+bh, x:x+bw]
-        
-        bg_condition = (roi_mask == 0)
-        filtered = roi.copy()
-        filtered[bg_condition] = roi_galaxy[bg_condition]
-        return filtered
-        
-    return roi
+    tctx.drawImage(
+        video,
+        0,
+        0,
+        w,
+        h
+    );
 
-while True:
-    success, img = cap.read()
-    if not success:
-        break
+    const frame =
+        tctx.getImageData(
+            0,
+            0,
+            w,
+            h
+        );
 
-    img = cv2.flip(img, 1) 
-    h, w, c = img.shape
-    
-    # Crop galaxy bg to match frame size dynamically
-    frame_galaxy = galaxy_bg[:h, :w]
+    if(!previousFrame){
 
-    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img_rgb)
-    timestamp_ms = time.time_ns() // 1_000_000
-    
-    results = landmarker.detect_for_video(mp_image, timestamp_ms)
-    
-    filter_name = filters[current_filter]
-    
-    mask_person = None
-    if filter_name == "GALAXY" and segmenter is not None:
-        seg_result = segmenter.segment_for_video(mp_image, timestamp_ms)
-        if seg_result.category_mask is not None:
-            mask_person = seg_result.category_mask.numpy_view()
-            if mask_person.shape != (h, w):
-                mask_person = cv2.resize(mask_person, (w, h), interpolation=cv2.INTER_NEAREST)
+        previousFrame =
+            frame.data.slice();
 
-    pts_portal = []
-    change_filter = False
+        return;
 
-    if results.hand_landmarks:
-        # Cek gestur untuk ganti filter
-        if len(results.hand_landmarks) >= 2:
-            idx0 = results.hand_landmarks[0][8]
-            idx1 = results.hand_landmarks[1][8]
-            pt0 = (int(idx0.x * w), int(idx0.y * h))
-            pt1 = (int(idx1.x * w), int(idx1.y * h))
-            if math.hypot(pt0[0]-pt1[0], pt0[1]-pt1[1]) < 40:
-                change_filter = True
-                
-        # Cek gestur cubit jempol & telunjuk untuk GAMBAR
-        for hand_lms in results.hand_landmarks:
-            thumb = hand_lms[4]
-            index = hand_lms[8]
-            tx, ty = int(thumb.x * w), int(thumb.y * h)
-            ix, iy = int(index.x * w), int(index.y * h)
-                
-            # Gestur ganti filter cadangan (Jempol & Kelingking)
-            pinky = hand_lms[20]
-            px, py = int(pinky.x * w), int(pinky.y * h)
-            if math.hypot(tx - px, ty - py) < 40:
-                change_filter = True
-                
-        if change_filter:
-            if not gesture_triggered:
-                current_filter = (current_filter + 1) % len(filters)
-                gesture_triggered = True
-        else:
-            gesture_triggered = False
+    }
 
-        for hand_lms in results.hand_landmarks:
-            for id, lm in enumerate(hand_lms):
-                cx, cy = int(lm.x * w), int(lm.y * h)
-                if id in [4, 8]:
-                    pts_portal.append([cx, cy])
-                    cv2.circle(img, (cx, cy), 8, (255, 255, 0), cv2.FILLED)
 
-        # 4 POIN -> PORTAL MIRING (Polygon)
-        if len(pts_portal) == 4:
-            pts_portal.sort(key=lambda p: p[1])
-            top_pts = pts_portal[:2]
-            bottom_pts = pts_portal[2:]
-            top_pts.sort(key=lambda p: p[0])
-            bottom_pts.sort(key=lambda p: p[0])
-            
-            poly_pts = np.array([top_pts[0], top_pts[1], bottom_pts[1], bottom_pts[0]], dtype=np.int32)
-            
-            x, y, bw, bh = cv2.boundingRect(poly_pts)
-            x, y = max(0, x), max(0, y)
-            bw, bh = min(w - x, bw), min(h - y, bh)
-            
-            if bw > 0 and bh > 0:
-                roi = img[y:y+bh, x:x+bw].copy()
-                filtered_roi = apply_filter(roi, filter_name, x, y, mask_person, frame_galaxy)
-                
-                mask = np.zeros((bh, bw), dtype=np.uint8)
-                poly_roi = poly_pts - [x, y]
-                cv2.fillPoly(mask, [poly_roi], 255)
-                mask_3ch = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-                
-                img[y:y+bh, x:x+bw] = np.where(mask_3ch == 255, filtered_roi, roi)
-                
-                cv2.polylines(img, [poly_pts], True, (255, 255, 255), 2)
-                
-                # --- PARTIKEL GLOW DI TEPI PORTAL ---
-                for i in range(4):
-                    pt1 = poly_pts[i]
-                    pt2 = poly_pts[(i+1)%4]
-                    for _ in range(5):
-                        alpha = np.random.random()
-                        px = int(pt1[0] * alpha + pt2[0] * (1 - alpha)) + np.random.randint(-15, 15)
-                        py = int(pt1[1] * alpha + pt2[1] * (1 - alpha)) + np.random.randint(-15, 15)
-                        cv2.circle(img, (px, py), np.random.randint(1, 4), (0, 255, 255), -1)
+    let totalDifference = 0;
 
-                cv2.putText(img, f"PORTAL: {filter_name}", (top_pts[0][0], top_pts[0][1] - 10), 
-                            cv2.FONT_HERSHEY_PLAIN, 1.5, (255, 255, 255), 2)
+    let changedPixels = 0;
 
-    # Overlay Teks
-    cv2.putText(img, "Ganti Filter: Jempol & Kelingking", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-    cv2.putText(img, f"Filter Aktif: {filters[current_filter]}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
 
-    cv2.imshow('RETROLENS Pake Python', img)
-    
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
-        break
+    /*
+       Chỉ kiểm tra vùng giữa màn hình.
+       Điều này giúp giảm nhiễu.
+    */
 
-cap.release()
-cv2.destroyAllWindows()
+    for(
+        let y = 10;
+        y < h - 10;
+        y += 3
+    ){
+
+        for(
+            let x = 10;
+            x < w - 10;
+            x += 3
+        ){
+
+            const i =
+                (y * w + x) * 4;
+
+            const r =
+                Math.abs(
+                    frame.data[i] -
+                    previousFrame[i]
+                );
+
+            const g =
+                Math.abs(
+                    frame.data[i+1] -
+                    previousFrame[i+1]
+                );
+
+            const b =
+                Math.abs(
+                    frame.data[i+2] -
+                    previousFrame[i+2]
+                );
+
+            const diff =
+                (r + g + b) / 3;
+
+            if(diff > 35){
+
+                totalDifference +=
+                    diff;
+
+                changedPixels++;
+
+            }
+
+        }
+
+    }
+
+
+    previousFrame =
+        frame.data.slice();
+
+
+    const motion =
+        changedPixels > 0
+        ? totalDifference / changedPixels
+        : 0;
+
+
+    motionHistory.push(motion);
+
+    if(motionHistory.length > 8)
+        motionHistory.shift();
+
+
+    const average =
+        motionHistory.reduce(
+            (a,b)=>a+b,
+            0
+        ) /
+        motionHistory.length;
+
+
+    /*
+       Tạo tín hiệu chuyển động
+    */
+
+    if(
+        average > 42 &&
+        Date.now() - lastMotion > 180
+    ){
+
+        lastMotion =
+            Date.now();
+
+        registerCrossing();
+
+    }
+
+}
+
+
+/* =========================
+   SPEED MEASUREMENT
+========================= */
+
+function registerCrossing(){
+
+    if(!measuring)
+        return;
+
+
+    const now =
+        performance.now();
+
+
+    /*
+       Lần đầu:
+       vật thể bắt đầu đi qua vùng đo
+    */
+
+    if(crossingState === 0){
+
+        crossingState = 1;
+
+        firstCrossTime = now;
+
+        measurementStatus.textContent =
+            "Đã qua vạch 1";
+
+        return;
+
+    }
+
+
+    /*
+       Lần thứ hai
+    */
+
+    if(crossingState === 1){
+
+        /*
+           Chống nhận nhầm nhiều frame
+        */
+
+        if(
+            now - firstCrossTime <
+            250
+        ){
+
+            return;
+
+        }
+
+
+        secondCrossTime = now;
+
+
+        const seconds =
+            (
+                secondCrossTime -
+                firstCrossTime
+            ) / 1000;
+
+
+        if(
+            seconds <= 0 ||
+            seconds > 30
+        ){
+
+            resetMeasurement();
+
+            return;
+
+        }
+
+
+        /*
+           m/s
+        */
+
+        const metersPerSecond =
+            distanceMeters /
+            seconds;
+
+
+        /*
+           km/h
+        */
+
+        currentSpeed =
+            metersPerSecond *
+            3.6;
+
+
+        speedElement.textContent =
+            currentSpeed.toFixed(1);
+
+
+        measurementStatus.textContent =
+            "Đã đo xong";
+
+
+        if(
+            currentSpeed >
+            speedLimit
+        ){
+
+            warning.style.display =
+                "block";
+
+            setTimeout(
+                ()=>{
+                    warning.style.display =
+                        "none";
+                },
+                1500
+            );
+
+        }
+
+
+        crossingState = 2;
+
+
+        setTimeout(
+            resetMeasurement,
+            1500
+        );
+
+    }
+
+}
+
+
+function resetMeasurement(){
+
+    crossingState = 0;
+
+    firstCrossTime = 0;
+
+    secondCrossTime = 0;
+
+    measurementStatus.textContent =
+        measuring
+        ? "Đang chờ vật thể"
+        : "Đang chờ";
+
+}
+
+
+/* =========================
+   MAIN LOOP
+========================= */
+
+function loop(){
+
+    if(!running)
+        return;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    drawLines();
+
+
+    if(measuring){
+
+        detectMotion();
+
+    }
+
+
+    requestAnimationFrame(loop);
+
+}
+
+
+/* =========================
+   START / STOP
+========================= */
+
+measureBtn.addEventListener(
+    "click",
+    ()=>{
+
+        measuring =
+            !measuring;
+
+        if(measuring){
+
+            measureBtn.textContent =
+                "⏹ DỪNG ĐO";
+
+            measurementStatus.textContent =
+                "Đang chờ vật thể";
+
+            resetMeasurement();
+
+        }else{
+
+            measureBtn.textContent =
+                "▶ BẮT ĐẦU ĐO";
+
+            measurementStatus.textContent =
+                "Đã dừng";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+settingsBtn.addEventListener(
+    "click",
+    ()=>{
+
+        distanceInput.value =
+            distanceMeters;
+
+        limitInput.value =
+            speedLimit;
+
+        setup.style.display =
+            "flex";
+
+    }
+);
+
+
+document.getElementById(
+    "cancelSettings"
+).addEventListener(
+    "click",
+    ()=>{
+
+        setup.style.display =
+            "none";
+
+    }
+);
+
+
+document.getElementById(
+    "saveSettings"
+).addEventListener(
+    "click",
+    ()=>{
+
+        const d =
+            parseFloat(
+                distanceInput.value
+            );
+
+        const l =
+            parseFloat(
+                limitInput.value
+            );
+
+
+        if(
+            !Number.isFinite(d) ||
+            d <= 0
+        ){
+
+            alert(
+                "Khoảng cách không hợp lệ."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !Number.isFinite(l) ||
+            l <= 0
+        ){
+
+            alert(
+                "Giới hạn tốc độ không hợp lệ."
+            );
+
+            return;
+
+        }
+
+
+        distanceMeters = d;
+
+        speedLimit = l;
+
+
+        distanceDisplay.textContent =
+            distanceMeters;
+
+        limitDisplay.textContent =
+            speedLimit;
+
+
+        setup.style.display =
+            "none";
+
+    }
+);
+
+
+/* =========================
+   SET MEASUREMENT LINES
+========================= */
+
+line1Btn.addEventListener(
+    "click",
+    ()=>{
+
+        /*
+           Đặt vạch 1 tại vị trí
+           tương đối trong camera.
+        */
+
+        line1 = 0.40;
+
+        alert(
+            "Đã đặt VẠCH 1.\n\n" +
+            "Vạch xanh = điểm bắt đầu."
+        );
+
+    }
+);
+
+
+line2Btn.addEventListener(
+    "click",
+    ()=>{
+
+        line2 = 0.60;
+
+        alert(
+            "Đã đặt VẠCH 2.\n\n" +
+            "Vạch đỏ = điểm kết thúc."
+        );
+
+    }
+);
+
+
+/* =========================
+   INITIAL DISPLAY
+========================= */
+
+distanceDisplay.textContent =
+    distanceMeters;
+
+limitDisplay.textContent =
+    speedLimit;
+
+</script>
+
+</body>
+</html>
